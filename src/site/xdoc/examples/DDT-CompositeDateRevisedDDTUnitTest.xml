@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>Example - DDT-CompositeDateRevisedDDTUnitTest</title></properties>
+<body>
+<section name="Example - DDT-CompositeDateRevisedDDTUnitTest">
+<p>
+<source><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+ <cluster id="CompositeDateRevisedDDTUnitTest">
+  <group id="testConstructorTheFirst">
+   <test id="test20060101">
+    <objs>
+     <obj id="day" type="int">1</obj>
+     <obj id="month" type="int">1</obj>
+     <obj id="year" type="int">2006</obj>
+    </objs>
+    <asserts>
+     <assert id="expectedDay" type="int" action="isEqual">1</assert>
+     <assert id="expectedMonth" type="int" action="isEqual">1</assert>
+     <assert id="expectedYear" type="int" action="isEqual">2006</assert>
+    </asserts>
+   </test>
+   <test id="test20061231">
+    <objs>
+     <obj id="day" type="int">31</obj>
+     <obj id="month" type="int">12</obj>
+     <obj id="year" type="int">2006</obj>
+    </objs>
+    <asserts>
+     <assert id="expectedDay" type="int" action="isEqual">31</assert>
+     <assert id="expectedMonth" type="int" action="isEqual">12</assert>
+     <assert id="expectedYear" type="int" action="isEqual">2006</assert>
+    </asserts>
+   </test>
+  </group>
+  <group id="testConstructorTheSecond">
+   <test id="test20000229">
+    <objs>
+     <obj id="day" type="int">29</obj>
+     <obj id="month" type="int">2</obj>
+     <obj id="year" type="int">2000</obj>
+    </objs>
+    <asserts>
+     <assert id="expectedCompositeDate"
+      type="com.foo.model.calendar.CompositeDate" action="isEqual"
+      hint="call">
+      <day>29</day>
+      <month>2</month>
+      <year>2000</year>
+     </assert>
+    </asserts>
+   </test>
+   <test id="test20040229">
+    <objs>
+     <obj id="day" type="int">29</obj>
+     <obj id="month" type="int">2</obj>
+     <obj id="year" type="int">2004</obj>
+    </objs>
+    <asserts>
+     <assert id="expectedCompositeDate"
+      type="com.foo.model.calendar.CompositeDate" action="isEqual"
+      hint="call">
+      <day>29</day>
+      <month>2</month>
+      <year>2004</year>
+     </assert>
+    </asserts>
+   </test>
+  </group>
+  <group id="testConstructorException">
+   <test id="test20060431">
+    <objs>
+     <obj id="day" type="int">31</obj>
+     <obj id="month" type="int">4</obj>
+     <obj id="year" type="int">2006</obj>
+    </objs>
+    <asserts>
+     <exception id="expected" type="com.foo.model.calendar.InvalidDateException"
+      action="isInstanceOf" />
+    </asserts>
+   </test>
+   <test id="test2006043">
+    <objs>
+     <obj id="day" type="int">30</obj>
+     <obj id="month" type="int">4</obj>
+     <obj id="year" type="int">2006</obj>
+    </objs>
+    <asserts>
+     <exception id="expected" type="com.foo.model.calendar.InvalidDateException"
+      action="isInstanceOf" />
+    </asserts>
+   </test>
+  </group>
+ </cluster>
+</ddtunit>
+]]></source>
+</p>
+processed by test method
+<source>
+package com.foo.model.calendar;
+
+import junitx.ddtunit.DDTTestCase;
+
+public class CompositeDateRevisedDDTUnitTest extends DDTTestCase {
+
+    protected void initContext() {
+        initTestData("CompositeDateRevisedDDTUnitTest");
+    }
+
+    public void testConstructorTheFirst() throws InvalidDateException {
+        CompositeDate subject = new CompositeDate((Integer) getObject("day"),
+                (Integer) getObject("month"), (Integer) getObject("year"));
+        addObjectToAssert("expectedDay", subject.getDay());
+        addObjectToAssert("expectedMonth", subject.getMonth());
+        addObjectToAssert("expectedYear", subject.getYear());
+    }
+
+    public void testConstructorTheSecond() throws InvalidDateException {
+        CompositeDate subject = new CompositeDate((Integer) getObject("day"),
+                (Integer) getObject("month"), (Integer) getObject("year"));
+        addObjectToAssert("expectedCompositeDate", subject);
+    }
+
+    public void testConstructorException() throws InvalidDateException {
+        CompositeDate subject = new CompositeDate((Integer) getObject("day"),
+            (Integer) getObject("month"), (Integer) getObject("year"));
+    }
+}
+</source>
+and all caught without throwing an exception during test execution.
+</section>
+</body>
+</document>

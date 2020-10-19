@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+    <cluster id="TypeAbbreviatorTest">
+        <!--                                                                  -->
+        <!-- collection type object retrieval                                 -->
+        <!--                                                                  -->
+        <group id="testResolve">
+            <test id="abbreviatedType">
+                <objs>
+                    <obj id="input" type="java.lang.String">string</obj>
+                </objs>
+                <asserts>
+                    <assert id="expected" type="java.lang.String"
+                        action="isEqual">
+                        java.lang.String
+                    </assert>
+                </asserts>
+            </test>
+            <test id="notAbbreviatedType">
+                <objs>
+                    <obj id="input" type="java.lang.String">
+                        junitx.ddtunit.resources.SimpleVO
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="expected" type="java.lang.String"
+                        action="isEqual">
+                        junitx.ddtunit.resources.SimpleVO
+                    </assert>
+                </asserts>
+            </test>
+        </group>
+        <!--                                                                   -->
+        <!--                                                                   -->
+        <!--                                                                   -->
+        <group id="testToString">
+            <test id="dictionaryContent">
+                <asserts>
+                    <assert id="content" type="java.lang.Integer"
+                        action="isEqual">
+                        39
+                    </assert>
+                </asserts>
+            </test>
+        </group>
+    </cluster>
+</ddtunit>

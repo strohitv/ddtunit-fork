@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>Defining Objects</title></properties>
+<body>
+<section name="Using Containers - Collections">
+<a name="collection-datatypes"/>
+<source>&lt;objs&gt;&lt;obj id="myId" type="my.class.Type" hint="collection"&gt;...&lt;/obj&gt;&lt;objs&gt;</source>
+<p>All collection classes in Java are derived from 
+<code>java.util.Collection</code>.<br/>
+This specimen is used to store a set of values (whatever type you like) in a box.
+The general structure in DDTUnit looks like this:
+<source><![CDATA[
+  <obj id="myVector" type="java.util.Vector" hint="collection">
+    <item type="string">firstEntry</item>
+    <item type="string">secondEntry</item>
+    <item type="string">thirdEntry</item>
+  </obj>]]></source>
+And here is the equivalent example in shortcut notation:
+<source><![CDATA[
+  <obj id="myVector" type="vector" hint="collection" valuetype="string">
+    <item>firstEntry</item>
+    <item>secondEntry</item>
+    <item>thirdEntry</item>
+  </obj>]]></source>
+and at last a mixed value example for collection:
+<source><![CDATA[
+  <obj id="myVector" type="vector" hint="collection" valuetype="string">
+    <item>firstEntry</item>
+    <item type="int">4711</item>
+    <item>thirdEntry</item>
+  </obj>]]></source>
+This will instanciate to a sequence of <code>[String, Integer, String]</code>.
+</p>
+<p>The <code>item</code> tags can contain every structure that is allowed for 
+standard <code>obj</code> tags as well.<br/>
+To specify an empty collection just use an empty xml tag:
+<source><![CDATA[
+  <obj id="myVector" type="vector" hint="collection" valuetype="string" />]]></source>
+To specify the collection object as "null" use the special key <code>!NULL!</code>
+<source><![CDATA[
+  <obj id="myVector" type="vector" hint="collection" valuetype="string">!NULL!</obj>]]></source>
+</p>
+<p>Here is 
+<a href="examples/DDT-ReadCollectionTypeTest.html">an example</a> from the 
+DDTUnit test suite.
+</p>
+</section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+</body>
+</document>

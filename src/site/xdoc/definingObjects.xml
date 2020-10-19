@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+ <properties>
+  <title>Defining Objects</title>
+ </properties>
+ <body>
+  <section name="Defining Objects">
+   <source>
+&lt;objs&gt;&lt;obj id="myId" type="my.class.Type" hint="myParseHint"&gt;...&lt;/obj&gt;&lt;objs&gt;</source>
+   <p>Defining objects inside of the xml data files of DDTUnit should be as 
+    clear and easy as to write the appropriate code in Java.<br />
+    To achieve this the object structure was mapped onto the xml definition as
+    straight as possible.
+   </p>
+   <a name="objectRestrictions" id="objectRestrictions" />
+   <p>As a starting point the following object types are supported:
+    <ul>
+     <li>all objects that contain a constructor of the form
+      <code>public MyClass(java.lang.String)</code>.
+     </li>
+     <li>all objects containing a default constructor and using (even private)
+      field definitions can be generated.<br />
+      Java reflection is used to map xml field names on objects field definitions.
+      <br />
+      (See <a href="definingObjectsByDefaultConstructorAndField.html#field-datatypes">
+       Generic Structures</a>)
+     </li>
+     <li>all objects containing a default constructor and using setter methods
+      according to JavaBean spec can be generated.<br />
+      (See <a href="definingObjectsByDefaultConstructorAndBean.html#bean-datatypes">
+       Generic Bean Structures</a>)
+     </li>
+     <li>For now two container object implementations are supported. (See
+      <a href="definingObjectsContainers.html">Container Structures</a>).
+     </li>
+     <li>Calling constructor or static methods of object is supported in a first 
+      implementation. 
+      (See <a href="definingObjectsByConstructor.html#constructor-datatypes">
+       Constructor Structures</a>).
+     </li>
+     <li>Constants are supported as defined by static fields of classes and
+      typesafe enumerations. (See <a href="definingObjecsConstants.html#constant-datatypes">
+       Constant Structures</a>)
+     </li>
+     <li>Special data types and keywords. (See
+      <a href="definingObjectsSpecialties.html">Object Specialties</a>)
+     </li>
+     <li>
+      Shortcut notation using object type abbreviation. (See
+      <a href="definingObjectsTypeAbbreviation.html">Object Specialties</a>)
+     </li>
+    </ul>
+   </p>
+   <p>The testdata can be accessed by using the following API called from
+    <code><a href="apidocs/junitx/ddtunit/DDTTestCase.html">DDTTestCase</a></code>
+    class:
+    <source>
+DDTTestCase 
+  public Object getObject(String id); // or 
+  public Object getObject(String id, String type); 
+  public Object getGlobalObject(String id); // or 
+  public Object getGlobalObject(String id, String type); 
+  public Object getResourceObject(String id); // or 
+  public Object getResourceObject(String id, String type);
+    </source>
+    A general remark on XML structure used for object definition. Basically
+    every object definition possesses three attributes to describe it.
+    <br />
+    These are:
+    <ol>
+     <li><code>obj@id</code> and <code>obj@type</code> allow identification of 
+      objects. If there are only a few objects defined per test and these are 
+      uniquely identified by using the <code>obj@id</code> the first method can 
+      be used. If multiple objects were found this method will throw a
+     <code>DDTException</code> and the second method definition must be used.
+     </li>
+     <li><code>obj@hint</code> - (Default: fields) specifies parsing information 
+      for internal processing
+     </li>
+    </ol>
+   </p>
+  </section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+ </body>
+</document>

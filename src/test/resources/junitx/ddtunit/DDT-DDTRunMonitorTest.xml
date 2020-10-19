@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <cluster id="DDTRunMonitorTest">
+    <!--                                                                  -->
+    <!-- simple object retrieval                                          -->
+    <!--                                                                  -->
+    <group id="testZCorrectMethod">
+      <test id="myFirstTestCase">
+        <objs>
+          <obj id="myObj" type="string">My first String</obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="string" action="isEqual">My first String</assert>
+        </asserts>
+      </test>
+      <test id="mySecondTestCase">
+        <objs>
+          <obj id="myObj" type="string">My second Strin</obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="string" action="isEqual">My first String</assert>
+        </asserts>
+      </test>
+    </group>
+    <!--                                                                  -->
+    <!-- simple assert processing                                         -->
+    <!--                                                                  -->
+    <group id="testWrongMethod">
+      <test id="myFirstTestCase">
+        <objs>
+          <obj id="myObj" type="java.lang.String">My first String</obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="java.lang.String" action="isEqual">My first String</assert>
+        </asserts>
+      </test>
+      <test id="mySecondTestCase">
+        <objs>
+          <obj id="myObj" type="java.lang.String">My second String</obj>
+        </objs>
+        <asserts>
+          <exception id="expected" type="junit.framework.AssertionFailedError" action="isSimilar">
+            Should allways fail</exception>
+        </asserts>
+      </test>
+      <test id="myThirdTestCase">
+        <objs>
+          <obj id="myObj" type="java.lang.String">My first String</obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="java.lang.String" action="isEqual">My first String</assert>
+        </asserts>
+      </test>
+    </group>
+  </cluster>
+</ddtunit>

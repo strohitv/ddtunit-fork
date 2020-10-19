@@ -1,0 +1,160 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+	<cluster id="ProcessConstantValuesTest">
+		<!--                                                                  -->
+		<!-- instanciate object that is public final field of a class         -->
+		<!-- with only private constructor                                    -->
+		<!--                                                                  -->
+		<group id="testConstantsAsObjectsAndFields">
+			<test id="useTypesafeEnumAsObject">
+				<objs>
+					<obj id="myValue"
+						type="junitx.ddtunit.resources.SimpleTypeSafeEnum"
+						hint="constant">
+						FIRST_ENUM
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="type" type="string" action="isEqual">
+						junitx.ddtunit.resources.SimpleTypeSafeEnum
+					</assert>
+					<assert id="result"
+						type="junitx.ddtunit.resources.SimpleTypeSafeEnum" hint="constant"
+						action="isEqual">
+						FIRST_ENUM
+					</assert>
+				</asserts>
+			</test>
+			<test id="useConstantAsObject">
+				<objs>
+					<obj id="myValue"
+						type="junitx.ddtunit.resources.SimpleConstants" hint="constant">
+						MY_STRING_CONSTANT
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="result" type="string"
+						action="isEqual">
+						Hallo World
+					</assert>
+					<assert id="type" type="string" action="isEqual">
+						java.lang.String
+					</assert>
+				</asserts>
+			</test>
+			<test id="useConstantAsField">
+				<objs>
+					<obj id="myValue"
+						type="junitx.ddtunit.resources.SimpleVO">
+						<stringValue
+							type="junitx.ddtunit.resources.SimpleConstants"
+							hint="constant">
+							MY_STRING_CONSTANT
+						</stringValue>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="result"
+						type="junitx.ddtunit.resources.SimpleVO" action="isEqual">
+						<stringValue>Hallo World</stringValue>
+					</assert>
+					<assert id="type" type="string" action="isEqual">
+						junitx.ddtunit.resources.SimpleVO
+					</assert>
+				</asserts>
+			</test>
+		</group>
+		<group id="testConstantsAsContainerEntries">
+			<test id="useConstantAsCollectionEntry">
+				<objs>
+					<obj id="myValue" type="vector" hint="collection">
+						<item
+							type="junitx.ddtunit.resources.SimpleConstants"
+							hint="constant">
+							MY_STRING_CONSTANT
+						</item>
+						<item
+							type="junitx.ddtunit.resources.SimpleConstants"
+							hint="constant">
+							MY_STRING_CONSTANT
+						</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="count" type="int" action="isEqual">
+						2
+					</assert>
+					<assert id="result"
+						type="junitx.ddtunit.resources.SimpleConstants" action="isEqual"
+						hint="constant">
+						MY_STRING_CONSTANT
+					</assert>
+					<assert id="type" type="string" action="isEqual">
+						java.util.Vector
+					</assert>
+				</asserts>
+			</test>
+		</group>
+		<!--                                                                  -->
+		<!-- Java 5 Enumeration validation                                    -->
+		<!--                                                                  -->
+		<group id="testJDK5Enumerator">
+			<test id="myFirstTestCase">
+				<objs>
+					<obj id="enumer"
+						type="junitx.ddtunit.resources.MyEnumerator" hint="constant">
+						FIRST_ENUMERATION
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="result"
+						type="junitx.ddtunit.resources.MyEnumerator" hint="constant"
+						action="isNotNull">
+						FIRST_ENUMERATION
+					</assert>
+					<assert id="result1"
+						type="junitx.ddtunit.resources.MyEnumerator" hint="constant"
+						action="isNotEqual">
+						SECOND_ENUMERATION
+					</assert>
+				</asserts>
+			</test>
+		</group>
+		<group id="testEnumerationElement">
+          <test id="setEnumByBeanDefinition">
+            <objs>
+              <obj id="myVO" type="junitx.ddtunit.resources.SimpleVOExtendByEnumerator"
+                hint="bean">
+                <stringValue type="string">Hello Enumerator</stringValue>
+                <myEnum type="junitx.ddtunit.resources.MyEnumerator" hint="constant">
+                   FIRST_ENUMERATION</myEnum>
+              </obj> 
+            </objs>
+            <asserts>
+              <assert id="result1" action="isNotNull" 
+                type="junitx.ddtunit.resources.SimpleVOExtendByEnumerator"></assert>
+              <assert id="result2" action="isEqual" type="junitx.ddtunit.resources.MyEnumerator"
+                hint="constant">
+                  FIRST_ENUMERATION</assert>
+            </asserts>
+          </test>
+          <test id="setEnumByFieldDefinition">
+            <objs>
+              <obj id="myVO" type="junitx.ddtunit.resources.SimpleVOExtendByEnumerator">
+                <stringValue type="string">Hello Enumerator</stringValue>
+                <myEnum type="junitx.ddtunit.resources.MyEnumerator" hint="constant">
+                   SECOND_ENUMERATION</myEnum>
+              </obj> 
+            </objs>
+            <asserts>
+              <assert id="result1" action="isNotNull" 
+                type="junitx.ddtunit.resources.SimpleVOExtendByEnumerator"></assert>
+              <assert id="result2" action="isEqual" type="junitx.ddtunit.resources.MyEnumerator"
+                hint="constant">
+                  SECOND_ENUMERATION</assert>
+            </asserts>
+          </test>
+		</group>
+	</cluster>
+</ddtunit>

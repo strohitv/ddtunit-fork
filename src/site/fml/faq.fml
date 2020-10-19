@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document [
+  <!ENTITY % defs SYSTEM "dtd/defs.def">
+  %defs;
+]>
+<faqs title="Frequently Asked Questions">
+  <part id="configuration">
+    <title>Configuration</title>
+    <faq id="testDataInit">
+      <question>How do I initialize the testdata inside of a DDTTestCase?</question> 
+      <answer>
+        <p>To connect the xml resource to your &java; testclass you must implement
+          the abstract method <code>initContext()</code> in your extension of the
+          <code>DDTTestCase</code> class. This method will be executed implicitely 
+          during execution preparation.
+        </p>
+        <p>To facilitate usage there is another method provided my <code>DDTTestCase</code>.
+        Here follows an example how to use the two methods in the default behavior.
+<source>...
+public void initContext(){
+  initTestData("MyClassResource", "MyClassId");
+}
+...</source>
+        By providing the two parameters of resource name and classId <code>DDTTestCase</code>
+        will search for a resource of name <b>DDT-</b>MyClassResource<b>.xml</b>
+        in the same ClassPath as the associated testclass . Inside of the resource
+        it will look for the class id provided.<br/>
+        If you provide an absolut resource name starting with <b>/</b> the class
+        will use the resource name unchanged.
+        <source>...
+public void initContext(){
+  initTestData("/my/own/path/to/MyClassResource.xml", "MyClassId");
+}
+        ...</source>
+        If you like to use the default selection scheme of &ddtunit; you can simply
+        write
+        <source>...
+public void initContext(){
+  initTestData("MyClassId");
+}
+        ...</source>
+        This will be resolved to 
+        <source>public void initContext(){
+  initTestData("MyClassId", "MyClassId");
+}</source>
+        where the resource name is is extended to 
+        <code>/package/name/of/testclazz/DDT-MyClassId.xml</code>.
+        </p>
+        <p>Search will be done first on ClassPath then on filesystem.
+        </p>
+      </answer>
+    </faq>
+    <faq id="TypeAbbreviatorConfiguration">
+      <question>How can I extend shortcut notations for TypeAbbreviator?</question> 
+      <answer>
+        <p>You will find a properties file <code>junitx.ddtunit.data.processing.TypeAbbreviator.properties</code>.
+        This file must be placed in the same package in the classpath as 
+        <code>TypeAbbreviator.class</code>. To modify it just place a copy into
+        the classpath before searching in the jar. Now you can just add the types
+        you need. - Or send a mail and if it is a class provided along with
+        &ddtunit; it will be added to the internal properties file.
+        </p>
+      </answer>
+    </faq>
+ </part>
+  <part id="xmlResources">
+    <title>All about XML Resources</title> 
+    <faq id="TypeAbbreviator">
+      <question>How can I spare time writing xml data types?</question> 
+      <answer>
+        <p>Because it is rather tedious to write something like 
+        <code>java.lang.String</code> over and over again a special factory was 
+        introdused to the package <code>junitx.ddtunit.data.processing</code>
+        The class <code>TypeAbbreviator</code> contains a dictionary to translate
+        shortcut notatopns used for XML attribute <code>type</code> to the correct
+        &java; type notation. The defined details can be displayed to System.out
+        by just executing this class as &java; application.
+        </p>
+      </answer>
+    </faq>
+    <faq id="xmlSchemaDefinition">
+      <question>How should I specify my xml schema definition and where to place it?</question> 
+      <answer>
+        <p>Every &ddtunit; xml resource should start with
+<source><![CDATA[<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <cluster id="ThisIdShouldBeAdapted">
+...
+]]></source>
+        There is a good reason not to use jet another local URL to store the 
+        xml schema definition.<br/>
+        The provided URL is hard coded in the <code>EntityResolver</code> of the 
+        &ddtunit; parser and resolves to a resource that resides in the 
+        <code>ddtunit.jar</code> archive.
+        By doing this 
+        <ol><li>you can be sure that you will always use a xml schema that 
+        is valid for the active parser</li>
+        <li>and you do not have the need for online connection or the allowance 
+        to access the web if you are behind a corporate firewall for example.</li>
+        </ol>
+        </p>
+      </answer>
+    </faq>
+ </part>
+ <!--                                                                       -->
+ <!--                                                                       -->
+ <!--                                                                       -->
+ <part id="testingStrategies">
+    <title>All about Testing Strategies</title> 
+    <faq id="testClassConstructor">
+      <question>How can I test class constructor behavior? -
+Every time I try to construct my class under test in &ddtunit; xml resource 
+an exception is thrown during object creation and the processing is stoped.
+      </question>
+      <answer>
+        <p>Thanks for the example code and actual question to Ted Velkoff.</p>
+        <p>The intention of the framework is to provide an environment to validate
+asserts on a class or service/system contract.<br/>
+Your investigation is focused on a class or service/system under test  (CUT, SUT).
+To do asserts on the behavior of this CUT, good or bad, you will feed it 
+with different parameters and check against expected results.<br/>
+With this intention in mind you expect your parameters to be valid in the sense of 
+constructing these. Otherwise you wouldn't even start execution of the cut 
+=> no parameters, no run.
+</p>
+<p>With this basic concept of operation &ddtunit; expects all test parameters 
+provided in the xml resource to be constructable. This will be done before 
+actually executing any of the methods in the test class.<br/>
+Now you have two choices to phrase the good case execution and a third for 
+exceptional behavior of the example test:
+<ol><li>
+<source>
+public void testConstructor() throws InvalidDateException {
+  CompositeDate subject = new CompositeDate((Integer) getObject("day"),
+    (Integer) getObject("month"), (Integer) getObject("year"));
+  addObjectToAssert("expectedDay", subject.getDay());
+  addObjectToAssert("expectedMonth", subject.getMonth());
+  addObjectToAssert("expectedYear", subject.getYear());
+}
+</source>
+with xml resource:
+<source><![CDATA[
+<test id="test20060101">
+<objs>
+  <obj id="day" type="int">1</obj>
+  <obj id="month" type="int">1</obj>
+  <obj id="year" type="int">2006</obj>
+</objs>
+<asserts>
+  <assert id="expectedDay" type="int" action="isEqual">1</assert>
+  <assert id="expectedMonth" type="int" action="isEqual">1</assert>
+  <assert id="expectedYear" type="int" action="isEqual">2006</assert>
+</asserts>
+</test>
+]]></source>
+</li>
+<li>or (if <code>CompositeDate.equals()</code> is defined appropriate)
+<source>
+public void testConstructor() throws InvalidDateException {
+  CompositeDate subject = new CompositeDate((Integer) getObject("day"),
+    (Integer) getObject("month"), (Integer) getObject("year"));
+  addObjectToAssert("expectedCompositeDate", subject);
+}
+</source>
+with xml resource
+<source><![CDATA[
+<test id="test20000229">
+<objs>
+  <obj id="day" type="int">29</obj>
+  <obj id="month" type="int">2</obj>
+  <obj id="year" type="int">2000</obj>
+</objs>
+<asserts>
+<assert id="expectedCompositeDate"
+  type="com.foo.model.calendar.CompositeDate" action="isEqual"
+  hint="call">
+  <day>29</day>
+  <month>2</month>
+  <year>2000</year>
+</assert>
+</asserts>
+</test>
+]]></source>
+</li>
+<li>And last but not least the exceptional case:
+<source>
+public void testConstructorException() throws InvalidDateException {
+  CompositeDate subject = new CompositeDate((Integer) getObject("day"),
+    (Integer) getObject("month"), (Integer) getObject("year"));
+}
+</source>
+with xml resource:
+<source><![CDATA[
+<test id="test20060431">
+<objs>
+  <obj id="day" type="int">31</obj>
+  <obj id="month" type="int">4</obj>
+  <obj id="year" type="int">2006</obj>
+</objs>
+<asserts>
+  <exception id="expected" type="com.foo.model.calendar.InvalidDateException"
+    action="isInstanceOf" />
+</asserts>
+</test>]]></source>
+So there is no try/catch block neccessary for expected exception behavior. 
+If an expected exception is not caught during execution of test method an 
+appropriate error is thrown (second example for method testConstructorException).<br/>
+Under the links you will find the 
+<a href="examples/DDT-CompositeDateRevisedDDTUnitTest.html">Java source and the 
+xml resource</a>.
+</li></ol>        
+        </p>
+      </answer>
+    </faq>
+ </part>
+ <!--                                                                       -->
+ <!--                                                                       -->
+ <!--                                                                       -->
+ <part id="problems">
+   <title>Problems</title>
+   <faq id="not-working">
+  	 <question>What can I do to make this and that to work?</question>
+  	 <answer>
+  		I can fix it right away, if you go to the 
+  		<a href="http://ddtunit.sourceforge.net/issue-tracking.html">Issue 
+  		Tracking page</a> add a new bug/feature request/support request, and 
+  		most important, ADD A CODE EXAMPLE!
+        If you do that, i will do my best to sort the problem out as quick as possible.
+  	 </answer>
+   </faq>
+  </part>
+</faqs>

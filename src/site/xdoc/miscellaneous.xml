@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+ <properties>
+  <title>DDTUnit - Miscellaneous</title>
+ </properties>
+ <body>
+  <section name="Miscellaneous">
+   <p>
+    In this section a collection of different topics are summarized.
+    <br />
+    <ul>
+     <li><a href="/ddtcookbook.html">Cookbook</a></li>
+     <li><a href="/faq.html">Frequently Asked Questions</a></li>
+     <li><a href="/installationRequirements.html">Installation Requirements</a></li>
+     <li><a href="/xmlSchemaDoc.html">XML Schema Definition</a></li>
+     <li><a href="/ant.html">Ant</a></li>
+     <li><a href="/maven.html">Maven</a></li>
+     <li><a href="/JUnit4Support.html">JUnit4 Support</a></li>
+     <li><a href="http://sourceforge.net/project/showfiles.php?group_id=98719">
+       Download</a></li>
+    </ul>
+   </p>
+  </section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+ </body>
+</document>

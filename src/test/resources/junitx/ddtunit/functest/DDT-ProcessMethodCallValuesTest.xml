@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <cluster id="ProcessMethodCallValuesTest">
+    <!--                                                                  -->
+    <!-- instanciate object by constructor                                -->
+    <!--                                                                  -->
+    <group id="testCreateFromMethodCall">
+      <test id="callStaticMethod">
+        <objs>
+          <obj id="myObj" type="junitx.ddtunit.resources.Currency" hint="call"
+            method="getInstance">
+            <item type="string">EUR</item>
+          </obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="junitx.ddtunit.resources.Currency" hint="call"
+            method="getInstance" action="isEqual">
+            <item type="string">EUR</item>
+          </assert>
+        </asserts>
+      </test>
+      <test id="callPublicMethodOnObjectWithDefaultConstructor">
+        <objs>
+          <obj id="myObj" type="string" hint="call" 
+            calltype="junitx.ddtunit.resources.SimpleVO" method="toString" />
+        </objs>
+        <asserts>
+          <assert id="result" type="string" action="isEqual">
+            SimpleVO:
+  textValue="null"
+  integerValue="null"
+  doubleValue="null"
+          </assert>
+        </asserts>
+      </test>
+    </group>
+  </cluster>
+</ddtunit>

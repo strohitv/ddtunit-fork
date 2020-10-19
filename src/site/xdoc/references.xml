@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<document>
+  <properties>
+    <title>References</title>
+  </properties>
+  <body>
+    <section name="References to interesting Sites">
+      <p>
+        <ul>
+          <li><a href="http://www.ibm.com/developerworks/cn/opensource/os-cn-ddtunittest/index.html">
+            Article on DDTUnit from IBM developerWorks China by Liu Xu Jin</a><br/>
+            For translation search for "ddtunit ibm" under google and use translation link or try this URL:<br/>
+            <![CDATA[http://translate.google.de/translate?hl=en&sl=zh-CN&u=http://www.ibm.com/developerworks/cn/opensource/os-cn-ddtunittest/index.html]]>
+          </li>
+          <li><a href="http://www.slideshare.net/dnastacio/datadriven-unit-testing-for-java-1933154">
+          Data-driven Unit Testing for Java by Denilson Nastacio</a></li>
+          <li><a href="http://sourcepatch.blogspot.com/2009/08/ddtunit-and-eclipse-snippets.html">
+          DDTUnit and Eclipse Snippets by Denilson Nastacio</a></li>
+        </ul>
+      </p>
+    </section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+  </body>
+</document>
+

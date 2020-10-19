@@ -1,0 +1,445 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+	<cluster id="ProcessCollectionTypeTest">
+		<!--                                                                  -->
+		<!-- collection type object retrieval                                 -->
+		<!--                                                                  -->
+		<group id="testReadNullVector">
+			<test id="readNullVector">
+				<objs>
+					<obj id="myVector" type="java.util.Vector"
+						hint="collection">
+						!NULL!
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="result" type="vector" hint="collection"
+						action="isNull" />
+				</asserts>
+			</test>
+		</group>
+		<group id="testReadVector">
+			<test id="readEmptyVector">
+				<objs>
+					<obj id="myVector" type="java.util.Vector"
+						hint="collection" />
+				</objs>
+				<asserts>
+					<assert id="count" type="java.lang.Integer"
+						action="isEqual">
+						0
+					</assert>
+					<assert id="expected" type="java.lang.String"
+						action="isNull" />
+				</asserts>
+			</test>
+			<test id="myFirstVector">
+				<objs>
+					<obj id="myVector" type="java.util.Vector"
+						hint="collection">
+						<item type="java.lang.String">firstEntry</item>
+						<item type="java.lang.String">secondEntry</item>
+						<item type="java.lang.String">thirdEntry</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="count" type="java.lang.Integer"
+						action="isEqual">
+						3
+					</assert>
+					<assert id="expected" type="java.lang.String"
+						action="isEqual">
+						secondEntry
+					</assert>
+				</asserts>
+			</test>
+			<test id="myFirstShorthandVector">
+				<objs>
+					<obj id="myVector" type="vector"
+						hint="collection">
+						<item type="string">firstEntry</item>
+						<item type="string">secondEntry</item>
+						<item type="string">thirdEntry</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="count" type="int" action="isEqual">
+						3
+					</assert>
+					<assert id="expected" type="string"
+						action="isEqual">
+						secondEntry
+					</assert>
+				</asserts>
+			</test>
+			<test id="myFirstShorthandVectorSingleType">
+				<objs>
+					<obj id="myVector" type="vector" hint="collection"
+						valuetype="string">
+						<item>firstEntry</item>
+						<item>secondEntry</item>
+						<item>thirdEntry</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="count" type="int" action="isEqual">
+						3
+					</assert>
+					<assert id="expected" type="string"
+						action="isEqual">
+						secondEntry
+					</assert>
+				</asserts>
+			</test>
+			<test id="myFirstShorthandVectorMixedType">
+				<objs>
+					<obj id="myVector" type="vector" hint="collection"
+						valuetype="string">
+						<item>firstEntry</item>
+						<item type="int">4711</item>
+						<item>thirdEntry</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="count" type="int" action="isEqual">
+						3
+					</assert>
+					<assert id="expected" type="int" action="isEqual">
+						4711
+					</assert>
+				</asserts>
+			</test>
+			<test id="mySimpleVOVector">
+				<objs>
+					<obj id="myVector" type="java.util.Vector"
+						hint="collection">
+						<item
+							type="junitx.ddtunit.resources.SimpleVO">
+							<stringValue>firstEntry</stringValue>
+						</item>
+						<item
+							type="junitx.ddtunit.resources.SimpleVO">
+							<stringValue>secondEntry</stringValue>
+						</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="count" type="java.lang.Integer"
+						action="isEqual">
+						2
+					</assert>
+					<assert id="expected"
+						type="junitx.ddtunit.resources.SimpleVO" action="isEqual">
+						<stringValue>secondEntry</stringValue>
+					</assert>
+				</asserts>
+			</test>
+		</group>
+		<group id="testReadNestedCollection">
+			<test id="myFirstVector">
+				<objs>
+					<obj id="myVector" type="java.util.Vector"
+						hint="collection">
+						<item type="java.util.ArrayList"
+							hint="collection">
+							<item type="java.lang.String">1.1</item>
+							<item type="java.lang.String">1.2</item>
+						</item>
+						<item type="java.util.ArrayList"
+							hint="collection">
+							<item type="java.lang.String">2.1</item>
+							<item type="java.lang.String">2.2</item>
+						</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="count" type="java.lang.Integer"
+						action="isEqual">
+						2
+					</assert>
+				</asserts>
+			</test>
+			<test id="myFirstShorthandVector">
+				<objs>
+					<obj id="myVector" type="vector"
+						hint="collection">
+						<item type="arraylist" hint="collection">
+							<item type="string">1.1</item>
+							<item type="string">1.2</item>
+						</item>
+						<item type="arraylist" hint="collection">
+							<item type="string">2.1</item>
+							<item type="string">2.2</item>
+						</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="count" type="int" action="isEqual">
+						2
+					</assert>
+				</asserts>
+			</test>
+			<test id="myFirstShorthandVectorSingleType">
+				<objs>
+					<obj id="myVector" type="vector" hint="collection"
+						valuetype="arraylist">
+						<item hint="collection">
+							<item type="string">1.1</item>
+							<item type="string">1.2</item>
+						</item>
+						<item hint="collection">
+							<item type="string">2.1</item>
+							<item type="string">2.2</item>
+						</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="count" type="int" action="isEqual">
+						2
+					</assert>
+				</asserts>
+			</test>
+			<test id="myFirstShorthandVectorSingleTypeExtraShort">
+				<objs>
+					<obj id="myVector" type="vector" hint="collection"
+						valuetype="arraylist">
+						<item hint="collection" valuetype="string">
+							<item>1.1</item>
+							<item>1.2</item>
+						</item>
+						<item hint="collection" valuetype="string">
+							<item>2.1</item>
+							<item>2.2</item>
+						</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="count" type="int" action="isEqual">
+						2
+					</assert>
+				</asserts>
+			</test>
+		</group>
+		<group id="testReadNestedMixedType">
+			<test id="myFirstShorthandVectorMultiType">
+				<objs>
+					<obj id="myVector" type="vector" hint="collection"
+						valuetype="arraylist">
+						<item hint="collection">
+							<item type="string">1.1</item>
+							<item type="string">1.2</item>
+						</item>
+						<item type="int">4711</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="count" type="int" action="isEqual">
+						2
+					</assert>
+					<assert id="firstEntry" type="string"
+						action="isEqual">
+						1.1
+					</assert>
+					<assert id="secondEntry" type="int"
+						action="isEqual">
+						4711
+					</assert>
+				</asserts>
+			</test>
+			<test id="myFirstShorthandVectorSingleTypeExtraShort">
+				<objs>
+					<obj id="myVector" type="vector" hint="collection"
+						valuetype="arraylist">
+						<item hint="collection" valuetype="string">
+							<item>1.1</item>
+							<item>1.2</item>
+						</item>
+						<item hint="collection" valuetype="string">
+							<item>2.1</item>
+							<item>2.2</item>
+						</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="count" type="int" action="isEqual">
+						2
+					</assert>
+					<assert id="firstEntry" type="string"
+						action="isEqual">
+						1.1
+					</assert>
+					<assert id="secondEntry" type="arraylist"
+						hint="collection" valuetype="string" action="isEqual">
+						<item>2.1</item>
+						<item>2.2</item>
+					</assert>
+				</asserts>
+			</test>
+		</group>
+		<group id="testArrayFromCollection">
+			<test id="readArrayFromCollection">
+				<objs>
+					<obj id="myList" type="vector" hint="collection">
+						<item hint="array" type="string">
+							<item>Hallo</item>
+							<item>World</item>
+						</item>
+						<item hint="array" type="string">
+							<item>Big</item>
+							<item>Bigger</item>
+							<item>Biggest</item>
+						</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="count" type="int" action="isEqual">
+						2
+					</assert>
+					<assert id="result" type="string" hint="array"
+						action="isEqual">
+						<item>Big</item>
+						<item>Bigger</item>
+						<item>Biggest</item>
+					</assert>
+				</asserts>
+			</test>
+			<test id="readArrayFromCollectionShortcut">
+				<objs>
+					<obj id="myList" type="vector" hint="collection"
+						valuetype="string">
+						<item hint="array">
+							<item>Hallo</item>
+							<item>World</item>
+						</item>
+						<item hint="array">
+							<item>Big</item>
+							<item>Bigger</item>
+							<item>Biggest</item>
+						</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="count" type="int" action="isEqual">
+						2
+					</assert>
+					<assert id="result" type="string" hint="array"
+						action="isEqual">
+						<item>Big</item>
+						<item>Bigger</item>
+						<item>Biggest</item>
+					</assert>
+				</asserts>
+			</test>
+		</group>
+		<group id="testDoubleNestedCollectionInAssert">
+			<test id="emptyNestedCollection">
+				<objs>
+					<obj id="object1" type="arraylist"
+						hint="collection">
+						<item type="arraylist" hint="collection">
+							<item type="arraylist" hint="collection" />
+							<item type="arraylist" hint="collection" />
+						</item>
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="result" type="arraylist"
+						action="isEqual" hint="collection">
+						<item type="arraylist" hint="collection">
+							<item type="arraylist" hint="collection" />
+							<item type="arraylist" hint="collection" />
+						</item>
+					</assert>
+				</asserts>
+			</test>
+		</group>
+		<group id="testIdentifyCollection">
+			<test id="createCollectionImpl">
+				<objs>
+					<obj id="myObj"
+						type="junitx.ddtunit.resources.CollectionImpl" hint="collection" />
+				</objs>
+				<asserts>
+					<assert id="result"
+						type="junitx.ddtunit.resources.CollectionImpl" action="isNotNull"
+						hint="collection" />
+				</asserts>
+			</test>
+			<test id="createSecondCollectionImpl">
+				<objs>
+					<obj id="myObj"
+						type="junitx.ddtunit.resources.SecondCollectionImpl"
+						hint="collection" />
+				</objs>
+				<asserts>
+					<assert id="result"
+						type="junitx.ddtunit.resources.SecondCollectionImpl"
+						action="isNotNull" hint="collection" />
+				</asserts>
+			</test>
+			<test id="referenceElementOfCollection">
+				<objs>
+					<obj id="refString" type="string">Hello World</obj>
+					<obj id="myObj" type="arraylist"
+						hint="collection">
+						<item type="string" refid="refString" />
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="result" type="arraylist"
+						action="isNotNull" hint="collection" />
+				</asserts>
+			</test>
+		</group>
+        <group id="testNestedVoWithCollection">
+            <test id="nested collection vo collection">
+                <objs>
+                    <obj id="myObj" type="java.util.HashSet"
+                        hint="collection">
+                        <item type="junitx.ddtunit.resources.FLY_BookingInfo">
+                            <address
+                                type="junitx.ddtunit.resources.FLY_Address">
+                                <address type="string">
+                                    C. Smalltalk, 10
+                                </address>
+                                <country type="string">ES</country>
+                                <province type="string">
+                                    Madrid
+                                </province>
+                            </address>
+                            <passengerFlyers type="java.util.HashSet"
+                                hint="collection">
+                                <item
+                                    type="junitx.ddtunit.resources.FLY_PassengerFlyer">
+                                    <passenger
+                                        type="junitx.ddtunit.resources.FLY_Passenger">
+                                        <email type="string">
+                                            pasajero@gmail.com
+                                        </email>
+                                        <name type="string">
+                                            Nombre
+                                        </name>
+                                    </passenger>
+                                    <frequentFlyer
+                                        type="junitx.ddtunit.resources.FLY_FrequentFlyer">
+                                        <airline type="string">
+                                            IBERIA
+                                        </airline>
+                                        <number type="string">
+                                            1010
+                                        </number>
+                                    </frequentFlyer>
+                                </item>
+                            </passengerFlyers>
+                        </item>
+                    </obj>
+                </objs>
+                <asserts>
+                  <assert id="result" action="isNotNull" type="java.util.HashSet" ></assert>
+                </asserts>
+            </test>
+        </group>
+
+	</cluster>
+</ddtunit>

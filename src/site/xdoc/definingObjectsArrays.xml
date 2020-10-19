@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+  <properties>
+      <title>Defining Objects</title>
+  </properties>
+  <body>
+    <section name="Defining Arrays of Objects">
+      <source>&lt;objs&gt;&lt;obj id="myId" type="my.class.Type" hint="array" &gt;...&lt;/obj&gt;&lt;objs&gt;</source>
+      <a name="arrayobjects-datatypes" />
+      <p>To define an array of objects you have to specify the <code>hint="array"</code>.
+      The structure is the same as used in collection datatype definition.<br />
+      Here comes an example:
+   <source> &lt;test id="myFirstTestCase"&gt;
+   &lt;objs&gt;
+     &lt;obj id="myObj" type="int" hint="array"&gt;
+       &lt;item&gt;4711&lt;/item&gt;
+       &lt;item&gt;4712&lt;/item&gt;
+     &lt;/obj&gt;
+   &lt;/objs&gt;
+ &lt;/test&gt;</source>
+Using this object is equivalent to use:
+<source>Integer [] myObj = { new Integer(4711), new Integer(4712)};</source>
+ </p>
+ <p>If you want to specify an empty array of an array of a certain size you can
+ proceed like this:
+ <source>&lt;obj id="myObj" type="int" hint="array" /&gt;</source>
+ will specify an integer array of size 1 with null element.
+ <source>&lt;obj id="myObj" type="int" hint="array"&gt;3&lt;obj&gt;</source>
+ will specify an array of size 3 will "null" elements.
+ </p>
+ <p>So the only way to assigning an array object to "null" is the explizit way
+ <source>&lt;obj id="myObj" type="int" hint="array"&gt;!NULL!&lt;obj&gt;</source>
+ </p>
+    </section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+  </body>
+</document>

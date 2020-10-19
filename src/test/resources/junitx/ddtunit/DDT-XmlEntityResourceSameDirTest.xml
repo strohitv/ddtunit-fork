@@ -1,0 +1,5 @@
+<!--  External Resources used as global object includes -->
+<obj id="resourceTest1Type1" type="string">Value A</obj>
+<obj id="resourceTest2Type1" type="string">Value B</obj>
+<obj id="resourceTest1Type2" type="string">Value C</obj>
+<obj id="resourceTest2Type2" type="string">Value D</obj>

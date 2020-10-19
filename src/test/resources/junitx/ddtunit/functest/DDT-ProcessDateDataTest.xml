@@ -1,0 +1,171 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+ <cluster id="ProcessDateDataTest">
+  <!--                                                                  -->
+  <!-- java.util.Date                                                   -->
+  <!--                                                                  -->
+  <group id="testDateType">
+   <test id="readSimpleDateNull">
+    <objs>
+     <obj id="myDate" hint="date" type="java.util.Date">!NULL!</obj>
+    </objs>
+    <asserts>
+     <assert id="result" type="java.util.Date" action="isNull" />
+    </asserts>
+   </test>
+   <test id="readSimpleDateNotNull">
+    <objs>
+     <obj id="myDate" hint="date" type="java.util.Date">
+      01.05.2005 00:00:00.000
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="result" type="java.util.Date" action="isNotNull" />
+    </asserts>
+   </test>
+   <test id="longEqualsMedium">
+    <objs>
+     <obj id="myDate" hint="date" type="date">
+      01.05.2005 00:00:00.000
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="result" hint="date" type="java.util.Date" action="isEqual">
+      01.05.2005 00:00:00
+     </assert>
+    </asserts>
+   </test>
+   <test id="longEqualsShort">
+    <objs>
+     <obj id="myDate" hint="date" type="java.util.Date">
+      01.05.2005 00:00:00.000
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="result" hint="date" type="java.util.Date" action="isEqual">
+      01.05.2005
+     </assert>
+    </asserts>
+   </test>
+   <test id="longEqualsShortcutType">
+    <objs>
+     <obj id="myDate" hint="date" type="java.util.Date">
+      01.05.2005 00:00:00.000
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="result" hint="date" type="udate" action="isEqual">
+      01.05.2005
+     </assert>
+    </asserts>
+   </test>
+   <test id="sysdateGTThanOldDate">
+    <objs>
+     <obj id="myDate" hint="date" type="java.util.Date">!SYSDATE!</obj>
+    </objs>
+    <asserts>
+     <assert id="result" hint="date" type="udate" action="isGT">
+      01.05.2005
+     </assert>
+    </asserts>
+   </test>
+   <test id="sysdateGTThanOldDateWithException">
+    <objs>
+     <obj id="myDate" hint="date" type="java.util.Date">!SYSDATE!</obj>
+    </objs>
+    <asserts>
+     <assert id="result" hint="date" type="udate" action="isNotGT">
+      01.05.2005
+     </assert>
+     <exception id="expected" type="junit.framework.AssertionFailedError"
+      action="isSimilar" hint="constructor">
+      <item type="string">Expected action:</item>
+     </exception>
+    </asserts>
+   </test>
+   <test id="systimeGTThanOldDate">
+    <objs>
+     <obj id="myDate" hint="date" type="java.util.Date">!SYSTIME!</obj>
+    </objs>
+    <asserts>
+     <assert id="result" hint="date" type="udate" action="isGT">
+      01.06.2005
+     </assert>
+    </asserts>
+   </test>
+   <test id="systimeGTThanOldDateWithException">
+    <objs>
+     <obj id="myDate" hint="date" type="java.util.Date">!SYSTIME!</obj>
+    </objs>
+    <asserts>
+     <assert id="result" hint="date" type="udate" action="isNotGT">
+      01.05.2005
+     </assert>
+     <exception id="expected" type="junit.framework.AssertionFailedError"
+      action="isSimilar" hint="constructor">
+      <item type="string">Expected action:</item>
+     </exception>
+    </asserts>
+   </test>
+  </group>
+  <group id="testSpecificDateType">
+   <test id="readShortDate">
+    <objs>
+     <obj id="myDate" hint="date" type="date" dateformat="short">06.12.2007</obj>
+    </objs>
+    <asserts>
+     <assert id="result" hint="date" type="java.util.Date" action="isEqual">06.12.2007 00:00:00</assert>
+    </asserts>
+   </test>
+   <test id="readMediumDate">
+    <objs>
+     <obj id="myDate" hint="date" type="date" dateformat="medium">06.12.2007 10:11:12</obj>
+    </objs>
+    <asserts>
+     <assert id="result" hint="date" type="java.util.Date" action="isEqual">06.12.2007 10:11:12</assert>
+    </asserts>
+   </test>
+   <test id="readLongDate">
+    <objs>
+     <obj id="myDate" hint="date" type="date" dateformat="long">06.12.2007 10:11:12.123</obj>
+    </objs>
+    <asserts>
+     <assert id="result" hint="date" type="date" action="isEqual">06.12.2007 10:11:12.123</assert>
+    </asserts>
+   </test>
+   <test id="readExampleDate">
+    <objs>
+     <obj id="myDate" hint="date" type="date" dateformat="example">Thu Dec 06 10:11:12 CET 2007</obj>
+    </objs>
+    <asserts>
+     <assert id="result" hint="date" type="date" action="isEqual">06.12.2007 10:11:12</assert>
+    </asserts>
+   </test>
+   <test id="readExampleDateUnnamed">
+    <objs>
+     <obj id="myDate" hint="date" type="date">Thu Dec 06 10:11:12 CET 2007</obj>
+    </objs>
+    <asserts>
+     <assert id="result" hint="date" type="date" action="isEqual">06.12.2007 10:11:12</assert>
+    </asserts>
+   </test>
+   <test id="readFreeDate">
+    <objs>
+     <obj id="myDate" hint="date" type="date" dateformat="EEE MMM dd HH:mm:ss zzz yyyy">Thu Dec 06 10:11:12 CET 2007</obj>
+    </objs>
+    <asserts>
+     <assert id="result" hint="date" type="date" action="isEqual">06.12.2007 10:11:12</assert>
+    </asserts>
+   </test>
+   <test id="readFreeDateWithLocale">
+    <objs>
+     <obj id="myDate" hint="date" type="date" dateformat="EE MMM dd HH:mm:ss zzz yyyy" locale="de_DE">Di Dez 06 10:11:12 MET 2007</obj>
+    </objs> 
+    <asserts>
+     <assert id="result" hint="date" type="date" action="isEqual">06.12.2007 10:11:12</assert>
+    </asserts>
+   </test>
+   </group>
+ </cluster>
+</ddtunit>

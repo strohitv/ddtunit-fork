@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>DDTUnit - Object Type Abbreviation</title></properties>
+<body>
+<section name="Abbreviation of Object Type Definitions">
+<a name="typeabbreviator" />
+<p>To allow a shorthand on Java types the <code>junitx.ddtunit.data.processing.TypeAbbreviator</code>
+is introduced to the API. Executed as standalone application it lists all known
+type abbreviations to <code>System.out</code>.<br/>
+More on <a href="faq.html#TypeAbbreviatorConfiguration">configuration</a>.
+Here is the list as defined in DDTUnit version 0.6.6:
+<table border="1">
+  <caption>Type Abbreviator Dictionary</caption>
+  <tr><th>Type Shortcut</th><th>Long Expression</th></tr>
+  <tr><td>byte, Byte</td><td>java.lang.Byte</td></tr>
+  <tr><td>boolean, Boolean</td><td>java.lang.Boolean</td></tr>
+  <tr><td>char, Character</td><td>java.lang.Character</td></tr>
+  <tr><td>string, String</td><td>java.lang.String</td></tr>
+  <tr><td>short, Short</td><td>java.lang.Short</td></tr>
+  <tr><td>int, Integer</td><td>java.lang.Integer</td></tr>
+  <tr><td>long, Long</td><td>java.lang.Long</td></tr>
+  <tr><td>bigint, BigInteger</td><td>java.math.BigInteger</td></tr>
+  <tr><td>float, Float</td><td>java.lang.Float</td></tr>
+  <tr><td>double, Double</td><td>java.lang.Double</td></tr>
+  <tr><td>bigdecimal, BigDecimal</td><td>java.math.BigDecimal</td></tr>
+  <tr><td>arraylist, ArrayList</td><td>java.util.ArrayList</td></tr>
+  <tr><td>vector, Vector</td><td>java.util.Vector</td></tr>
+  <tr><td>hashmap, HashMap</td><td>java.util.HashMap</td></tr>
+  <tr><td>hashtable, Hashtable</td><td>java.util.Hashtable</td></tr>
+  <tr><td>udate</td><td>java.util.Date</td></tr>
+  <tr><td>date, Date</td><td>java.util.Date</td></tr>
+  <tr><td>sdate</td><td>java.sql.Date</td></tr>
+  <tr><td>tdate</td><td>java.text.Date</td></tr>
+</table>
+</p>
+</section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+</body>
+</document>

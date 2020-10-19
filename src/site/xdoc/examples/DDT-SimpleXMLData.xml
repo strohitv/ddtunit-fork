@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>Example - DDT-SimpleXMLData</title></properties>
+<body>
+<section name="Example - DDT-SimpleXMLData">
+<p>
+<source><![CDATA[
+<!DOCTYPE ddtunit SYSTEM "http://ddtunit.sourceforge.net/ddtunit.dtd">
+<ddtunit>
+  <cluster id="SimpleXMLData">
+    <group id="testSimpleDataAccess">
+      <test id="my-first-testcase" >
+        <objs>
+          <obj id="my-obj" type="tring">My first String</obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="string" action="ISEQUAL">My first String</assert>
+        </asserts>
+      </test>
+      <test name="my-second-testcase">
+		<objs>      
+          <obj id="my-obj" type="string">My second String</obj>
+        </objs>
+        <asserts>
+          <exception type="java.lang.Throwable" >Whatever</exception>
+          <assert id="result" type="string" action="ISEQUAL">My second String</assert>
+        </asserts>
+      </test>
+    </group>
+  </cluster>
+  <!--                                                                      -->
+  <!--  Second test cluster                                                   -->
+  <!--                                                                      -->
+  <cluster id="SecondTestClass">
+    <group id="testSimpleDataAccess">
+      <test id="my-first-testcase" description="Short desc of first test-case">
+        <objs>
+          <obj id="my-obj" type="string">My first String</obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="string" action="ISEQUAL">My first String</assert>
+        </asserts>
+      </test>
+      <test id="my-second-testcase" description="Short desc of second test-case">
+        <objs>
+          <obj id="my-obj" type="string">My second String</obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="string">My second String</assert>
+        </asserts>
+      </test>
+    </group>
+  </cluster>
+</ddtunit>
+]]></source>
+</p>
+</section>
+</body>
+</document>

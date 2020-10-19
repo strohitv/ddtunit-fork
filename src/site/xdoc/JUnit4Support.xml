@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+  <properties>
+    <title>JUnit4 Test Runner</title>
+  </properties>
+  <body>
+    <section name="Supporting JUnit4">
+      <p>
+        Because <a href="http://www.junit.org">JUnit 4</a> gets more and more used a new 
+        class runner is introduced.<br/>
+        You can now leverage datadriven testing of DDTUnit and the execution model of JUnit 4 
+        annotations in one class. To do this follow the example (
+        <a href="/xref-test/junitx/ddtunit/optional/junit4/DDTJUnit4ClassRunnerTest.html">DDTJUnit4ClassRunnerTest</a>:
+        <source>
+@RunWith(value = DDTUnit4ClassRunner.class)
+public class DDTJUnit4ClassRunnerTest extends DDTTestCase {
+  // now you can use JUnit4 standard annotations 
+  @BeforeClass
+  public static void beforeClass() {
+    logger.info("beforeClass");     
+  }
+  // and @Before, @After, @AfterClass and even @Test
+...        
+        </source>
+        The implementation was provided by Jürgen Süßer - Thanks for that!
+      </p>
+    </section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+  </body>
+</document>
+

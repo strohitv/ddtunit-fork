@@ -1,0 +1,96 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+	<cluster id="UserBeanTest">
+		<group id="testCreateUser">
+            <test id="complexUser">
+                <objs>
+                    <obj id="user" type="junitx.ddtunit.usecases.UserBean">
+                        <_id>myUsername</_id>
+                        <password>myPassword</password>
+                        <picture hint="array" type="byte">100</picture>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="first" action="isNotNull" type="junitx.ddtunit.usecases.UserBean" />
+                </asserts>
+            </test>
+            <test id="complexUserBean-1">
+                <objs>
+                    <obj id="user" type="junitx.ddtunit.usecases.UserBean">
+                        <_id>setmyUsername</_id>
+                        <password>myPassword</password>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="first" action="isEqual" type="junitx.ddtunit.usecases.UserBean" hint="bean">
+                        <id>myUsername</id>
+                        <password>myPassword</password>
+                    </assert>
+                </asserts>
+            </test>
+            <test id="complexUserBean-2">
+                <objs>
+                    <obj id="user" type="junitx.ddtunit.usecases.UserBean" hint="bean">
+                        <id>XXXmyUsername</id>
+                        <password>myPassword</password>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="first" action="isEqual" type="junitx.ddtunit.usecases.UserBean">
+                        <_id>setXXXmyUsername</_id>
+                        <password>myPassword</password>
+                    </assert>
+                </asserts>
+            </test>
+            <test id="nullUserBean">
+                <objs>
+                    <obj id="user" type="junitx.ddtunit.usecases.UserBean" hint="bean">
+                        !NULL!
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="first" action="isNull" type="junitx.ddtunit.usecases.UserBean" />
+                </asserts>
+            </test>
+            <test id="nullUserObject">
+                <objs>
+                    <obj id="user" type="junitx.ddtunit.usecases.UserBean">
+                        !NULL!
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="first" action="isNull" type="junitx.ddtunit.usecases.UserBean" />
+                </asserts>
+            </test>
+            <test id="nullUserBeanField">
+                <objs>
+                    <obj id="user" type="junitx.ddtunit.usecases.UserBean" hint="bean"> 
+                        <id>!NULL!</id>
+                        <password>xxx</password>
+                    </obj>
+                </objs>
+                <asserts>
+                    <!-- id of users must be equal! -->
+                    <assert id="first" action="isEqual" type="junitx.ddtunit.usecases.UserBean">
+                      <password>xxx</password>
+                    </assert>
+                </asserts>
+            </test>
+            <test id="nullUserField">
+                <objs>
+                    <obj id="user" type="junitx.ddtunit.usecases.UserBean">
+                        <_id>!NULL!</_id>
+                        <password>xxx</password>
+                    </obj>
+                </objs>
+                <asserts>
+                    <!-- id of users must be equal! -->
+                    <assert id="first" action="isEqual" type="junitx.ddtunit.usecases.UserBean">
+                      <password>xxx</password>
+                    </assert>
+                </asserts>
+            </test>
+		</group>
+	</cluster>
+</ddtunit>

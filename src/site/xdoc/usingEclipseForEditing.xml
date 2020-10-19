@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+ <properties>
+  <title>Using Eclipse for Editing</title>
+ </properties>
+ <body>
+  <section name="Using Eclipse for Editing">
+<p>A lot has been written about the use of xml as the new hype in structured data
+definition and the same amount against xml as not human readable and useless for
+this purpose.<br/>
+During the same period of time a lot of development took place as well to support
+easier creation and maintenance of xml resoures. -- And a lot of people who found
+it a real nono to use xml for testdata are now big fans of the 
+<a href="http://www.springframework.org/">String framework</a> which does a really
+big deal on xml configuration stuff ;-)
+</p>
+<p>One way to make your live on creating and maintaining xml resources a little 
+bit easier if you are using <a href="http://www.eclipse.org">Eclipse</a> is based
+on the xml features introduced by the <a href="http://www.eclipse.org/webtools/">
+Web Tools Plattform of Eclipse</a>. and the xml editor extension 
+<a href="http://eclipsexslt.sourceforge.net/">Eclipse XSLT from Orangevolt</a>.
+</p>
+<p>These components combined provide a feature rich xml editor environment a few 
+years back only expensive commercial suites provided.
+</p>
+<p>After installation (please refere to the appropriate installation details on
+the provided links) first thing to do is to create a valid <b>xml catalog</b>
+entry of the DDTUnit xml schema file.<br/>
+To do so
+<ol>
+  <li>Ppen Window -> Preferences... -> Web and XML -> XML Catalog</li>
+  <li>Add a new entry under User Entries<br/>
+    <table><tr><td>URL: file://&lt;path of local copy of DDTUnit xsd resource</td></tr>
+      <tr><td>Key Type:  Schema Location</td></tr>
+      <tr><td>Key: http://ddtunit.sourceforge.net/ddtunit.xsd</td></tr>
+    </table></li>
+</ol>
+</p>
+<p>Now you can start to create a new DDTUnit xml resource by creating a new
+xml file by using xml schema definition:<br/>
+<ol>
+  <li>Open File -> New -> Other... -> XML -> XML (Next)</li>
+  <li>Create XML file from a XML schema file</li>
+  <li>Specify file name</li>
+  <li>Select xml schema file from catalog: key=http://ddtunit.sourceforge.net/ddtunit.xsd</li>
+  <li>Select details level for element creation and the root element</li>
+</ol>
+</p>
+<p>This finishes the creation process. And as example you find a generated xml
+resource with all optional elements and attributes created with this editor.
+<source>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&amp;lt;ddtunit xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+ xsi:noNamespaceSchemaLocation=&quot;http://ddtunit.sourceforge.net/ddtunit.xsd&quot;&amp;gt;
+ &lt;resources&gt;
+  &lt;obj calltype=&quot;&quot; hint=&quot;fields&quot; id=&quot;&quot; keytype=&quot;string&quot; method=&quot;constructor&quot;
+   refid=&quot;&quot; type=&quot;&quot; valuetype=&quot;string&quot;&gt;
+   &lt;description&gt;description&lt;/description&gt;
+  &lt;/obj&gt;
+ &lt;/resources&gt;
+ &lt;cluster id=&quot;&quot;&gt;
+  &lt;description&gt;description&lt;/description&gt;
+  &lt;objs&gt;
+   &lt;obj calltype=&quot;&quot; hint=&quot;fields&quot; id=&quot;&quot; keytype=&quot;string&quot; method=&quot;constructor&quot;
+    refid=&quot;&quot; type=&quot;&quot; valuetype=&quot;string&quot;&gt;
+    &lt;description&gt;description&lt;/description&gt;
+   &lt;/obj&gt;
+  &lt;/objs&gt;
+  &lt;group id=&quot;&quot;&gt;
+   &lt;test id=&quot;&quot;&gt;
+    &lt;objs&gt;
+     &lt;obj calltype=&quot;&quot; hint=&quot;fields&quot; id=&quot;&quot; keytype=&quot;string&quot; method=&quot;constructor&quot;
+      refid=&quot;&quot; type=&quot;&quot; valuetype=&quot;string&quot;&gt;
+      &lt;description&gt;description&lt;/description&gt;
+     &lt;/obj&gt;
+    &lt;/objs&gt;
+    &lt;asserts&gt;
+     &lt;assert action=&quot;isTrue&quot; hint=&quot;fields&quot; id=&quot;&quot; keytype=&quot;string&quot;
+      method=&quot;constructor&quot; refid=&quot;&quot; type=&quot;&quot; valuetype=&quot;string&quot;&gt;
+      &lt;description&gt;description&lt;/description&gt;
+     &lt;/assert&gt;
+     &lt;exception action=&quot;isEqual&quot; hint=&quot;fields&quot; id=&quot;&quot; type=&quot;&quot;&gt;
+      &lt;description&gt;description&lt;/description&gt;
+     &lt;/exception&gt;
+    &lt;/asserts&gt;
+   &lt;/test&gt;
+  &lt;/group&gt;
+ &lt;/cluster&gt;
+&lt;/ddtunit&gt;</source>
+</p>
+<p>The last appetizer is the use of element and attribute completion as 
+defined in the xml schema. So if e.g. selecting the xml element 
+<code>&lt;assert &gt;</code> you'll get a list of all possible attributes. - 
+Select <code>action</code> and it will complete to
+<source>&lt;assert action="isEqual"&gt;</source>
+If you select <code>isEqual</code> and hit code completion (Ctrl-Space in 
+standard installation) the list of possible attribute values is provided as 
+selectable drop down listbox.
+</p>
+<p>You are not allowed to stop thinking but this is hell of a lot more convenient
+than writing all by hand.
+</p>
+</section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+</body>
+</document>

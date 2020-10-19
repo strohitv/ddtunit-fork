@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<document>
+  <properties>
+    <title>Use of stripped version of junit-addons</title>
+  </properties>
+  <body>
+    <section name="Use of junit-addons Library">
+      <p>
+        Because of the great assertion functionality I introduced the library
+        <a href="http://junit-addons.sourceforge.net/">JUnit-Addons v1.4</a> into this project.<br/>
+        This library is provided under the <a href="">Apache Software License</a>.
+      </p>
+      <p>To reduce the dependency graph of DDTUnit I imported the assertion classes from 
+      junit-addons v1.4 without modifications under the package junitx.framework.</p>
+    </section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+  </body>
+</document>
+

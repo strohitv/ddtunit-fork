@@ -1,0 +1,5 @@
+<!-- Definitions of xml entities used in DDTUnit documentation -->
+<!ENTITY java '<font color="blue">&lt;Java&gt;</font>'>
+<!ENTITY junit '<font color="green">&lt;JUnit&gt;</font>'>
+<!ENTITY junit-addons '<font color="green">&lt;JUnit Addons&gt;</font>'>
+<!ENTITY ddtunit '<font color="red">&lt;DDTUnit&gt;</font>'>

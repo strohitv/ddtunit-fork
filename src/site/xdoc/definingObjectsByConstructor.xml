@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>Defining Objects</title></properties>
+<body>
+<section name="Defining Objects By Constructor and Method Call">
+<source>&lt;objs&gt;&lt;obj id="myId" type="my.class.Type" hint="call" calltype="my.call.Type" &gt;...&lt;/obj&gt;&lt;objs&gt;</source>
+<a name="constructor-datatypes"/>
+<p>To define objects according to implemented specifications you must be able to
+call the constructor of this object. Or even call a static method of a factory 
+class. This is just the way you do it in real application code.<br/>
+Here is an example:
+<source>
+...
+  &lt;test id="mySecondTestCase"&gt;
+   &lt;objs&gt;
+    &lt;obj id="myObj" type="junitx.ddtunit.resources.SimpleVO" hint="call"&gt;
+      &lt;item type="string"&gt;My Text&lt;/item&gt;
+      &lt;item type="int"&gt;4711&lt;/item&gt;
+      &lt;item type="double"&gt;12.4&lt;/item&gt;
+    &lt;/obj&gt;
+   &lt;/objs&gt;
+  &lt;/test&gt;
+...</source>
+The definition of object <code>id="myObj"</code> reflects the use of the Java 
+object constructor as defined below
+<source>
+public class SimpleVO {
+...
+    public SimpleVO(String text, Integer intValue, Double doubValue) {
+        // whatever your class should do on instanciation
+    }
+...</source>
+This is equivalent to
+<source>&lt;obj id="myObj" type="junitx.ddtunit.resources.SimpleVO" 
+  calltype="junitx.ddtunit.resources.SimpleVO" hint="call" method="constructor"&gt;
+  &lt;item type="string"&gt;My Text&lt;/item&gt;
+  &lt;item type="int"&gt;4711&lt;/item&gt;
+  &lt;item type="double"&gt;12.4&lt;/item&gt;
+&lt;/obj&gt;</source>
+</p>
+<p>So you can see that there are three attributes to specify a method/constructor
+invokation:
+<ul>
+  <li>hint="call" - to specify the use of method/constructor call</li>
+  <li>method="methodName" - specifying the method to call. If you want to use a
+    constructor you can specify method="constructor" or just leave this attribute
+    empty.</li>
+	<li>calltype="my.call.Type" - specifies the class to call the method from. If it 
+  	is the same as the resulting type specified by type attribute you can leave it 
+		empty as well.</li>
+</ul>
+If you want to call a method having no arguments write it like this:
+<source>&lt;obj id="myObj" type="junitx.ddtunit.resources.SimpleVO" 
+  hint="call" method="toString" /&gt;</source>
+
+</p>
+<p>If you specify non static methods the framework will try to instanciate a calltype
+object by using default constructor.
+</p>
+
+<p>Actually it is not important to use the <code>&lt;item/&gt;</code> tag name to
+specify the parameters of the constructor. You can use any name that supports an
+expressive meaning for the declaration.<br/>
+To resolve the parameters only the <code>type</code> attribut and the order of the
+parameters is used to specify the constructor call.<br/>
+So the example above is equivalet to:
+<source>&lt;obj id="myObj" type="junitx.ddtunit.resources.SimpleVO" 
+  calltype="junitx.ddtunit.resources.SimpleVO" hint="call" method="constructor"&gt;
+  &lt;stringValue type="string"&gt;My Text&lt;/stringValue&gt;
+  &lt;integerValue type="int"&gt;4711&lt;/integerValue&gt;
+  &lt;doubleValue type="double"&gt;12.4&lt;/doubleValue&gt;
+&lt;/obj&gt;</source>
+This declatation reflects the mapping of the constructor parameters on the instance
+valiables of the class <code>SimpleVO</code>.
+</p>
+
+</section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+</body>
+</document>

@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <resources>
+      <obj id="resource" type="java.lang.String">Hallo first Resource</obj>
+      <obj id="secondResource" type="java.lang.String">Hallo second Resource</obj>
+  </resources>
+  <cluster id="ProcessClassGlobalObjectsTest">
+    <!--                                                                  -->
+    <!-- read global data and assert locally                              -->
+    <!--                                                                  -->
+    <objs>
+      <obj id="global" type="java.lang.String">Hallo first Global</obj>
+      <obj id="secondGlobal" type="java.lang.String">Hallo Second Global</obj>
+    </objs>
+    <group id="testDirectReadOnScope">
+      <test id="readDirectScopeString">
+        <objs>
+          <obj id="local" type="string">Hallo local World</obj>
+        </objs>
+        <asserts>
+          <assert id="expectedLocal" type="string" action="isEqual">Hallo local World</assert>
+          <assert id="expectedGlobal" type="string" action="isEqual">Hallo first Global</assert>
+          <assert id="expectedResource" type="string" action="isEqual">Hallo first Resource</assert>
+        </asserts>
+      </test>
+    </group>
+    <group id="testLocalGlobalScopeAccess">
+      <test id="readLocalGlobalScopeString">
+        <objs>
+          <obj id="local" type="string">Hallo Local</obj>
+        </objs>
+        <asserts>
+          <assert id="expectedLocal" type="string" action="isEqual">Hallo Local</assert>
+          <assert id="expectedGlobal" type="string" action="isEqual">Hallo first Global</assert>
+          <assert id="expectedResource" type="string" action="isEqual">Hallo first Resource</assert>
+        </asserts>
+      </test>
+    </group>
+  </cluster>
+</ddtunit>

@@ -1,0 +1,100 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+	<cluster id="ObjectAsserterTest">
+		<!--                                                                  -->
+		<!-- Check validity of isContained in action                          -->
+		<!--                                                                  -->
+		<group id="testIsContainedIn">
+			<test id="BooleanCollectionCheck">
+				<objs>
+					<obj id="actualObj" type="boolean">true</obj>
+					<obj id="actionId" type="string">result</obj>
+					<obj id="expectedType" type="string">java.util.Vector</obj>
+					<obj id="actionType" type="string">isContainedIn</obj>
+					<obj id="expectedObj" type="java.util.Vector"
+						hint="collection" valuetype="boolean">
+						<item>true</item>
+						<item>false</item>
+					</obj>
+				</objs>
+			</test>
+			<test id="BooleanCollectionCheck2">
+				<objs>
+					<obj id="actualObj" type="boolean">true</obj>
+					<obj id="actionId" type="string">result</obj>
+					<obj id="expectedType" type="string">java.util.Vector</obj>
+					<obj id="actionType" type="string">isNotContainedIn</obj>
+					<obj id="expectedObj" type="java.util.Vector"
+						hint="collection" valuetype="boolean">
+						<item>false</item>
+					</obj>
+				</objs>
+			</test>
+			<test id="BooleanCollectionCheckAssertError">
+				<objs>
+					<obj id="actualObj" type="boolean">true</obj>
+					<obj id="actionId" type="string">result</obj>
+					<obj id="expectedType" type="string">java.util.Vector</obj>
+					<obj id="actionType" type="string">isContainedIn</obj>
+					<obj id="expectedObj" type="java.util.Vector"
+						hint="collection" valuetype="boolean">
+						<item>false</item>
+					</obj>
+				</objs>
+				<asserts>
+					<exception id="expected"
+						type="junit.framework.AssertionFailedError" action="isInstanceOf" />
+				</asserts>
+			</test>
+		</group>
+		<group id="testIsInRange">
+			<test id="LongValidRangeCheck">
+				<objs>
+					<obj id="actualObj" type="long">5</obj>
+					<obj id="actionId" type="string">result</obj>
+					<obj id="expectedType" type="string">
+						junitx.ddtunit.data.ComparableRange
+					</obj>
+					<obj id="actionType" type="string">isInRange</obj>
+					<obj id="expectedObj" type="range">
+						<start type="long">0</start>
+						<end type="long">10</end>
+					</obj>
+				</objs>
+			</test>
+			<test id="LongInvalidRangeCheck">
+				<objs>
+					<obj id="actualObj" type="long">11</obj>
+					<obj id="actionId" type="string">result</obj>
+					<obj id="expectedType" type="string">
+						junitx.ddtunit.data.ComparableRange
+					</obj>
+					<obj id="actionType" type="string">isInRange</obj>
+					<obj id="expectedObj" type="range">
+						<start type="long">0</start>
+						<end type="long">10</end>
+					</obj>
+				</objs>
+				<asserts>
+				  <exception id="expected" type="junit.framework.AssertionFailedError"
+				    action="isInstanceOf" />
+				</asserts>
+			</test>
+			<test id="LongValidOutOfRangeCheck">
+				<objs>
+					<obj id="actualObj" type="long">11</obj>
+					<obj id="actionId" type="string">result</obj>
+					<obj id="expectedType" type="string">
+						junitx.ddtunit.data.ComparableRange
+					</obj>
+					<obj id="actionType" type="string">isNotInRange</obj>
+					<obj id="expectedObj" type="range">
+						<start type="long">0</start>
+						<end type="long">10</end>
+					</obj>
+				</objs>
+			</test>
+		</group>
+	</cluster>
+</ddtunit>

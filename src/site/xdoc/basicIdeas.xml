@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+ <properties>
+  <title>Ideas and Features</title>
+ </properties>
+ <body>
+  <section name="Ideas and Features">
+   <p>
+    For setting up module/component tests during development cycle we found it
+    quite helpful and efficient to take a data centric approach. This provides a
+    means of easily covering all specified testcases. Most commercial tools
+    provide a special dialect of C or a scripting language to define
+    parametrized test scripts. In our experience this approach was difficult to
+    adapt in teams that do development in Java under a short schedule. - "Oh not
+    jet another language or tool to distract us from work". And in projects with
+    rather low budget you even won't get the money to buy these expensive tools.
+   </p>
+   <p>
+    The basic idea of DDTUnit:
+    <ul>
+     <li>
+      To achieve an easy integration of this framework into existing JUnit
+      infrastructure the class <code>DDTTestCase</code> is directly extended 
+      from JUnit <code>TestCase</code> class. This approach provides 
+      combination of XML data definitions with the simplicity of use of JUnit.
+      <br />
+      And keep highly compatible with JUnit - that means existing TestRunners 
+      like Ant Optional task <code>&lt;junit&gt;</code> can be used for test 
+      execution and result presentation.
+     </li>
+     <li>
+      The new class <code>DDTTestCase</code> contains an implicite 
+      loop-execution of test resources collected for one Java / JUnit
+      testmethod to process parameters as provided by xml data resource. So
+      there is no need of recompilation if new testcases were found. These can
+      easily be added to the xml data resource.
+     </li>
+     <li>
+      Mixing simple JUnit testmethods (no external testdata) with DDTUnit 
+      methods. This is highly useful for a simple migration to the new framework.
+     </li>
+     <li>
+      The xml parsing is done by providing a SAX parser that can do validation
+      based on <a href="xmlSchemaDoc.html">a XML Schema definition</a>. The SAX 
+      API was chosen for speed and small memory footprint.
+     </li>
+     <li>
+      Use of XML schema based definition of testdata. The XML is designed to 
+      define data structures and no program flow information. The structure 
+      itself is oriented on grouping of data on testmethods (called 
+      &lt;group&gt;) and testclasses (called &lt;cluster&gt;). This reflects the
+      grouping of data blocks on an execution and the clustering reflects more
+      loosly collected data on a specific theme.
+     </li>
+     <li>
+      Defining a representation of objects as test parameters not just String
+      based ones, but different container classes and more complex structures as
+      used for value objects in distributed environments.
+      <br />
+      To fulfill this requirement DDTUnit provides a lot of different data 
+      types out of the box. For a detailed description refer to the chapter
+      <a href="definingObjects.html">Defining Objects</a>. A few examples can be
+      found there as well.
+     </li>
+     <li>
+      Defining assertions on expected objects or exceptions inside of xml
+      resource. This feature becomes more interesting if inputdata changes the
+      behavior of the method under test, e.g. throw an exception instead of a
+      value. And will play a special role in future reporting features of 
+      DDTUnit.
+     </li>
+    </ul>
+    To give an impression of data definition structures using xml resources here
+    follows an example of xml resource structure as used by DDTUnit.
+   </p>
+   <p>
+    <source>
+     <caption>Simple XML Example</caption>
+&lt;?xml version="1.0" ?&gt;
+&lt;ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd"&gt;
+  &lt;cluster id="SimpleDDTUnitTest"&gt;
+    &lt;!-- group associated to a testmethod of implemented test --&gt; 
+    &lt;group id="testRetrieveAssertData"&gt;
+      &lt;!-- test associated to one testmethod execution --&gt;
+      &lt;test id="myFirstTestCase"&gt;
+        &lt;objs&gt;
+          &lt;obj id="myObj" type="string"&gt;My first String &lt;/obj&gt;
+           ... 
+        &lt;/objs&gt;
+        &lt;asserts&gt;
+          &lt;assert id="result" type="string" action="isEqual"&gt;
+            My first String &lt;/assert&gt;
+          &lt;exception id="expected" type="java.lang.Exception" 
+            action="isSimilar" /&gt;
+           ...
+        &lt;/asserts&gt;
+      &lt;/test&gt;
+      &lt;test id="mySecondTestCase"&gt; ... &lt;/test&gt;
+    &lt;/group&gt;
+  &lt;/cluster&gt;
+&lt;/ddtunit&gt;</source>
+    The interesting structures are
+    <ul>
+     <li>&lt;obj&gt; that contains plain old java objects that can be used as
+      parameters of functions under test (FUT) and objects to check against
+      output of FUT by using Java or JUnit assert functions.
+     </li>
+     <li>&lt;assert&gt; is used to define assertions as provided by JUnit but 
+      positioned inside of the xml data file to provide a single point of
+      information to basic testing activities. This will be especially useful
+      when combining execution results with test definition information to
+      generate test protocols.
+     </li>
+     <li>&lt;exception&gt; to define expected exceptions that should be caught 
+      during test method execution.
+     </li>
+    </ul>
+   </p>
+   <p>There are two specialties to easily map DDTUnit on JUnit processing.
+    <ul>
+     <li>The attribute <code>cluster@id</code> is a free selectable identifier. 
+      This gives the opportunity to reuse one xml data file in multiple test 
+      classes.
+     </li>
+     <li>The attribute <code>group@id</code> must be equal to the name of an 
+      existing testmethod inside of the defined testclass.<br/>
+      This restriction allows an easy mapping between xml data and methods and a
+      free mix of standard JUnit testmethods and DDTUnit methods inside of 
+      one testclass definition.
+     </li>
+    </ul>
+   </p>
+   <p>For future development it is under plan to incorporate the best of bread
+    testing frameworks like DBUnit, Jakarta-Cactus, EasyMock and perhaps other
+    testing frameworks to support the data centric approach. A good Ant
+    integration with strong reporting features is planned as well.
+   </p>
+   <p>Even the integration with the loadtest tool Grinder3 is under consideration,
+    so it will be possible to fire testdata randomly accessed from datafiles
+    against an environment under loadtest with grinder.
+   </p>
+   <p>
+    All functionality should be verified by JUnit or later by using DDTUnit
+    itself. The Test Driven approach will be adopted as far as possible during
+    development of this framework.
+   </p>
+  </section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+ </body>
+</document>

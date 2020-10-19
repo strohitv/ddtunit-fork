@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>Defining Objects</title></properties>
+<body>
+<section name="Defining Object Containers">
+<source>&lt;objs&gt;&lt;obj id="myId" type="my.class.Type" hint="valid container type"&gt;...&lt;/obj&gt;&lt;objs&gt;</source>
+<p>Because containers play a vital part in the object life of projects this
+section is dedicated to the creation of different conainer types known by Java.<br/>
+Headstart takes
+<ol>
+  <li>the <a href="definingObjectsContainersCollection.html">group of 
+    <code>Collection</code></a> classes.</li>
+  <li>and the <a href="definingObjectsContainersMap.html">group of 
+    dictionary like <code>Map</code></a> classes.</li>
+</ol>
+</p>
+</section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+</body>
+</document>

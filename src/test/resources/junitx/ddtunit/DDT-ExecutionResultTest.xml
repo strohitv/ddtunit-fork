@@ -1,0 +1,81 @@
+<?xml version="1.0"  encoding="ISO-8859-1"?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <cluster id="ExecutionResultNoProblem">
+    <group id="testThreeTestsNoProblem">
+      <test id="my-first-testcase">
+        <objs>
+          <obj id="objId"  type="java.lang.String">my-first-testcase</obj>
+        </objs>
+      </test>
+      <test id="my-second-testcase">
+        <objs>
+          <obj id="objId"  type="java.lang.String">my-second-testcase</obj>
+        </objs>
+      </test>
+      <test id="my-third-testcase">
+        <objs>
+          <obj id="objId"  type="java.lang.String">my-third-testcase</obj>
+        </objs>
+      </test>
+    </group>
+    <!--                                                                    -->
+    <!--                                                                    -->
+    <!--                                                                    -->
+    <group id="testThreeTestsOneAssertFailed">
+      <test id="my-first-testcase">
+        <objs>
+          <obj id="objId"  type="java.lang.String">my-first-testcase</obj>
+        </objs>
+        <asserts>
+          <assert id="result"  type="java.lang.String" action="isEqual">my-first-testcase</assert>
+        </asserts>
+      </test>
+      <test id="my-second-testcase">
+        <objs>
+          <obj id="objId"  type="java.lang.String">my-second-testcase</obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="java.lang.String" action="isEqual">my-unexpected-testcase</assert>
+        </asserts>
+      </test>
+      <test id="my-third-testcase">
+        <objs>
+          <obj id="objId"  type="java.lang.String">my-third-testcase</obj>
+        </objs>
+        <asserts>
+          <assert id="result"  type="java.lang.String" action="isEqual">my-third-testcase</assert>
+        </asserts>
+      </test>
+    </group>
+    <!--                                                                    -->
+    <!--                                                                    -->
+    <!--                                                                    -->
+    <group id="testThreeTestsOneAssertFailedOneException">
+      <test id="my-first-testcase">
+        <objs>
+          <obj id="objId"  type="java.lang.String">my-first-testcase</obj>
+        </objs>
+        <asserts>
+          <assert id="result"  type="java.lang.String" action="isEqual">my-first-testcase</assert>
+        </asserts>
+      </test>
+      <test id="my-second-testcase">
+        <objs>
+          <obj id="objId"  type="java.lang.String">my-second-testcase</obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="java.lang.String" action="isEqual">my-unexpected-testcase</assert>
+        </asserts>
+      </test>
+      <test id="my-third-testcase">
+        <objs>
+          <obj id="objId"  type="java.lang.String">my-third-testcase</obj>
+        </objs>
+        <asserts>
+          <assert id="result"  type="java.lang.String" action="isEqual">my-third-testcase</assert>
+        </asserts>
+      </test>
+    </group>
+  </cluster>
+</ddtunit>

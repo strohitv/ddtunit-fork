@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>DDTUnit - Apache Maven Build Support</title></properties>
+<body>
+<section name="Apache Maven Build Support">
+<p>Maven 2 (tested with Maven-2.2.1 under OSX Snow Leopard) is now the standard build system.<br/>
+It is used to generate and deploy the project including documentation and statistics via 
+ <code>mvn site-deploy</code>. <br/>
+ To run all plugins more or less correctly I have to setup the environment variables
+ <source>export LC_ALL=en_US
+export LANG=en</source>
+ </p>
+ <p>DISCONTINUED The latest extension is the support of Java 1.4 runtime through 
+ <a href="http://retrotranslator.sourceforge.net/">Retrotranslator on Sourceforge</a>.<br/>
+ To create a Java 1.4 compatible DDTUnit archive you have to use the Maven profile 
+ <b>jdk14</b>.<br/>
+ Before starting you have to set the environment to use Java 1.4<br/>
+ Here is an example for OS/X Leopard:
+ <source>$JAVA14_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.4/Home
+$&gt; cd ddtunit
+$&gt; mvn clean install -Pjdk14 -Djava14.jar=$JAVA14_HOME/../Classes/classes.jar
+</source> 
+</p>
+<p>The most useful calls to Maven are:
+ <ul> 
+   <li>mvn -Dmaven.test.failure.ignore=true -Dtest=ProcessStringTypeTest test</li>
+   <li>mvn test</li>
+   <li>mvn install</li>
+   <li>mvn deploy</li>
+   <li>mvn site-deploy</li>
+   <li>DISCONTINUED mvn clean install -Pjdk14 -Djava14.jar=$JAVA14_HOME/../Classes/classes.jar</li>
+   <li>DISCONTINUED mvn clean deploy -Pjdk14 -Djava14.jar=$JAVA14_HOME/../Classes/classes.jar</li>
+</ul>
+</p>
+<p>For providing SNAPSHOT and the the latest production version of DDTUnit I have introduced
+my own MVN repository. it can be found under<br/>
+<source>http://ddtunit.sourceforge.net/m2-repo</source>
+</p>
+<p>To include DDTUnit archive into your Maven2 enabled project add this repo to your search path 
+and put the following dependencies detail into your pom.xml:
+<source>
+&lt;dependency&gt;
+  &lt;groupId&gt;junitx.ddtunit&lt;/groupId&gt;
+  &lt;artifactId&gt;ddtunit&lt;/artifactId&gt;
+  &lt;version&gt;0.8.9&lt;/version&gt;
+&lt;/dependency&gt;
+</source>
+and provide a reference to the Maven repository in your profile:
+<source>
+  &lt;profiles&gt;
+    &lt;profile&gt;
+      &lt;id&gt;Snapshots&lt;/id&gt;
+      &lt;repositories&gt;
+...
+        &lt;repository&gt;
+          &lt;id&gt;DDTUnit Repo&lt;/id&gt;
+          &lt;url&gt;http://ddtunit.sourceforge.net/m2-repo&lt;/url&gt;
+          &lt;snapshots&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+          &lt;/snapshots&gt;
+          &lt;releases&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+          &lt;/releases&gt;
+        &lt;/repository&gt;
+...
+</source>
+</p>
+<p>As a reminder for the dfevelopers here are the hints to generate the site and deploy it 
+to Sourceforge.<br/>
+<ul>
+  <li>Create a shell on shell.sourceforge.net with your username and project group<br/>
+    <source>ssh -t jg_hamburg,ddtunit@shell.sf.net create</source>
+    Use shell.sourceforge.net (instead of web.sourceforge.net) in you site URL
+  </li>
+  <li>Run <source>mvn site:deploy</source><br/>
+    Verify that you have a working web site by opening a browser to http://your_project.sf.net
+  </li>
+</ul>
+</p>
+</section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+</body>
+</document>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+	<cluster id="CollectionContainerModifierTest">
+		<group id="testContainer">
+			<test id="testEmptyList">
+				<objs>
+					<obj id="container" type="junitx.ddtunit.resources.CollectionContainer" hint="fields">
+						<names type="java.util.ArrayList" hint="collection" valuetype="string">
+               <item>First Son</item>
+               <item>Second Son</item>
+            </names>
+					</obj>
+					<obj id="expected" type="junitx.ddtunit.resources.CollectionContainer" hint="bean">
+						<names type="java.util.ArrayList" hint="collection" valuetype="string">
+               <item>Second Son</item>
+            </names>
+					</obj>
+				</objs>
+				<asserts/>
+			</test>
+		</group>
+	</cluster>
+</ddtunit>

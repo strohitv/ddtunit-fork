@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+    <properties>
+        <title>DDTUnit - Data Structures</title>
+    </properties>
+    <body>
+        <section name="Data Structures">
+            <p>
+                This section is reserved for information on data structure
+                definitions as used by defining input and output objects and
+                assertions on test executions. As well as defining expected
+                exceptions.
+                <br />
+                <ul>
+                    <li>
+                        <a href="/definingObjects.html">Defining Objects</a>
+                    </li>
+                    <li>
+                        <a href="/definingAsserts.html">Asserts on Objects</a>
+                    </li>
+                    <li>
+                        <a href="/definingExceptions.html">
+                            Catching Exceptions
+                        </a>
+                    </li>
+                </ul>
+            </p>
+        </section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+    </body>
+</document>

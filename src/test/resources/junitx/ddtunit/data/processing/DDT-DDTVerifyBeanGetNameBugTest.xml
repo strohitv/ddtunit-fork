@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+    <cluster id="DDTVerifyBeanGetNameBugTest">
+        <!--                                                                  -->
+        <!-- collection type object retrieval                                 -->
+        <!--                                                                  -->
+        <group id="testCreateBean">
+            <test id="createWithBeanHint">
+                <objs>
+                  <obj id="input" type="junitx.ddtunit.resources.GetNameClazz" 
+                    hint="bean">
+                    <name type="string">Hallo World</name>    
+                  </obj>
+                </objs>
+            </test>
+        </group>
+    </cluster>
+</ddtunit>

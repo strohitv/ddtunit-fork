@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ elementFormDefault="qualified" attributeFormDefault="unqualified">
+ <xsd:element name="ddtunit">
+  <xsd:annotation>
+   <xsd:documentation>Schema for DDTUnit test data</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element name="resources" type="objSetType" minOccurs="0" maxOccurs="1" />
+    <xsd:sequence minOccurs="1" maxOccurs="unbounded">
+     <xsd:element ref="cluster" />
+    </xsd:sequence>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="cluster">
+  <xsd:complexType>
+   <xsd:annotation>
+    <xsd:documentation>
+     cluster contains multiple groups of tests
+    </xsd:documentation>
+   </xsd:annotation>
+   <xsd:sequence>
+    <xsd:element ref="description" minOccurs="0" maxOccurs="1" />
+    <xsd:element name="objs" type="objSetType" minOccurs="0" maxOccurs="1" />
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+     <xsd:element name="group">
+      <xsd:complexType>
+       <xsd:complexContent>
+        <xsd:extension base="groupType">
+         <xsd:attribute name="id" type="xsd:string" use="required" />
+        </xsd:extension>
+       </xsd:complexContent>
+      </xsd:complexType>
+     </xsd:element>
+    </xsd:sequence>
+   </xsd:sequence>
+   <xsd:attribute name="id" type="xsd:string" use="required" />
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:complexType name="groupType">
+  <xsd:annotation>
+   <xsd:documentation>
+    group containing multiple test definitions
+   </xsd:documentation>
+  </xsd:annotation>
+  <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+   <xsd:element ref="test" />
+  </xsd:sequence>
+ </xsd:complexType>
+
+ <xsd:element name="test">
+  <xsd:annotation>
+   <xsd:documentation>
+    Definition of object element used for mapping to objects of test framework
+   </xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType>
+   <xsd:annotation>
+    <xsd:documentation>
+     test contains set of objects and/or set of asserts
+    </xsd:documentation>
+   </xsd:annotation>
+   <xsd:sequence>
+    <xsd:element name="objs" type="objSetType" minOccurs="0" />
+    <xsd:element name="asserts" type="assertSetType" minOccurs="0" />
+   </xsd:sequence>
+   <xsd:attribute name="id" type="xsd:string" use="required" />
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:complexType name="objSetType">
+  <xsd:annotation>
+   <xsd:documentation>
+    Definition of set of object elements used for mapping to Java Object
+    instance
+   </xsd:documentation>
+  </xsd:annotation>
+  <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+   <xsd:element ref="obj" />
+  </xsd:sequence>
+ </xsd:complexType>
+
+ <xsd:complexType name="assertSetType">
+  <xsd:annotation>
+   <xsd:documentation>
+    Definition of assert element used for Java objects containing all
+    information about asserts to process
+   </xsd:documentation>
+  </xsd:annotation>
+  <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+   <xsd:sequence>
+    <xsd:element ref="assert" minOccurs="0" />
+    <xsd:element ref="exception" minOccurs="0" />
+   </xsd:sequence>
+  </xsd:sequence>
+ </xsd:complexType>
+
+ <xsd:simpleType name="objectAssertType">
+  <xsd:restriction base="xsd:string">
+   <xsd:enumeration value="isTrue" />
+   <xsd:enumeration value="isFalse" />
+   <xsd:enumeration value="isEqual" />
+   <xsd:enumeration value="isNotEqual" />
+   <xsd:enumeration value="isSame" />
+   <xsd:enumeration value="isNotSame" />
+   <xsd:enumeration value="isNull" />
+   <xsd:enumeration value="isNotNull" />
+   <xsd:enumeration value="isGT" />
+   <xsd:enumeration value="isNotGT" />
+   <xsd:enumeration value="isLT" />
+   <xsd:enumeration value="isNotLT" />
+   <xsd:enumeration value="isInRange" />
+   <xsd:enumeration value="isNotInRange" />
+   <xsd:enumeration value="isContainedIn" />
+   <xsd:enumeration value="isNotContainedIn" />
+  </xsd:restriction>
+ </xsd:simpleType>
+
+ <xsd:simpleType name="exceptionAssertType">
+  <xsd:restriction base="xsd:string">
+   <xsd:enumeration value="isEqual" />
+   <xsd:enumeration value="isSimilar" />
+   <xsd:enumeration value="isInstanceOf" />
+  </xsd:restriction>
+ </xsd:simpleType>
+
+ <xsd:simpleType name="hintType">
+  <xsd:restriction base="xsd:string">
+   <xsd:enumeration value="fields" />
+   <xsd:enumeration value="collection" />
+   <xsd:enumeration value="map" />
+   <xsd:enumeration value="constant" />
+   <xsd:enumeration value="constructor" />
+   <xsd:enumeration value="call" />
+   <xsd:enumeration value="date" />
+   <xsd:enumeration value="bean" />
+   <xsd:enumeration value="array" />
+  </xsd:restriction>
+ </xsd:simpleType>
+
+
+ <xsd:complexType name="anyType">
+  <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+   <xsd:any namespace="##any" processContents="skip" />
+  </xsd:sequence>
+ </xsd:complexType>
+
+ <xsd:element name="description" type="xsd:string" />
+
+ <xsd:element name="obj">
+  <xsd:annotation>
+   <xsd:documentation>
+    Definition of object element used for mapping to objects of test framework
+   </xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType mixed="true">
+   <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+    <xsd:any namespace="##any" processContents="skip" />
+   </xsd:sequence>
+   <xsd:attributeGroup ref="objAttributes" />
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:attributeGroup name="objAttributes">
+  <xsd:attribute name="id" type="xsd:string" use="required" />
+  <xsd:attribute name="type" type="xsd:string" use="required" />
+  <xsd:attribute name="hint" type="hintType" use="optional" default="fields" />
+  <xsd:attribute name="keytype" type="xsd:string" use="optional"
+   default="string" />
+  <xsd:attribute name="valuetype" type="xsd:string" use="optional"
+   default="string" />
+  <xsd:attribute name="method" type="xsd:string" use="optional"
+   default="constructor" />
+  <xsd:attribute name="refid" type="xsd:string" use="optional" />
+  <xsd:attribute name="calltype" type="xsd:string" use="optional" />
+  <xsd:attribute name="dateformat" type="xsd:string" />
+  <xsd:attribute name="locale" type="xsd:string" />
+    </xsd:attributeGroup>
+
+ <xsd:element name="assert">
+  <xsd:annotation>
+   <xsd:documentation>
+    Definition of assert/exception element used for mapping to assert objects of
+    test framework
+   </xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType mixed="true">
+   <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+    <xsd:any namespace="##any" processContents="skip" />
+   </xsd:sequence>
+   <xsd:attributeGroup ref="assertAttributes" />
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:attributeGroup name="assertAttributes">
+  <xsd:attributeGroup ref="objAttributes" />
+  <xsd:attribute name="action" type="objectAssertType" use="required" />
+ </xsd:attributeGroup>
+
+ <xsd:element name="exception">
+  <xsd:annotation>
+   <xsd:documentation>
+    Definition of exception element used for mapping to assert objects on
+    expected exceptions of test framework
+   </xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType mixed="true">
+   <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+    <xsd:any namespace="##any" processContents="skip" />
+   </xsd:sequence>
+   <xsd:attributeGroup ref="exceptionAttributes" />
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:attributeGroup name="exceptionAttributes">
+  <xsd:attributeGroup ref="objAttributes" />
+  <xsd:attribute name="action" type="exceptionAssertType" use="required" />
+ </xsd:attributeGroup>
+
+</xsd:schema>
+

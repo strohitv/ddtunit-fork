@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>DDTUnit - Catching Expected Exceptions</title></properties>
+<body>
+<section name="Catching Expected Exceptions">
+<source>&lt;asserts&gt;&lt;exception id="myId" type="my.exception.Type" hint="myParseHint" action="MYACTION"&gt;...&lt;/exception&gt;&lt;asserts&gt;</source>
+
+<p>In fact a lot of testing goes into checking if certain exceptions are raised
+as expected error conditions.<br/>
+To support this feature in JUnit you would use a code snipplet like this
+<source>  public void testExpectedException(){
+    try{
+      instanceUnderTest.methodUnderTest(myParam);
+      fail("An exception was expected");
+    } catch (MyExpectedException e){
+      // whatever special checks you want to add
+      // if pass, all is fine
+    }
+  }</source>
+In DDTUnit this task would look as following:
+<source>...
+  public void testExpectedException(){
+      my.param.Clazz myParam = (my.param.Clazz) getObj("myParam");
+      instanceUnderTest.methodUnderTest(myParam);
+  }
+... 
+== with the xml definition:
+  &lt;test id="testExpectedException"&gt;
+   &lt;objs&gt;
+     &lt;obj id="myParam" type="my.param.Clazz"&gt;Content&lt;/obj&gt;
+   &lt;/objs&gt;
+   &lt;asserts&gt;
+     &lt;exception id="expectedException" type="my.expected.Exception"
+        action="isEqual"&gt;Message of Exception&lt;/exception&gt;
+   &lt;/asserts&gt;
+  &lt;/test&gt;</source>
+
+If no exception is raised during method execution but one was defined, a 
+<code>junit.framework.AssertFailedError</code> is thrown.<br/>
+Exception definition classes must be derived from type 
+<code>java.lang.Throwable</code>.<br/>
+Possible actions are
+<table border="1" width="50%" class="example">
+<caption>Valid Assert Actions</caption>
+<tr><th width="20%">Name</th><th>Description</th></tr>
+<tr><td>isEqual</td><td>Two exceptions are equal if they are of the same type 
+  and they contain the same method as defined by <code>getMessage()</code></td></tr>
+<tr><td>isSimilar</td><td>Two exceptions are similar if they are of the same type 
+  and the message of the defined exception is contained in the one of the actual
+  exception.</td></tr>
+<tr><td>isInstanceOf</td><td>One exception object is of the same instance as a
+  specified class type if it has the same type or a derived type as the specified 
+  class.</td></tr>
+</table>  
+Because expected exceptions are a special form of assertions they are placed near 
+the assert definitions under <code>&lt;asserts&gt;</code>.
+</p>
+<p>Here you can see <a href="examples/DDT-ProcessExpectedExceptions.html">
+an example</a> taken from the test suite.
+</p>
+</section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+</body>
+</document>

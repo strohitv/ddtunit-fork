@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <cluster id="SimpleDDTUnitTest">
+    <!--                                                                  -->
+    <!-- simple object retrieval                                          -->
+    <!--                                                                  -->
+    <group id="testRetrieveObjectData">
+      <test id="myFirstTestCase">
+        <objs>
+          <obj id="myObj" type="java.lang.String">My first String</obj>
+        </objs>
+      </test>
+      <test id="mySecondTestCase">
+        <objs>
+          <obj id="myObj" type="java.lang.String" wrong="extra.attribute">
+             My second String</obj>
+        </objs>
+      </test>
+    </group>
+  </cluster>
+</ddtunit>

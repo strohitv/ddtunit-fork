@@ -1,0 +1,254 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+ <resources>
+  <obj id="resourceBase" type="string">Resource Base</obj>
+ </resources>
+
+ <cluster id="ProcessObjectReferenceTest">
+  <objs>
+   <obj id="globalBase" type="string">Global Base</obj>
+   <obj id="globalSimpleVO" type="junitx.ddtunit.resources.SimpleVO" hint="call"
+    method="constructor">
+    <stringValue type="string">Global Base</stringValue>
+    <integerValue type="int">4711</integerValue>
+    <doubleValue type="double">47.11</doubleValue>
+   </obj>
+  </objs>
+  <!--                                                                  -->
+  <!-- process simple object references                                 -->
+  <!--                                                                  -->
+  <group id="testOneObjectReference">
+   <test id="simpleLocalObjectReference">
+    <objs>
+     <obj id="localBase" type="string">Local Base</obj>
+     <obj id="local" type="string" refid="localBase" />
+    </objs>
+    <asserts>
+     <assert id="checkGlobal" type="string" action="isEqual">
+      Global Base
+     </assert>
+     <assert id="result" type="string" action="isEqual">Local Base</assert>
+    </asserts>
+   </test>
+   <test id="simpleLocalToGlobalObjectReference">
+    <objs>
+     <obj id="local" type="string" refid="globalBase" />
+    </objs>
+    <asserts>
+     <assert id="checkGlobal" type="string" action="isEqual">
+      Global Base
+     </assert>
+     <assert id="result" type="string" action="isEqual">Global Base</assert>
+    </asserts>
+   </test>
+   <test id="simpleLocalToGlobalObjectReference-nt">
+    <objs>
+     <obj id="local" type="string" refid="globalBase" />
+    </objs>
+    <asserts>
+     <assert id="checkGlobal" type="string" action="isEqual">
+      Global Base
+     </assert>
+     <assert id="result" type="string" action="isEqual">Global Base</assert>
+    </asserts>
+   </test>
+   <test id="simpleLocalToResourceObjectReference">
+    <objs>
+     <obj id="local" type="string" refid="resourceBase" />
+    </objs>
+    <asserts>
+     <assert id="checkGlobal" type="string" action="isEqual">
+      Global Base
+     </assert>
+     <assert id="result" type="string" action="isEqual">Resource Base</assert>
+    </asserts>
+   </test>
+   <test id="assertReference">
+    <objs>
+     <obj id="local" type="string">Local Base</obj>
+    </objs>
+    <asserts>
+     <assert id="checkGlobal" type="string" refid="globalBase" action="isEqual" />
+     <assert id="result" type="string" refid="local" action="isEqual" />
+    </asserts>
+   </test>
+   <test id="assertReference-no-type">
+    <objs>
+     <obj id="local" type="string">Local Base</obj>
+    </objs>
+    <asserts>
+     <assert id="checkGlobal" refid="globalBase" type="string" action="isEqual" />
+     <assert id="result" refid="local" type="string" action="isEqual" />
+    </asserts>
+   </test>
+  </group>
+  <!--                                                                  -->
+  <!-- check transitivity of object references                          -->
+  <!--                                                                  -->
+  <group id="testReferenceTransitivity">
+   <test id="referenceOrderReverseToObjectDefinition">
+    <objs>
+     <obj id="localBase" type="string">Local Base</obj>
+     <obj id="localSecond" type="string" refid="localBase" />
+     <obj id="localThird" type="string" refid="localSecond" />
+    </objs>
+    <asserts>
+     <assert id="checkBase" type="string" action="isEqual">Local Base</assert>
+     <assert id="checkSecond" type="string" action="isEqual">Local Base</assert>
+     <assert id="checkThird" type="string" action="isEqual">Local Base</assert>
+    </asserts>
+   </test>
+   <test id="referenceOrderIdenticalToObjectDefinition">
+    <objs>
+     <obj id="localThird" type="string" refid="localSecond" />
+     <obj id="localSecond" type="string" refid="localBase" />
+     <obj id="localBase" type="string">Local Base</obj>
+    </objs>
+    <asserts>
+     <assert id="checkBase" type="string" action="isEqual">Local Base</assert>
+     <assert id="checkSecond" type="string" action="isEqual">Local Base</assert>
+     <assert id="checkThird" type="string" action="isEqual">Local Base</assert>
+    </asserts>
+   </test>
+   <test id="referenceOrderReverseToObjectDefinition-nt">
+    <objs>
+     <obj id="localBase" type="string">Local Base</obj>
+     <obj id="localSecond" type="string" refid="localBase" />
+     <obj id="localThird" type="string" refid="localSecond" />
+    </objs>
+    <asserts>
+     <assert id="checkBase" type="string" action="isEqual">Local Base</assert>
+     <assert id="checkSecond" type="string" action="isEqual">Local Base</assert>
+     <assert id="checkThird" type="string" action="isEqual">Local Base</assert>
+    </asserts>
+   </test>
+   <test id="referenceOrderIdenticalToObjectDefinition-nt">
+    <objs>
+     <obj id="localThird" type="string" refid="localSecond" />
+     <obj id="localSecond" type="string" refid="localBase" />
+     <obj id="localBase" type="string">Local Base</obj>
+    </objs>
+    <asserts>
+     <assert id="checkBase" type="string" action="isEqual">Local Base</assert>
+     <assert id="checkSecond" type="string" action="isEqual">Local Base</assert>
+     <assert id="checkThird" type="string" action="isEqual">Local Base</assert>
+    </asserts>
+   </test>
+  </group>
+  <!--                                                                  -->
+  <!-- check references on field elements                               -->
+  <!--                                                                  -->
+  <group id="testReferenceOnSubelement">
+   <test id="referenceOnSubelement">
+    <objs>
+     <obj id="myObj" type="junitx.ddtunit.resources.SimpleVO">
+      <stringValue refid="globalBase" />
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="result" type="junitx.ddtunit.resources.SimpleVO"
+      action="isEqual">
+      <stringValue>Global Base</stringValue>
+     </assert>
+    </asserts>
+   </test>
+   <test id="referenceOnSecondSubelement">
+    <objs>
+     <obj id="myObj" type="junitx.ddtunit.resources.SimpleVO">
+      <integerValue>4712</integerValue>
+      <stringValue refid="globalBase" />
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="result" type="junitx.ddtunit.resources.SimpleVO"
+      action="isEqual">
+      <integerValue>4712</integerValue>
+      <stringValue>Global Base</stringValue>
+     </assert>
+    </asserts>
+   </test>
+   <test id="referenceLocalCallConstructorElement">
+    <objs>
+     <obj id="myObj" type="junitx.ddtunit.resources.ComplexVO">
+      <simpleVO refid="simpleVO" />
+     </obj>
+     <obj id="simpleVO" type="junitx.ddtunit.resources.SimpleVO" hint="call"
+      method="constructor">
+      <stringValue type="string">Local Base</stringValue>
+      <integerValue type="int">4701</integerValue>
+      <doubleValue type="double">47.01</doubleValue>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="result" type="junitx.ddtunit.resources.ComplexVO"
+      action="isEqual">
+      <simpleVO>
+       <stringValue>Local Base</stringValue>
+       <integerValue>4701</integerValue>
+       <doubleValue>47.01</doubleValue>
+      </simpleVO>
+     </assert>
+    </asserts>
+   </test>
+   <test id="referenceGlobalCallConstructorElement">
+    <objs>
+     <obj id="myObj" type="junitx.ddtunit.resources.ComplexVO">
+      <simpleVO refid="globalSimpleVO" />
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="result" type="junitx.ddtunit.resources.ComplexVO"
+      action="isEqual">
+      <simpleVO>
+       <stringValue>Global Base</stringValue>
+       <integerValue>4711</integerValue>
+       <doubleValue>47.11</doubleValue>
+      </simpleVO>
+     </assert>
+    </asserts>
+   </test>
+   <test id="referenceInCallArgument">
+    <objs>
+     <obj id="myObj" type="junitx.ddtunit.resources.ComplexVO" hint="call"
+      method="constructor">
+      <simpleVO type="junitx.ddtunit.resources.SimpleVO" refid="globalSimpleVO" />
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="result" type="junitx.ddtunit.resources.ComplexVO"
+      action="isEqual">
+      <simpleVO>
+       <stringValue>Global Base</stringValue>
+       <integerValue>4711</integerValue>
+       <doubleValue>47.11</doubleValue>
+      </simpleVO>
+     </assert>
+    </asserts>
+   </test>
+   <test id="referenceGlobalCallConstructorElementNoDefaultConstructor">
+    <objs>
+     <obj id="localRef"
+      type="junitx.ddtunit.resources.SimpleVONoDefaultConstructor"
+      hint="call">
+      <stringValue>Local Base</stringValue>
+      <integerValue>4711</integerValue>
+      <doubleValue>47.11</doubleValue>
+     </obj>
+     <obj id="myObj" refid="localRef"
+      type="junitx.ddtunit.resources.SimpleVONoDefaultConstructor" />
+
+    </objs>
+    <asserts>
+     <assert id="result"
+      type="junitx.ddtunit.resources.SimpleVONoDefaultConstructor"
+      action="isEqual" hint="call">
+      <stringValue>Local Base</stringValue>
+      <integerValue>4711</integerValue>
+      <doubleValue>47.11</doubleValue>
+     </assert>
+    </asserts>
+   </test>
+  </group>
+ </cluster>
+</ddtunit>

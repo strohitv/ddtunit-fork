@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+  <properties>
+    <title>Defining Objects</title>
+  </properties>
+  <body>
+    <section name="Defining Constant Objects">
+    <source>&lt;objs&gt;&lt;obj id="myId" type="my.class.Type" hint="constant"&gt;...&lt;/obj&gt;&lt;objs&gt;</source>
+    <a name="constant-datatypes" />
+    <p>To define constants you need to know the naming of the fields you want to 
+    reference. The attribute <code>obj@type</code> is that of the class containing 
+    the constant field you want to reference. In general this is not the type of 
+    the field itself.<br />
+    The only restriction stated: the field must be defined static.<br />
+    The Java 5 Enumeration type is supported as well.
+    Here is an example:
+    <source>&lt;test id="myFirstTestCase"&gt;
+   &lt;objs&gt;
+     &lt;obj id="myObj" type="junitx.ddtunit.resources.SimpleConstants"
+       hint="constant"&gt;MY_STRING_CONSTANT&lt;/obj&gt;
+   &lt;/objs&gt;
+ &lt;/test&gt;</source>
+     where the object identified by <code>obj@id="myObj"</code> reflects a Java 
+     object definition like in the next example
+     <source> public class SimpleConstants {
+  public final static String MY_STRING_CONSTANT = "Hallo World";
+  /** 
+   * Default constructor. 
+   */
+  private SimpleConstants() { 
+    // no special initialization neccessary 
+  }</source>
+    <source>&lt;test id="mySecondTestCase"&gt;
+   &lt;objs&gt;
+     &lt;obj id="myObj" type="junitx.ddtunit.resources.MyEnumerator"
+       hint="constant"&gt;FIRST_ENUMERATOR&lt;/obj&gt;
+   &lt;/objs&gt;
+ &lt;/test&gt;</source>
+     where the object identified by <code>obj@id="myObj"</code> reflects a Java 
+     object definition like in the next example
+     <source> public public enum MyEnumerator {
+	FIRST_ENUMERATION, SECOND_ENUMERATION, NULL
+}</source>
+   </p>
+  </section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+  </body>
+</document>

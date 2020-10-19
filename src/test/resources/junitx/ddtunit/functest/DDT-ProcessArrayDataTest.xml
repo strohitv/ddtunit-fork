@@ -1,0 +1,164 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+ <cluster id="ProcessArrayDataTest">
+  <!--                                                                  -->
+  <!-- Arrays of Objects                                                -->
+  <!--                                                                  -->
+  <group id="testArrayObjectType">
+   <test id="readIntegerArray">
+    <objs>
+     <obj id="myArray" hint="array" type="int">
+      <item type="int">4711</item>
+      <item type="int">4712</item>
+      <item type="int">4713</item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">3</assert>
+     <assert id="result" type="int" hint="array" action="isEqual">
+      <item type="int">4711</item>
+      <item type="int">4712</item>
+      <item type="int">4713</item>
+     </assert>
+    </asserts>
+   </test>
+   <test id="readIntegerArrayShortcutNotation">
+    <objs>
+     <obj id="myArray" hint="array" type="int">
+      <item>4711</item>
+      <item>4712</item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">2</assert>
+     <assert id="result" type="int" hint="array" action="isEqual">
+      <item>4711</item>
+      <item>4712</item>
+     </assert>
+    </asserts>
+   </test>
+   <test id="readIntegerArrayAssertWrong">
+    <objs>
+     <obj id="myArray" hint="array" type="int">
+      <item type="int">4711</item>
+      <item type="int">4712</item>
+     </obj>
+    </objs>
+    <asserts>
+     <exception id="expected" type="junit.framework.AssertionFailedError"
+      action="isSimilar">
+      Wrong isEqual assert (result) on arrays [position 1]
+     </exception>
+     <assert id="count" type="int" action="isEqual">2</assert>
+     <assert id="result" type="int" hint="array" action="isEqual">
+      <item type="int">4711</item>
+      <item type="int">4713</item>
+     </assert>
+    </asserts>
+   </test>
+   <test id="readEmptyArray">
+    <objs>
+     <obj id="myArray" hint="array" type="int" />
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">1</assert>
+     <assert id="result" type="int" hint="array" action="isNotNull" />
+    </asserts>
+   </test>
+   <test id="readEmptyInitializedArray">
+    <objs>
+     <obj id="myArray" hint="array" type="int">3</obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">3</assert>
+     <assert id="result" type="int" hint="array" action="isNotNull" />
+    </asserts>
+   </test>
+  </group>
+  <group id="testSpecialCaseArrayObjectType">
+   <test id="readNullArray">
+    <objs>
+     <obj id="myArray" hint="array" type="int">!NULL!</obj>
+    </objs>
+    <asserts>
+     <assert id="result" type="int" hint="array" action="isNull" />
+    </asserts>
+   </test>
+   <test id="readEmptyArray">
+    <objs>
+     <obj id="myArray" hint="array" type="int" />
+    </objs>
+    <asserts>
+     <assert id="result" type="int" hint="array" action="isNotNull" />
+    </asserts>
+   </test>
+   <test id="readIntegerArrayFromField">
+    <objs>
+     <obj id="myArray" type="junitx.ddtunit.resources.SimpleVO">
+      <integerArray hint="array">
+       <item>4711</item>
+       <item>4712</item>
+      </integerArray>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="result" type="junitx.ddtunit.resources.SimpleVO"
+      action="isEqual">
+      <integerArray hint="array">
+       <item>4711</item>
+       <item>4713</item>
+      </integerArray>
+     </assert>
+    </asserts>
+   </test>
+  </group>
+  <!--                                                                  -->
+  <!--                                                                  -->
+  <!--                                                                  -->
+  <group id="testArrayOfCollections">
+   <test id="readIntegerCollection">
+    <objs>
+     <obj id="myArray" hint="array" type="vector">
+      <item id="myArray" hint="collection" type="vector" valuetype="int">
+       <item>4711</item>
+       <item>4712</item>
+       <item>4713</item>
+      </item>
+      <item id="myArray" hint="collection" type="vector" valuetype="int">
+       <item>4721</item>
+       <item>4722</item>
+       <item>4723</item>
+      </item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">2</assert>
+     <assert id="result" type="int" action="isEqual">4722</assert>
+    </asserts>
+   </test>
+  </group>
+  <!--                                                                  -->
+  <!--                                                                  -->
+  <!--                                                                  -->
+  <group id="testArrayOfBeanObjects">
+   <test id="readBeanElement">
+    <objs>
+     <obj id="myArray" hint="array" type="junitx.ddtunit.resources.SimpleVO">
+       <item>
+         <integerValue>4711</integerValue>
+       </item>
+       <item hint="bean">
+         <integerValue>4711</integerValue>
+       </item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">2</assert>
+     <assert id="result1" type="int" action="isEqual">4711</assert>
+     <assert id="result2" type="int" action="isEqual">47110</assert>
+    </asserts>
+   </test>
+  </group>
+ </cluster>
+</ddtunit>

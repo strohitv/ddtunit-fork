@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <cluster id="ProcessExpectedExceptionTest">
+    <!--                                                                  -->
+    <!-- simple exception processing                                      -->
+    <!--                                                                  -->
+    <group id="testProcessExpectedException">
+      <test id="catchByIsEquals">
+        <asserts>
+          <exception id="expectedException" 
+            type="junitx.ddtunit.DDTException" action="isEqual" hint="call">
+            <item type="string">My own Exception</item></exception>
+        </asserts>
+      </test>
+      <test id="catchByIsSimilar">
+        <asserts>
+          <exception id="expectedException" 
+            type="junitx.ddtunit.DDTException" action="isSimilar" hint="call">
+            <item type="string">My own</item></exception>
+        </asserts>
+      </test>
+      <test id="catchByIsInstanceOf">
+        <asserts>
+          <exception id="expectedException" 
+            type="java.lang.RuntimeException" action="isInstanceOf" />
+        </asserts>
+      </test>
+    </group>
+  </cluster>
+  <cluster id="ProcessUnexpectedExceptionTest">
+    <group id="testDefinedbutNotRaisedException">
+      <test id="myFirstTestCase">
+        <asserts>
+          <exception id="expectedException" 
+            type="java.lang.RuntimeException" action="isEqual">My Exception</exception>
+        </asserts>
+      </test>
+    </group>
+  </cluster>
+</ddtunit>

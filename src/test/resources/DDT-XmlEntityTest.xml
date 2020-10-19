@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<!DOCTYPE ddtunit [
+  <!ENTITY % exEntity SYSTEM "DDT-XmlEntitySameDirTest.xml">
+  <!ENTITY % exSubEntity SYSTEM "./junitx/ddtunit/resources/DDT-XmlEntitySubDirTest.xml">
+  <!ENTITY % exAbsEntity SYSTEM "/DDT-XmlEntityAbsResourceTest.xml">
+  %exEntity;
+  %exSubEntity;
+  %exAbsEntity;
+]>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <cluster id="XmlEntityTest">
+    <!--                                                                  -->
+    <!-- simple object retrieval                                          -->
+    <!--                                                                  -->
+    <group id="testReadExternalEntityParam">
+      <test id="myFirstTestCase">
+        <objs>
+          <obj id="myparam" type="java.lang.String">&exparam;</obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="java.lang.String" action="isEqual">my4711String</assert>
+        </asserts>
+      </test>
+      <test id="mySecondTestCase">
+        <objs>
+          <obj id="myparam" type="java.lang.String">&subparam;</obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="java.lang.String" action="isEqual">my0815String</assert>
+        </asserts>
+      </test>
+    </group>
+  </cluster>
+</ddtunit>

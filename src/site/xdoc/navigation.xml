@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="DDTUnit">
+
+ <title>DDTUnit - A DataDriven Approach to Unit Testing</title>
+
+ <body>
+  <links>
+   <item name="Daily Snapshot" href="/ddtunit_snapshot.zip" />
+   <item name="Maven" href="http://maven.apache.org/" />
+   <item name="DDTUnit" href="http://sourceforge.net/projects/ddtunit" />
+   <item name="DDTUnit (PDF)" href="ddtunit.pdf" />
+  </links>
+  <!-- multiple items are possible -->
+  <menu name="General Stuff" href="/general.html">
+   <item name="Summary" href="/index.html" />
+   <item name="Ideas and Features" href="/basicIdeas.html" />
+   <item name="A short History" href="/history.html" />
+   <item name="Using external Libraries" href="/junitx-addons.html" />
+  </menu>
+  <menu name="Data Structures" href="/dataStructures.html">
+   <item name="Defining Objects" href="/definingObjects.html">
+    <item name="Specialties" href="definingObjectsSpecialties.html" />
+    <item name="TypeAbbreviator" href="definingObjectsTypeAbbreviation.html" />
+    <item name="Using Default Constructor and Fields"
+     href="definingObjectsByDefaultConstructorAndField.html" />
+    <item name="Using Default Constructor and Bean"
+     href="definingObjectsByDefaultConstructorAndBean.html" />
+    <item name="Using Constructor and Method Calls"
+     href="definingObjectsByConstructor.html" />
+    <item name="Using Constant Objects" href="definingObjectsConstants.html" />
+    <item name="Using Containers" href="definingObjectsContainers.html">
+     <item name="Using Containers - Collection"
+      href="definingObjectsContainersCollection.html" />
+     <item name="Using Containers - Map"
+      href="definingObjectsContainersMap.html" />
+    </item>
+    <item name="Using Arrays of Objects" href="definingObjectsArrays.html" />
+    <item name="Using Object References" href="definingObjectsReferences.html" />
+   </item>
+   <item name="Asserts on Objects" href="/definingAsserts.html" />
+   <item name="Catching Exceptions" href="definingExceptions.html" />
+  </menu>
+  <menu name="Miscellaneous" href="/miscellaneous.html">
+   <item name="Cookbook" href="/ddtcookbook.html" />
+   <item name="Frequently Asked Questions" href="/faq.html" />
+   <item name="Tool Tips" href="/usingEclipseForEditing.html" />
+   <item name="Installation Requirements" href="installationRequirements.html" />
+   <item name="XML Schema Definition" href="/xmlSchemaDoc.html" />
+   <item name="Ant" href="/ant.html" />
+   <item name="Maven" href="/maven.html" />
+   <item name="Download"
+    href="http://sourceforge.net/project/showfiles.php?group_id=98719" />
+   <item name="Browse CVS"
+    href="http://cvs.sourceforge.net/viewcvs.py/ddtunit/" />
+  </menu>
+  <!-- footer will be placed above the (c) -->
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+    <img src="http://sourceforge.net/sflogo.php?group_id=98719" border="0"
+     alt="sf logo" />
+   </a>
+  </footer>
+ </body>
+</project>

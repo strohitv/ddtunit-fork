@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<!DOCTYPE ddtunit [
+  <!ENTITY sameResource SYSTEM "DDT-XmlEntityResourceSameDirTest.xml">
+]>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <cluster id="XmlEntityResourceTest">
+    <objs>
+      &sameResource;
+    </objs>
+    <!--                                                                  -->
+    <!-- simple object retrieval                                          -->
+    <!--                                                                  -->
+    <group id="testReadExternalEntityParam">
+      <test id="myFirstTestCase">
+        <objs>
+          <obj id="myparam" refid="resourceTest1Type1" type="string" />
+        </objs>
+        <asserts>
+          <assert id="result" type="string" action="isEqual">Value A</assert>
+        </asserts>
+      </test>
+      <test id="mySecondTestCase">
+        <objs>
+          <obj id="myparam" refid="resourceTest2Type1" type="string" />
+        </objs>
+        <asserts>
+          <assert id="result" type="string" action="isEqual">Value B</assert>
+        </asserts>
+      </test>
+    </group>
+  </cluster>
+</ddtunit>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>DDTUnit - Cookbook</title></properties>
+<body>
+<section name="A Cookbook to DDTTestCase">
+<p>This cookbook is related to the 
+  <a href="http://junit.sourceforge.net/doc/cookbook/cookbook.htm">
+  JUnit Cookbook by Gamma and Beck</a>.
+ I selected the same document structure to clearly show the similarities and the
+ differences between these two frameworks. 
+</p>
+<p>The major differences of the two are
+ <ul>
+   <li>you do not write tests by overwriting the method <code>runTest()</code>
+    of the subclassed <code>DDTTestCase</code>. This way of test writing is 
+    not supported by DDTUnit. So in the following sections all examples 
+    from JUnit cookbook containing this technic will be omitted.</li>
+   <li>you need to specify a xml resource for every <code>DDTTestCase</code>
+   class by overwriting the abstract method <code>void initContext()</code>.</li>
+ </ul>
+</p>
+<subsection name="Writing Tests">
+<p>DDTUnit like JUnit tests do not require human judgment to interpret, and
+ it is easy to run many of them at the same time. For testing requirements here
+ is what you have to do:
+ <ol>
+   <li>Create an instance of DDTTestCase by subclassing it.</li>
+   <li>Create a constructor which accepts a String as a parameter and passes it
+    to the superclass. So this is simply the same as JUnit test case.</li>
+   <li>Implement the abstract method <code>initContext()</code> of 
+    <code>DDTTestCase</code> to specify the resource containing the xml 
+    description of test data and the <code>clusterId</code> under which the data
+    is accessible. For convenience the methods
+    <ul> 
+      <li><code>void initTestData(String resource, String clusterId)</code> or</li>
+      <li><code>void initTestData(String clusterId)</code></li>
+    </ul>
+    can be used as body of the <code>initContext()</code> method. The later is 
+    mapped onto the first by duplicating the parameter.</li>
+   <li>Write test methods that start with prefix <code>test</code>. E.g.
+    <code>void testMyService()</code>. Here you can access xml defined objects
+    by using method <code>getObject(String)</code> e.a. as provided by 
+    <a href="apidocs/junitx/ddtunit/DDTTestCase.html">DDTTestCase</a>. Where 
+    the parameter denotes the name of the object to retrieve from internal cache 
+    as specified in xml resource.</li>
+   <li>If you want to check a value, call <code>assert...()</code> method as of 
+    standard JUnit. Or specify asserts inside of the xml resource on a per 
+    &lt;test&gt; basis and provide the actual object through
+    <code>addObjectToAssert();</code></li>
+  </ol>
+  For example, to test that the sum of two Moneys with the same currency contains
+  a value which is the sum of the values of the two Moneys, write:
+  <source>
+  public void initContext(){
+    initTestData("/DDT-TestResource.xml", "MyClassTest");
+  }
+  
+  public void testSimpleAdd() {
+    Money m12CHF= (Money)getObject("m12CHF"); 
+    Money m14CHF= (Money)getObject("m14CHF"); 
+    Money result= m12CHF.add(m14CHF);
+    // here is the JUnit assert way of testing
+    Money expected= (Money)getObject("m26CHF"); 
+    assertTrue(expected.equals(result));
+    // here is part of DDTUnit way of testing
+    addObjectToAssert("result", result);
+  }</source>
+  Whats missing now is the xml testdata description of the requested objects like
+  <code>m12CHF</code>. Here it comes
+  <source>
+  &lt;?xml version="1.0"&gt;
+  &lt;ddtunit&gt;
+    &lt;cluster id="MyClassTest"&gt;
+      &lt;group id="testSimpleAdd"&gt;
+        &lt;test&gt;
+         &lt;objs&gt;
+          &lt;obj id="m12CHF" type="Money"&gt;
+            &lt;amount&gt;12&lt;/amount&gt;
+            &lt;currency&gt;CHF&lt;/currency&gt;&lt;/obj&gt;
+          &lt;obj id="m14CHF" type="Money"&gt;
+            &lt;amount&gt;14&lt;/amount&gt;
+            &lt;currency&gt;CHF&lt;/currency&gt;&lt;/obj&gt;
+         &lt;/objs&gt;
+         &lt;asserts&gt;
+          &lt;assert id="result" type="Money" action="isEqual"&gt;
+            &lt;amount&gt;26&lt;/amount&gt;
+            &lt;currency&gt;CHF&lt;/currency&gt;&lt;/assert&gt;
+         &lt;/asserts&gt;
+        &lt;/test&gt;&lt;/group&gt;
+    &lt;/cluster&gt;
+  &lt;/ddtunit&gt;
+</source>
+  If you want to write a test similar to one you have already written, write
+  a Fixture or if only input and expected output changes just add a new 
+  &lt;test&gt; to the xml resource.<br/>
+  When you want to run more than one test, just create a Suite like under 
+  JUnit.
+</p>
+</subsection>
+<!--                                                                     -->  
+<!--                                                                     -->  
+<!--                                                                     -->  
+<subsection name="Fixture">
+<p>What if you have two or more tests that operate on the same or
+  similar sets of objects?<br/>
+  Tests need to run against the background of a known set of objects. 
+  This set of objects is called a test fixture. When you are writing 
+  tests you will often find that you spend more time writing the code 
+  to set up the fixture than you do in actually testing values.
+</p>
+<p>To some extent, you can make writing the fixture code easier by 
+  paying careful attention to the constructors you write. However, a 
+  much bigger savings comes from sharing fixture code. Often, you will 
+  be able to use the same fixture for several different tests. Each case 
+  will send slightly different messages or parameters to the fixture and 
+  will check for different results.
+</p>
+<p>When you have a common fixture, here is what you do:
+  <ol>
+    <li>Create a subclass of DDTTestCase</li>
+    <li>Create a constructor which accepts a String as a parameter and passes 
+     it to the superclass.</li>
+   <li>Implement the abstract method <code>initContext()</code> of 
+    <code>DDTTestCase</code> to specify the resource containing the xml 
+    description of test data and the <code>classId</code> under which the data
+    is accessible.</li>
+   <li>Add an &lt;obj&gt; entry in the global section under &lt;cluster&gt; for 
+     each part of the fixture and include an instance variable in the Java 
+     test code.</li>
+   <li>Override <code>setUp()</code> to initialize the test conditions by
+   using the globally defined objects.</li>
+   <li>Override <code>tearDown()</code> to release any permanent resources you 
+     allocated in <code>setUp</code></li>
+  </ol>
+</p>
+<p>For example, to write several test cases that want to work with different 
+  combinations of 12 Swiss Francs, 14 Swiss Francs, and 28 US Dollars, first 
+  create a fixture:
+<source>
+public class MoneyTest extends DDTTestCase { 
+    private Money f12CHF; 
+    private Money f14CHF; 
+    private Money f28USD; 
+    
+    public void initContext(){
+      initTestData("/DDT-TestResource.xml", "MyClassTest");
+    }
+  
+    protected void setUp() { 
+        f12CHF= (Money)getObject("f12CHF"); 
+        f14CHF= (Money)getObject("f14CHF"); 
+        f28USD= (Money)getObject("f28USD"); 
+    }
+}</source>
+  And the xml resource (in part):
+<source>
+  &lt;?xml version="1.0"&gt;
+  &lt;ddtunit&gt;
+    &lt;cluster id="MyClassTest"&gt;
+     &lt;group id="MyMethod"&gt;
+      &lt;objs&gt;
+        &lt;obj id="f12CHF" type="Money"&gt;
+          &lt;amount&gt;12&lt;/amount&gt;
+          &lt;currency&gt;CHF&lt;/currency&gt;&lt;/obj&gt;
+        ...
+      &lt;/objs&gt;
+      &lt;group id="testSimpleAdd"&gt;
+      ...
+  &lt;/ddtunit&gt;</source>
+  The architecture of DDTUnit garanties that the Fixture is executed before
+  and after every entry of <code>&lt;test&gt;</code> inside of 
+  <code>&lt;group&gt;</code>. This is conformant to the behavior of
+  JUnit. Once you have the Fixture in place, you can write as many tests as 
+  you like for one test method just by adding new data to the xml resource.
+</p>
+</subsection>
+<!--                                                                     -->  
+<!--                                                                     -->  
+<!--                                                                     -->  
+<subsection name="DDTTestCase">
+<p>How do you write and invoke an individual test case when you have a 
+  Fixture?<br/>
+  Writing a test case without a fixture is simple - just look at the example
+  above. Writing one with a Fixture is quit as easy.<br/>
+  For example, to test the addition of a Money and a MoneyBag, write:<br/>
+  Remember we allready defined a Fixture above.
+<source>
+public void testMoneyMoneyBag() { 
+    // [12 CHF] + [14 CHF] + [28 USD] == {[26 CHF][28 USD]} 
+    Money bag[]= { f26CHF, f28USD }; 
+    MoneyBag expected= new MoneyBag(bag); 
+    assertEquals(expected, f12CHF.add(f28USD.add(f14CHF)));
+}</source>
+  Create an instance of MoneyTest that will run this test case like this:
+<source>
+  new MoneyTest("testMoneyMoneyBag")</source>
+  When the test is processed, the name of the test is used to look up the method 
+  to run. Once you have several tests, organize them into a Suite.
+</p>
+</subsection>
+<!--                                                                     -->  
+<!--                                                                     -->  
+<!--                                                                     -->  
+<subsection name="Suite">
+<p>How do you run several tests at once?<br/>
+  As soon as you have two test methods, you'll want to run them together. You 
+  could run the test methods one at a time yourself, but you would quickly grow 
+  tired of that. Instead, DDTUnit as JUnit provides an object, TestSuite 
+  which runs any number of test cases together.
+</p>
+<p>For example, to run a single test case, you execute:
+<source>
+DDTTestResult result= (new MoneyTest("testMoneyMoneyBag")).run();</source>
+  To create a suite of two test cases concerning two different Java test 
+  methods and run them together, execute:
+<source>
+TestSuite suite= new TestSuite();
+suite.addTest(new MoneyTest("testMoneyEquals"));
+suite.addTest(new MoneyTest("testSimpleAdd"));
+TestResult result= suite.run();</source>
+  If you want to execute a test scenario with different input/output 
+  information for the same java test method just add a new 
+  <code>&lt;test&gt;</code> in the xml test resource.
+</p>
+<p>Another way is to let DDTUnit extract a suite from a DDTTestCase class. 
+  This is actually the same behavior as of JUnit. To do so you pass the 
+  class of your DDTTestCase to the TestSuite constructor.
+<source>
+TestSuite suite= new TestSuite(MoneyTest.class);
+TestResult result= suite.run();</source>
+  Use the manual way when you want a suite to only contain a subset of the 
+  test cases. Otherwise the automatic suite extraction is the preferred way. 
+  It avoids you having to update the suite creation code when you add a new 
+  test method.
+</p>
+<p>TestSuites don't only have to contain TestCases. They contain any object 
+  that implements the Test interface. For example, you can create a TestSuite
+  in your code and I can create one in mine, and we can run them together by 
+  creating a TestSuite that contains both:
+<source>
+TestSuite suite= new TestSuite();
+suite.addTest(Joerg.suite());
+suite.addTest(Kai.suite());
+TestResult result= suite.run();</source>
+</p>
+</subsection>
+<!--                                                                     -->  
+<!--                                                                     -->  
+<!--                                                                     -->  
+<subsection name="TestRunner">
+<p>How do you run your tests and collect their results?<br/>
+  For now there is no extra implementation of a <code>DDTTestRunner</code>. 
+  So you can use a <code>TestRunner</code> implementation provided by JUnit
+  or other packages like the <a href="http://ant.apache.org">Apache Ant</a>
+  optional target &lt;junit&gt;.<br/>
+  These tools are used to define the suite to be run and to display its 
+  results. You make your suite accessible to a <code>TestRunner</code> tool 
+  with a static method <code>suite()</code> that returns a test suite like 
+  described above.<br/>
+  For example, to make a MoneyTest suite available to a TestRunner, add the 
+  following code to MoneyTest:
+<source>
+public static Test suite() { 
+    TestSuite suite= new TestSuite(); 
+    suite.addTest(new MoneyTest("testMoneyEquals")); 
+    suite.addTest(new MoneyTest("testSimpleAdd")); 
+    return suite;
+}</source>
+  If a TestCase class doesn't define a suite method a TestRunner will extract a
+  suite and fill it with all the methods starting with "test".
+</p>
+</subsection>
+</section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+</body>
+</document>

@@ -1,0 +1,187 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <cluster id="ProcessConstructorValuesTest">
+    <!--                                                                  -->
+    <!-- instanciate object by constructor                                -->
+    <!--                                                                  -->
+    <group id="testReadConstructor">
+      <test id="useDefaultConstructor">
+        <objs>
+          <obj id="mySimpleVO" type="junitx.ddtunit.resources.SimpleVO">
+            <stringValue>Hallo</stringValue>
+            <integerValue>4711</integerValue>
+            <doubleValue>47.11</doubleValue>
+          </obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="junitx.ddtunit.resources.SimpleVO" 
+            action="isEqual">
+            <stringValue>Hallo</stringValue>
+            <integerValue>4711</integerValue>
+            <doubleValue>47.11</doubleValue>
+          </assert>
+        </asserts>
+      </test>
+      <test id="useConstructor">
+        <objs>
+          <obj id="mySimpleVO" type="junitx.ddtunit.resources.SimpleVO" 
+            hint="call">
+            <item type="string">Hallo</item>
+            <item type="int">4747</item>
+            <item type="double">47.47</item>
+          </obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="junitx.ddtunit.resources.SimpleVO" 
+            action="isEqual">
+            <integerValue>4747</integerValue>
+            <stringValue>Hallo</stringValue>
+            <doubleValue>47.47</doubleValue>
+          </assert>
+        </asserts>
+      </test>
+      <test id="useConstructorOnField">
+        <objs>
+          <obj id="mySimpleVO" type="junitx.ddtunit.resources.SimpleVO">
+            <stringValue hint="call">
+              <item type="string">Hallo World</item></stringValue>
+          </obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="junitx.ddtunit.resources.SimpleVO" 
+            action="isEqual">
+            <stringValue>Hallo World</stringValue>
+          </assert>
+        </asserts>
+      </test>
+    </group>
+    <!--                                                                    -->
+    <!--                                                                    -->
+    <!--                                                                    -->
+    <group id="testGenericWithComplexField">
+      <test id="useConstructorOnComplexField">
+        <objs>
+          <obj id="myComplexVO" type="junitx.ddtunit.resources.ComplexVO" 
+            hint="call">
+            <item type="junitx.ddtunit.resources.SimpleVO">
+              <stringValue>Hallo World</stringValue>
+            </item>
+          </obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="junitx.ddtunit.resources.SimpleVO"
+            action="isEqual">
+            <stringValue>Hallo World</stringValue>
+          </assert>
+        </asserts>
+      </test>
+      <test id="useConstructorOnNestedFields">
+        <objs>
+          <obj id="myComplexVO" type="junitx.ddtunit.resources.ComplexVO" 
+            hint="call">
+            <item type="junitx.ddtunit.resources.SimpleVO" hint="constructor">
+              <item type="string">Hallo World</item>
+            </item>
+          </obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="junitx.ddtunit.resources.SimpleVO"
+            action="isEqual">
+            <stringValue>Hallo World</stringValue>
+          </assert>
+        </asserts>
+      </test>
+      <test id="useConstructorOnVeryNestedFields">
+        <objs>
+          <obj id="myComplexVO" type="junitx.ddtunit.resources.ComplexVO" 
+            hint="call">
+            <item type="junitx.ddtunit.resources.SimpleVO">
+              <simpleVO hint="call">
+                <item type="string">Hallo extra</item>
+              </simpleVO>
+            </item>
+          </obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="junitx.ddtunit.resources.SimpleVO"
+            action="isNotNull" />
+        </asserts>
+      </test>
+      <test id="useConstructorOnDoubleNestedFields">
+        <objs>
+          <obj id="myComplexVO" type="junitx.ddtunit.resources.ComplexVO" 
+            hint="call">
+            <item type="junitx.ddtunit.resources.SimpleVO">
+              <simpleVO hint="call">
+                <item type="string" hint="call">
+                  <item type="string">Hallo extra</item></item>
+              </simpleVO>
+            </item>
+          </obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="junitx.ddtunit.resources.SimpleVO"
+            action="isNotNull" />
+        </asserts>
+      </test>
+    </group>
+    <!--                                                                    -->
+    <!--                                                                    -->
+    <!--                                                                    -->
+    <group id="testCollectionWithConstructorElements">
+      <test id="useConstructorOnElements">
+        <objs>
+          <obj id="myCollection" type="ArrayList" hint="collection">
+            <item type="junitx.ddtunit.resources.SimpleVO" hint="constructor">
+              <item type="string">Hallo first Array Element</item>
+            </item>
+            <item type="junitx.ddtunit.resources.SimpleVO">
+              <stringValue>Hallo second Array Element</stringValue>
+            </item>
+          </obj>
+        </objs>
+        <asserts>
+          <assert id="firstResult" type="junitx.ddtunit.resources.SimpleVO"
+            action="isEqual">
+            <stringValue>Hallo first Array Element</stringValue></assert>
+          <assert id="secondResult" type="junitx.ddtunit.resources.SimpleVO"
+            action="isEqual">
+            <stringValue>Hallo second Array Element</stringValue>
+          </assert>
+        </asserts>
+      </test>
+    </group>
+    <!--                                                                    -->
+    <!--                                                                    -->
+    <!--                                                                    -->
+    <group id="testComplexWithConstructorCollectionArg">
+      <test id="useConstructorOnElements">
+        <objs>
+          <obj id="myComplex" type="junitx.ddtunit.resources.ComplexVO"
+            hint="call">
+            <item type="string">Hallo</item>
+            <item type="vector" hint="collection">
+              <item type="junitx.ddtunit.resources.SimpleVO">
+                <stringValue>Hallo first Array Element</stringValue>
+              </item>
+              <item type="junitx.ddtunit.resources.SimpleVO">
+                <stringValue>Hallo second Array Element</stringValue>
+              </item>
+            </item>
+          </obj>
+        </objs>
+        <asserts>
+          <assert id="firstResult" type="junitx.ddtunit.resources.SimpleVO"
+            action="isEqual">
+            <stringValue>Hallo first Array Element</stringValue>
+          </assert>
+          <assert id="secondResult" type="junitx.ddtunit.resources.SimpleVO"
+            action="isEqual">
+            <stringValue>Hallo second Array Element</stringValue>
+          </assert>
+        </asserts>
+      </test>
+    </group>
+  </cluster>
+</ddtunit>

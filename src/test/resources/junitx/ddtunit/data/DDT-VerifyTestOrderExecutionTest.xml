@@ -1,0 +1,165 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <cluster id="VerifyTestOrderExecutionTest">
+    <objs>
+    <obj type="string" id="order">010203040506070809101112131415</obj>
+    </objs>
+  <!--                                                                  -->
+  <!-- java.lang.String                                                 -->
+  <!--                                                                  -->
+    <group id="testMethodTestOrder">
+      <test id="01">
+		<objs>
+  		  <obj id="myString" type="string"/>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isNotNull"/>
+		</asserts>
+	  </test>
+      <test id="02">
+		<objs>
+  		  <obj id="myString" type="string"/>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual">!EMPTY!</assert>
+		</asserts>
+	  </test>
+	  <test id="03">
+  		<objs>
+		  <obj id="myString" type="java.lang.String">Hallo World</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual">Hallo World</assert>
+		</asserts>
+	  </test>
+	  <test id="04">
+  		<objs>
+		  <obj id="myString" type="java.lang.String">Hallo World</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual">Hallo World</assert>
+		</asserts>
+	  </test>
+	  <test id="05">
+		<objs>
+		  <obj id="myString" type="string">Hallo World</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual">Hallo World</assert>
+		</asserts>
+	  </test>
+	  <test id="06">
+		<objs>
+		  <obj id="myString" type="java.lang.String">Hallo World</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String"
+              action="isEqual">Hallo World</assert>
+		</asserts>
+	  </test>
+	  <test id="07">
+		<objs>
+		  <obj id="myString" type="java.lang.String">!NULL!</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String"
+              action="isNull"/>
+		</asserts>
+	  </test>
+	  <test id="08">
+		<objs>
+		  <obj id="myString" type="java.lang.String">Hallo World</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="junitx.ddtunit.resources.SimpleVO"
+              action="isEqual">!NULL!</assert>
+		  <exception id="expected" type="junit.framework.AssertionFailedError"
+              action="isSimilar">Class type differs</exception>
+		</asserts>
+	  </test>
+	  <test id="09">
+		<objs>
+		  <obj id="myString" type="java.lang.String"><![CDATA[CData type]]></obj>
+		</objs>
+ 		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual">CData type</assert>
+		</asserts>
+ 	  </test>
+	  <test id="10">
+		<objs>
+		  <obj id="myString" type="java.lang.String"><![CDATA[First line
+
+Second line]]></obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual">First line
+
+Second line</assert>
+		</asserts>
+	  </test>
+	  <test id="11">
+		<objs>
+		  <obj id="myString" type="java.lang.String"><![CDATA[
+First line is empty, this is second
+Third line
+
+]]></obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual"><![CDATA[
+First line is empty, this is second
+Third line
+
+]]></assert>
+		</asserts>
+	  </test>
+	  <test id="12">
+		<objs>
+		  <obj id="myString" type="java.lang.String">
+First line
+
+
+
+
+Sixs line
+		  </obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual"><![CDATA[First line
+
+
+
+
+Sixs line]]></assert>
+		</asserts>
+	  </test>
+	  <test id="13">
+		<objs>
+		  <obj id="myString" type="string">Hallo World</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual">Hallo World</assert>
+		</asserts>
+	  </test>
+	  <test id="14">
+		<objs>
+		  <obj id="myString" type="java.lang.String">Hallo World</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="string" action="isEqual">Hallo World</assert>
+		</asserts>
+	  </test>
+   <test id="15">
+    <objs>
+     <obj id="myString" type="java.lang.Character">c</obj>
+    </objs>
+    <asserts>
+     <assert id="result" type="char" action="isEqual" hint="constructor">
+       <item type="char">c</item>
+     </assert>
+    </asserts>
+   </test>
+  </group>
+  </cluster>
+</ddtunit>

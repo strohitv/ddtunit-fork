@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+ <properties>
+  <title>Defining Objects</title>
+ </properties>
+ <body>
+  <!--                                                                         -->
+  <!--                                                                         -->
+  <!--                                                                         -->
+  <section
+   name="Defining Objects By Default Constructor and Bean Definitions">
+   <a name="bean-datatypes" />
+   <source>&lt;objs&gt;&lt;obj id="myId" type="my.class.Type" hint="bean"&gt;...&lt;/obj&gt;&lt;objs&gt;</source>
+   <p>To define bean objects you need to know the naming of the field setter
+    method (without set prefix) and the datatype of the argument used for this
+    method.<br/>
+    To use this functionality could be interesting in the context of providing
+    special validation processing or calculation inside of the setter methods.<br/>
+    The structure looks like this:
+    <source>
+... 
+&lt;test id="myFirstTestCase"&gt;
+  &lt;objs&gt;
+    &lt;obj id="myObj" type="junitx.ddtunit.resources.SimpleVO" hint="bean"&gt;
+      &lt;doubleValue&gt;12.4&lt;/doubleValue&gt;
+      &lt;integerValue&gt;4711&lt;/integerValue&gt; 
+    &lt;/obj&gt;
+  &lt;/objs&gt;
+&lt;/test&gt; 
+...</source>
+    where object <code>obj@id="myObj"</code> reflects a Java object definition 
+    like the following for example
+    <source>
+public class SimpleVO {
+  private Integer integerValue; 
+  private String stringValue; 
+  private Double doubleValue;
+
+  /** 
+   * Default constructor. 
+   */ 
+  public SimpleVO() { 
+    // no special initialization neccessary 
+  }
+
+  public void setDoubleValue(Double arg){ 
+    // whatever check or calculation you like to process ... 
+    this.doubleValue = arg; 
+  }
+
+  public void setIntegerValue(Integer arg){ 
+    // whatever check or calculation you like to process ... 
+    this.integerValue = arg; 
+  } 
+...</source>
+   </p>
+   <p>If you are using an empty object description
+    <source>&lt;obj id="myObj" type="junitx.ddtunit.resources.SimpleVO" hint="bean"/&gt;</source>
+    you will get the specified object as long as the default constructor is
+    accessible (public). This is the same behavior like for 
+    <code>hint="fields"</code>.
+   </p>
+   <p>To specify a "null" assignment use the explizit description
+    <source>&lt;obj id="myObj" type="junitx.ddtunit.resources.SimpleVO" hint="bean"&gt;!NULL!&lt;obj&gt;</source>
+   </p>
+  </section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+ </body>
+</document>

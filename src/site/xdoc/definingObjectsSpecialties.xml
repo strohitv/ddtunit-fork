@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>DDTUnit - Specialties on Object Definition</title></properties>
+<body>
+<a name="objectSpecialties" />
+<section name="Object Specialties">
+<p>This section contains a set of loosly coupled information that will not take
+a complete section on its own.
+</p>
+<subsection name="Special Keywords">
+<p><table border="1">
+  <caption>Special Keywords</caption>
+  <tr><th>Name</th><th width="70%">Description</th></tr>
+  <tr><td>!NULL!</td><td>Used to specify that a certain field/object should be 
+    null</td></tr>
+  <tr><td>!EMPTY!</td><td>Used to specify an empty String object. - Restricted 
+    to type String!</td></tr>
+  <tr><td>!BLANK!</td><td>Used to specify a blank String (one Space char). - 
+    Restricted to type String!</td></tr>
+</table>
+Here is an example
+<source>&lt;obj id="myExample" type="junitx.ddtunit.resources.SimpleVO"&gt;!NULL!&lt;/obj&gt;</source>
+will initialize the instance of SimpleVO with null. So use special key '!NULL! 
+every time you want to explicitly assign <b>null</b> to an object.
+</p>
+</subsection>
+
+<subsection name="Using Simple Date">
+<a name="dateDetails" />
+<p>Processing information about date - <code>java.util.Date, java.sql.Date, java.text.Date</code><br/>
+Three examples
+<source>&lt;obj id="myDate" hint="date" type="java.util.Date"&gt;01.05.2005 00:00:00.000&lt;/obj&gt;</source>
+<source>&lt;obj id="myDate" hint="date" type="date"&gt;01.05.2005 00:00:00&lt;/obj&gt;</source>
+<source>&lt;obj id="myDate" hint="date" type="udate"&gt;01.05.2005&lt;/obj&gt;</source>
+The predefined date formats are specified in the resource <a href="ddtunitConfig.html">/junitx/ddtunit/ddtunitConfig.properties</a>.<br/>
+For specifiing your own format the new xml attributes 'dateformat' and 'locale' were introduced.
+A simple example
+<source>&lt;obj id="myDate" hint="date" type="date" dateformat="EEE MMM dd HH:mm:ss zzz yyyy" 
+  locale="en_US"&gt; Thu Dec 06 12:15:00 CET 2007&lt;/obj&gt;</source>
+More examples can be found in the test junitx.ddtunit.functest.ProcessDateDataTest.
+Because <code>java.util.Date</code> implements <code>java.lang.Comparable</code>
+the DDTUnit assert actions on this type can be used.
+</p>
+<p>To specify an actual date or time new keywords are introduced
+<table border="1">
+  <caption>Special Keywords</caption>
+  <tr><th>Name</th><th width="70%">Description</th></tr>
+  <tr><td>!SYSDATE!</td><td>Specifies the actual date of test execution, time is set to zero</td></tr>
+  <tr><td>!SYSTIME!</td><td>Specifies the actual date and time of test execution.</td></tr>
+</table></p>
+</subsection>
+<subsection name="Using Selfdefined Date Formats">
+<p>Because there were a few requests on special date format support DDTUnit it is now possible to process
+the following example test as used in the functional testing suite of DDTUnit:
+<source><![CDATA[   <test id="readFreeDate">
+    <objs>
+     <obj id="myDate" hint="date" type="date" dateformat="EEE MMM dd HH:mm:ss zzz yyyy">Thu Dec 06 10:11:12 CET 2007</obj>
+    </objs>
+    <asserts>
+     <assert id="result" hint="date" type="date" action="isEqual">06.12.2007 10:11:12</assert>
+    </asserts>
+   </test>
+   <test id="readFreeDateWithLocale">
+    <objs>
+     <obj id="myDate" hint="date" type="date" dateformat="EE MMM dd HH:mm:ss zzz yyyy" locale="de_DE">Di Dez 06 10:11:12 MET 2007</obj>
+    </objs> 
+    <asserts>
+     <assert id="result" hint="date" type="date" action="isEqual">06.12.2007 10:11:12</assert>
+    </asserts>
+   </test>]]></source>
+</p>
+<p>This date format is interpreted during parse time and instanciates the requested Date.</p>
+</subsection>
+</section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+</body>
+</document>

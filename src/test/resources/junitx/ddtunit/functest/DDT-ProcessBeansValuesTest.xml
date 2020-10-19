@@ -1,0 +1,181 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+    <cluster id="ProcessBeansValuesTest">
+        <!--                                                                  -->
+        <!-- Create object field by using bean like getter method             -->
+        <!--                                                                  -->
+        <group id="testReadBeanField">
+            <test id="simpleGetterSetterReadWrite">
+                <objs>
+                    <obj id="mySimpleVO"
+                        type="junitx.ddtunit.resources.SimpleVO" hint="bean">
+                        <integerValue>2</integerValue>
+                        <doubleValue>3.3</doubleValue>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="result" type="junitx.ddtunit.resources.SimpleVO"
+                        action="isEqual">
+                        <integerValue>20</integerValue>
+                        <doubleValue>33</doubleValue>
+                    </assert>
+                </asserts>
+            </test>
+            <test id="beanInField">
+                <objs>
+                    <obj id="mySimpleVO"
+                        type="junitx.ddtunit.resources.ComplexVO" hint="bean">
+                        <beanSimpleVO type="junitx.ddtunit.resources.SimpleVO"
+                            hint="bean">
+                            <integerValue>2</integerValue>
+                            <doubleValue>3.3</doubleValue>
+                        </beanSimpleVO>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="result"
+                        type="junitx.ddtunit.resources.ComplexVO"
+                        action="isEqual">
+                        <simpleVO>
+                            <integerValue>20</integerValue>
+                            <doubleValue>33</doubleValue>
+                        </simpleVO>
+                    </assert>
+                </asserts>
+            </test>
+            <test id="beanInCollection">
+                <objs>
+                    <obj id="mySimpleVO" type="vector" hint="collection">
+                        <item type="junitx.ddtunit.resources.SimpleVO"
+                            hint="bean">
+                            <integerValue>2</integerValue>
+                            <doubleValue>3.3</doubleValue>
+                        </item>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="result" type="vector" hint="collection"
+                        action="isEqual">
+                        <item type="junitx.ddtunit.resources.SimpleVO">
+                            <integerValue>20</integerValue>
+                            <doubleValue>33</doubleValue>
+                        </item>
+                    </assert>
+                </asserts>
+            </test>
+        </group>
+        <!--                                                                  -->
+        <!-- simple object retrieval                                          -->
+        <!--                                                                  -->
+        <group id="testReadSimpleVO">
+            <test id="readWithNoAttribute">
+                <objs>
+                    <obj id="mySimpleVO"
+                        type="junitx.ddtunit.resources.SimpleVO" hint="bean" />
+                </objs>
+                <asserts>
+                    <assert id="result" type="junitx.ddtunit.resources.SimpleVO"
+                        action="isNotNull" />
+                </asserts>
+            </test>
+            <test id="readWithOneAttribute">
+                <objs>
+                    <obj id="mySimpleVO"
+                        type="junitx.ddtunit.resources.SimpleVO" hint="bean">
+                        <stringValue>My first String</stringValue>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="result" type="junitx.ddtunit.resources.SimpleVO"
+                        action="isNotEqual" hint="bean">
+                        <stringValue>My other String</stringValue>
+                    </assert>
+                </asserts>
+            </test>
+            <test id="readWithNullKey">
+                <objs>
+                    <obj id="mySimpleVO"
+                        type="junitx.ddtunit.resources.SimpleVO" hint="bean">
+                        !NULL!
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="result" type="junitx.ddtunit.resources.SimpleVO"
+                        hint="bean" action="isNull" />
+                </asserts>
+            </test>
+        </group>
+        <!--                                                                  -->
+        <!-- complex nested objects                                           -->
+        <!--                                                                  -->
+        <group id="testNestedComplexFields">
+            <test id="readWithComplexField">
+                <objs>
+                    <obj id="complexVO"
+                        type="junitx.ddtunit.resources.ComplexVO">
+                        <text>Complex value object</text>
+                        <simpleVO hint="bean">
+                            <stringValue>My first String</stringValue>
+                        </simpleVO>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="result"
+                        type="junitx.ddtunit.resources.ComplexVO"
+                        action="isNotNull" />
+                    <assert id="complexField"
+                        type="junitx.ddtunit.resources.SimpleVO"
+                        action="isEqual">
+                        <stringValue>My first String</stringValue>
+                    </assert>
+                </asserts>
+            </test>
+        </group>
+        <!--                                                                  -->
+        <!-- primitive fields in Objects                                      -->
+        <!--                                                                  -->
+        <group id="testPrimitiveFields">
+            <test id="readSimplePrimitiveVO">
+                <objs>
+                    <obj id="simpleVO"
+                        type="junitx.ddtunit.resources.SimplePrimitiveVO"
+                        hint="bean">
+                        <stringValue>Hallo</stringValue>
+                        <doubleValue>47.11</doubleValue>
+                        <integerValue>4711</integerValue>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="result"
+                        type="junitx.ddtunit.resources.SimplePrimitiveVO"
+                        action="isEqual">
+                        <stringValue>Hallo</stringValue>
+                        <doubleValue>471.1</doubleValue>
+                        <integerValue>4711</integerValue>
+                    </assert>
+                </asserts>
+            </test>
+            <test id="readSimplePrimitiveVO">
+                <objs>
+                    <obj id="simpleVO"
+                        type="junitx.ddtunit.resources.SimplePrimitiveVO"
+                        hint="bean">
+                        <stringValue>Hallo</stringValue>
+                        <doubleValue>47.11</doubleValue>
+                        <integerValue>4711</integerValue>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="result"
+                        type="junitx.ddtunit.resources.SimplePrimitiveVO"
+                        action="isEqual">
+                        <stringValue>HalloXXX</stringValue>
+                        <doubleValue>471.1</doubleValue>
+                        <integerValue>47110</integerValue>
+                    </assert>
+                </asserts>
+            </test>
+        </group>
+    </cluster>
+</ddtunit>

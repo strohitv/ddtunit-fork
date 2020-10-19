@@ -1,0 +1,54 @@
+The DDTUnit
+Copyright (c) 2004 Joerg Gellien
+Copyright (c) 2004 Kai Gellien
+All rights reserved.
+
+Additional contributions have been made by individuals listed in the
+AUTHORS file supplied with this distribution. Each individual's claim
+to copyright is asserted in the files to which they contributed.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above
+      copyright notice, this list of conditions and the following
+      disclaimer in the documentation and/or other materials provided
+      with the distribution.
+    * Neither the names of the copyright holders or DDTUnit nor the names of the
+      contributors may be used to endorse or promote products derived
+      from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+Additional information about included software:
+
+The DDTUnit includes JUnit 3.8.1
+(http://www.junit.org). The JUnit 3.8.1 code includes no modifications.
+The use of JUnit 3.8.1 in both source and binary code form contained here
+is subject to the terms and conditions of the IBM Public License 1.0
+which is available at 
+  http://oss.software.ibm.com/developerworks/opensource/license10.html.
+The binary code is located in the lib directory in the file junit-3.8.1.jar.
+
+The DDTUnit includes JUnit-addons 1.4
+(http://junit-addons.sourceforge.net). The JUnit-Addons code includes no modifications.
+The use of JUnit-Addons in both source and binary code form contained here
+is subject to the terms and conditions of the Apache Software License.
+The binary code is located in the lib directory in the file junit-addons-1.4.jar.
+
+The DDTUnit includes <Author> <Name of library>
+(<link to site>). Copyrightinformation of included software.

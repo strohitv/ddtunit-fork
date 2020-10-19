@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>Asserts on Objects</title></properties>
+<body>
+<section name="Asserts on Objects">
+<source>&lt;asserts&gt;&lt;assert id="myId" type="my.class.Type" hint="myParseHint" action="MYACTION"&gt;...&lt;/assert&gt;&lt;asserts&gt;</source>
+<p>For implementing a solid support of assertion features the 
+<a href="http://junit-addons.sourceforge.net">JUnit-Addons library from Sourceforge</a>
+is added as utility archive under the terms of the Apache Software License. 
+The possibilities of defining asserts is mapped directly on the assert 
+methods as defined inside of JUnit and JUnit-Addons. The following actions 
+are implemented for now:
+<a name="assertActions" />
+<table border="1" width="50%" class="example">
+<caption>Valid Assert Actions</caption>
+<tr><th width="20%">Name</th><th>Description</th></tr>
+<tr><td>isEqual</td><td>Maps to JUnit Assert.assertEquals().</td></tr>
+<tr><td>isNotEqual</td><td>Maps to JUnit-Addons Assert.assertNotEquals().</td></tr>
+<tr><td>isSame</td><td>Maps to JUnit Assert.assertSame().</td></tr>
+<tr><td>isNotSame</td><td>Maps to JUnit-Addons Assert.assertNotSame().</td></tr>
+<tr><td>isNull</td><td>Maps to JUnit Assert.assertNull().</td></tr>
+<tr><td>isNotNull</td><td>Maps to JUnit-Addons Assert.assertNotNull().</td></tr>
+<tr><td>isTrue</td><td>Maps to JUnit Assert.assertTrue().</td></tr>
+<tr><td>isFalse</td><td>Maps to JUnit-Addons Assert.assertFalse().</td></tr>
+<tr><td><a href="#iscontainedin">isContainedIn</a></td><td>Maps to JUnit-Addons Assert.assertTrue(((Collection)obj).contains(actual)).</td></tr>
+<tr><td>isNotContainedIn</td><td>Maps to JUnit-Addons Assert.assertFalse(((Collection)obj).contains(actual)).</td></tr>
+<tr><td colspan="2" align="center">used for <code>java.lang.Compareable</code></td></tr>
+<tr><td>isLT</td><td>actual is smaller as expected.</td></tr>
+<tr><td>isNotLT</td><td>actual is not smaller (greater or equal) as expected.</td></tr>
+<tr><td>isGT</td><td>actual is greater as expected.</td></tr>
+<tr><td>isNotGT</td><td>actual is not greater (smaller or equal) as expected.</td></tr>
+<tr><td><a href="#isinrange">isInRange</a></td><td>actual is in specified range according to Comparable rules.</td></tr>
+<tr><td>isNotInRange</td><td>actual is not in specified range according to Comparable rules.</td></tr>
+</table>
+</p>
+<p>The possibility of defining asserts inside of xml gives two advantages
+over directly using the <code>obj</code> tag and plain %junit; asserts inside 
+the code.
+<ul><li>You clearly distinguish between object definitions and assert 
+  information.</li>
+  <li>You can use these definitions for reports on test execution
+  and what was checked during test. And therefore can provide an active 
+  specification document of your class under test.</li>
+</ul>
+All object structures that can be defined under <code>&lt;objs&gt;</code> can be
+used for defining expected objects inside of  <code>&lt;assert&gt;</code>.
+Just remember the importance of overwriting the <code>equals()</code> and 
+<code>hashCode()</code> methods of the objects to make them even more valuable
+to use under JUnit / DDTUnit.<br/>
+Here is a short example:
+<source>
+&lt;assert id="complete" action="isEqual" type="junitx.ddtunit.resources.SimpleVO"&gt;
+  &lt;doubleValue&gt;12.4&lt;/doubleValue&gt;
+  &lt;integerValue&gt;4711&lt;/integerValue&gt;
+  &lt;stringValue&gt;My Text&lt;/stringValue&gt;
+&lt;/assert&gt;</source>
+Which is interpreted like this:<br/>
+Check an actual object provided during test execution against the expected object 
+stored under <code>assert@id</code> <b>complete</b> and <code>assert@type</code>
+<b>junitx.ddtunit.resources.SimpleVO</b>.<br/>
+The DDTUnit testmethod would look something like this:
+<source>
+public void testMyService(){
+  SimpleVO simpleVO = MyServiceUnderTest.getSimpleVO();
+  addResultToAssert("complete", simpleVO);
+}</source>
+<b>To make this work right the object <code>simpleVO</code> must implement the 
+methods <code>equals()</code> and <code>hashCode()</code> to meet a clear 
+expectation of an equality comparison of this type. The same 
+holds true for the use of JUnit as well.</b>
+</p>
+<p>To be complete: There are three methods defined under <code>DDTTestCase</code>
+<ul>
+  <li><a href="apidoc/junitx/ddtunit/DDTTestCase.html#addObjectToAssert(java.lang.String, java.lang.Object)">public addObjectToAssert(String id, Object toAssertAgainst);</a></li>
+  <li><a href="apidoc/junitx/ddtunit/DDTTestCase.html#assertObject(java.lang.String, java.lang.Object, boolean)">public assertObject(String id, Object toAssertAgainst, boolean mark);</a></li>
+  <li>and <a href="apidoc/junitx/ddtunit/DDTTestCase.html#assertObject(java.lang.String, java.lang.Object)">public assertObject(String id, Object toAssertAgainst);</a></li>
+</ul>
+The first method provides information for assertions at the end of the JUnit/Java
+testmethod execution.<br/>
+The second and third are used for direct evaluation of the defined assertion. If
+the boolean mark is set, no double validation of this assertion will be done at 
+the end of the test method.
+</p>
+<p>As the class <code>DDTTestCase</code> is a direct derivation of JUnit
+<code>TestCase</code> it is possible to use all assert methods of 
+<code>junit.framework.Assert</code> directly in the code. It is also possible
+to use your own assertion extensions in the testmethod.<br/>
+Because the provided testdata change, so do the required assertions.<br/>
+As a rule of thump use this kind of assertions every time you have correlation 
+with parameter data of xml resources. This provides information about the 
+contract or specification you want to test.
+</p>
+<p>What are JUnit assert methods good for?<br/>
+Every time you want to check pre or post conditions of a data centric check use
+JUnit assert methods. These should be used similar to the Java assert 
+extension. For example if you want to check the result of a customer list 
+returned by a business function.
+<ul>
+  <li>First check if the list is not null by using JUnit <code>assertNull(...)
+  </code>.</li>
+  <li>Evaluate the correct list content by using DDTUnit assert definition.</li>
+</ul>As by using every rule it is up to you to select the appropriate solution.
+</p>
+<p><a name="iscontainedin" />The assert action <code>isContainedIn</code> is used 
+to validate if an object is in a specified set of objects. To define such an assert
+you must specify a <code>Collection</code> containing expected values. For example:
+<source>
+	&lt;assert id="testResult" type="java.util.Vector" hint="collection"
+		valuetype="boolean" action="isContainedIn"&gt;
+		&lt;item&gt;true&lt;/item&gt;
+		&lt;item&gt;false&lt;/item&gt;
+	&lt;/assert&gt;</source>
+</p>
+<p><a name="isinrange" />The assert action <code>isInRange</code> is used on 
+<code>java.lang.Comparable</code> datatypes to validate if an object is in a 
+specified range. To define such an assert you proceed as in the following 
+example.
+<source>
+  &lt;assert id="result" type="range" action="isInRange"&gt;
+    &lt;startIncluded&gt;false&lt;/startIncluded&gt;
+    &lt;start type="long"&gt;4711&lt;/start&gt;
+    &lt;endIncluded&gt;false&lt;/endIncluded&gt;
+    &lt;end type="long"&gt;4759&lt;/end&gt;
+  &lt;/assert&gt;&lt;/asserts&gt;</source>
+For now you must specify <code>start@type</code> and <code>end@type</code>. This 
+behavior will be replaced by <code>assert@valuetype</code> in future.<br/>
+By default the end points of the interval are included in the specified range. To
+exclude one end of the range specify the appropreate tag 
+<code>&lt;startIncluded&gt;</code> or <code>&lt;endIncluded&gt;</code>.
+</p>
+</section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+</body>
+</document>

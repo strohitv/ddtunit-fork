@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+    <properties>
+        <title>Defining new Parsing Types by Example</title>
+    </properties>
+    <body>
+        <section name="Defining new Parsing Types by Example">
+            <source>&lt;objs&gt;&lt;obj id="myId" type="my.class.Type" hint="stream"&gt;...&lt;/obj&gt;&lt;objs&gt;</source>
+            <a name="new-datatypes" />
+            <p>In this section I will describe how to extend the DDTUnit framework.<br/>
+            We'll start with a scetch of the planed type and follow step by step
+            the construction of the new parsing action.
+            </p>
+            <subsection name="The Idea">
+            <p>The selected parsing type is based on a patch sent by 
+            <a href="mailto:mstochmialek@users.sourceforge.net">mstochmialek</a>.
+            </p>
+            </subsection>
+            ... to be completed
+        </section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+    </body>
+</document>

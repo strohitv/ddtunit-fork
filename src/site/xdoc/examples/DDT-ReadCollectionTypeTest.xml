@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>Example - DDT-ReadCollectionTypeTest</title></properties>
+<body>
+<section name="Example - DDT-ReadCollectionTypeTest">
+<p>
+<source>
+&lt;?xml version="1.0" ?&gt;
+&lt;ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd"&gt;
+  &lt;cluster id="DDTReadCollectionTypeTest"&gt;
+    &lt;!--                                                                  --&gt;
+    &lt;!-- collection type object retrieval                                 --&gt;
+    &lt;!--                                                                  --&gt;
+    &lt;group id="testReadVector"&gt;
+      &lt;test id="myFirstVector"&gt;
+        &lt;objs&gt;
+          &lt;obj id="myVector" type="java.util.Vector" hint="collection"&gt;
+            &lt;item type="string"&gt;firstEntry&lt;/item&gt;
+            &lt;item type="string"&gt;secondEntry&lt;/item&gt;
+            &lt;item type="string"&gt;thirdEntry&lt;/item&gt;
+          &lt;/obj&gt;
+        &lt;/objs&gt;
+        &lt;asserts&gt;
+          &lt;assert id="count" type="int" action="ISEQUAL"&gt;3&lt;/assert&gt;
+          &lt;assert id="expected" type="string" action="ISEQUAL"&gt;
+            secondEntry&lt;/assert&gt;
+        &lt;/asserts&gt;
+      &lt;/test&gt;
+      &lt;test id="mySimpleVOVector"&gt;
+        &lt;objs&gt;
+          &lt;obj id="myVector" type="vector" hint="collection"&gt;
+            &lt;item type="junitx.ddtunit.resources.SimpleVO"&gt;
+              &lt;stringValue&gt;firstEntry&lt;/stringValue&gt;
+            &lt;/item&gt;
+            &lt;item type="junitx.ddtunit.resources.SimpleVO"&gt;
+              &lt;stringValue&gt;secondEntry&lt;/stringValue&gt;
+            &lt;/item&gt;
+          &lt;/obj&gt;
+        &lt;/objs&gt;
+        &lt;asserts&gt;
+          &lt;assert id="count" type="int" action="ISEQUAL"&gt;2&lt;/assert&gt;
+          &lt;assert id="expected" type="junitx.ddtunit.resources.SimpleVO"
+            action="ISEQUAL"&gt;
+              &lt;stringValue&gt;secondEntry&lt;/stringValue&gt;
+          &lt;/assert&gt;
+        &lt;/asserts&gt;
+      &lt;/test&gt;
+    &lt;/group&gt;
+  &lt;/cluster&gt;
+&lt;/ddtunit&gt;
+</source>
+</p>
+</section>
+</body>
+</document>

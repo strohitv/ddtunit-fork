@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>Example - DDT-SimpleXMLData</title></properties>
+<body>
+<section name="Example - DDT-SimpleXMLData">
+<p>
+<source><![CDATA[
+    <group id="testProcessExpectedException">
+      <test id="catchByIsEquals">
+        <asserts>
+          <exception id="expectedException" 
+            type="java.lang.RuntimeException" action="isEqual">My own Exception</exception>
+        </asserts>
+      </test>
+      <test id="catchByIsSimilar">
+        <asserts>
+          <exception id="expectedException" 
+            type="java.lang.RuntimeException" action="isSimilar">My own</exception>
+        </asserts>
+      </test>
+      <test id="catchByIsInstanceOf">
+        <asserts>
+          <exception id="expectedException" 
+            type="java.lang.RuntimeException" action="isInstanceOf" />
+        </asserts>
+      </test>
+    </group>
+]]></source>
+processed by test method
+<source>
+    public void testProcessExpectedException() {
+        throw new RuntimeException("My own Exception");
+    }
+</source>
+and all caught without throwing an exception during test execution.
+</p>
+</section>
+</body>
+</document>

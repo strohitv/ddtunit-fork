@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>Defining Objects</title></properties>
+<body>
+<section name="Defining Object Containers - Maps">
+<a name="map-datatypes"/>
+<source>&lt;objs&gt;&lt;obj id="myId" type="my.class.Type" hint="map"&gt;...&lt;/obj&gt;&lt;objs&gt;</source>
+<p>All map or dictionary like classes in Java are derived from 
+<code>java.util.Map</code>.<br/>
+This class can be used to store a set of key/value pairs. 
+The general structure looks like this:
+<source><![CDATA[
+  <obj id="myMap" type="java.util.HashMap" hint="map">
+    <item>
+      <key type="java.lang.String">firstkey</key>
+      <value type="java.lang.String">firstValue</value>
+    </item>
+    <item>
+      <key type="java.lang.String">secondkey</key>
+      <value type="java.lang.String">secondValue</value>
+    </item>
+  </obj>]]></source>
+The <code>key</code> and <code>value</code> tags can contain every structure 
+that is allowed for standard <code>obj</code> tags as well.<br/>
+To specify a mixed key/value constallation just provide different type 
+attributes to the <code>key</code> or <code>value</code>.<br/>
+If you prefere shortcut notation with homogenous key/value pairs define it like 
+this:
+<source><![CDATA[
+  <obj id="myMap" type="java.util.HashMap" hint="map"
+    keytype="java.lang.String" valuetype="string">
+    <item>
+      <key>firstkey</key>
+      <value>firstValue</value>
+    </item>
+    <item>
+      <key>secondkey</key>
+      <value>secondValue</value>
+    </item>
+  </obj>]]></source>
+As in all the other examples you can use type shortcuts for all types as defined
+in <a href="definingObjectsTypeAbbreviation.html">Object Type Abbreviation</a>.
+</p>
+<p>To specify an empty map just use an empty xml tag:
+<source><![CDATA[
+  <obj id="myMap" type="hashmap" hint="map" keytype="string" valuetype="string" />]]></source>
+To specify the map object as "null" use the special key <code>!NULL!</code>
+<source><![CDATA[
+  <obj id="myMap" type="hashmap" hint="map" keytype="string" valuetype="string">!NULL!</obj>]]></source>
+</p>
+</section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+</body>
+</document>

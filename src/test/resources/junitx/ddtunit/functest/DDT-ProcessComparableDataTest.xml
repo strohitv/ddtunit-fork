@@ -1,0 +1,100 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <cluster id="ProcessComparableDataTest">
+  <!--                                                                  -->
+  <!-- java.util.Date                                                   -->
+  <!--                                                                  -->
+    <group id="testComparableType">
+      <test id="LongIsGT">
+		<objs><obj id="myComparable" type="long">4711</obj></objs>
+		<asserts><assert id="result" type="long" action="isGT">4700</assert></asserts>
+	  </test>
+      <test id="LongIsNotGT">
+		<objs><obj id="myComparable" type="long">4711</obj></objs>
+		<asserts><assert id="result" type="long" action="isNotGT">4712</assert></asserts>
+	  </test>
+      <test id="LongIsLT">
+		<objs><obj id="myComparable" type="long">4711</obj></objs>
+		<asserts><assert id="result" type="long" action="isLT">4747</assert></asserts>
+	  </test>
+      <test id="LongIsNotLT">
+		<objs><obj id="myComparable" type="long">4711</obj></objs>
+		<asserts><assert id="result" type="long" action="isNotLT">4712</assert></asserts>
+	  </test>
+    <test id="LongIsInRange">
+      <objs><obj id="myComparable" type="long">4711</obj></objs>
+      <asserts><assert id="result" type="range" action="isInRange">
+        <start type="long">4700</start>
+        <end type="long">4759</end>
+      </assert></asserts>
+   </test>
+    <test id="LongIsInRangeOnStart">
+      <objs><obj id="myComparable" type="long">4711</obj></objs>
+      <asserts><assert id="result" type="range" action="isInRange">
+        <start type="long">4711</start>
+        <end type="long">4759</end>
+      </assert></asserts>
+   </test>
+    <test id="LongIsInRangeOnExcludedStart">
+      <objs><obj id="myComparable" type="long">4711</obj></objs>
+      <asserts>
+        <exception id="expected" type="junit.framework.AssertionFailedError"
+          action="isSimilar">not in Range</exception>
+        <assert id="result" type="range" action="isInRange">
+          <startIncluded>false</startIncluded>
+          <start type="long">4711</start>
+          <end type="long">4759</end>
+      </assert></asserts>
+   </test>
+    <test id="LongIsInRangeOnExcludedEnd">
+      <objs><obj id="myComparable" type="long">4759</obj></objs>
+      <asserts>
+        <exception id="expected" type="junit.framework.AssertionFailedError"
+          action="isSimilar">not in Range</exception>
+        <assert id="result" type="range" action="isInRange">
+          <startIncluded>false</startIncluded>
+          <start type="long">4711</start>
+          <endIncluded>false</endIncluded>
+          <end type="long">4759</end>
+      </assert></asserts>
+   </test>
+    <test id="LongIsInRangeOnEnd">
+      <objs><obj id="myComparable" type="long">4759</obj></objs>
+      <asserts><assert id="result" type="range" action="isInRange">
+        <start type="long">4711</start>
+        <end type="long">4759</end>
+      </assert></asserts>
+   </test>
+    <test id="LongIsInRangeExternalValue">
+      <objs><obj id="myComparable" type="long">4859</obj></objs>
+      <asserts>
+        <exception id="expected" type="junit.framework.AssertionFailedError" 
+          action="isSimilar">not in Range</exception>
+        <assert id="result" type="range" action="isInRange">
+        <start type="long">4711</start>
+        <end type="long">4759</end>
+      </assert></asserts>
+   </test>
+	  <!--                                                                 -->
+	  <!--                                                                 -->
+	  <!--                                                                 -->
+      <test id="DoubleIsGT">
+		<objs><obj id="myComparable" type="double">47.11</obj></objs>
+		<asserts><assert id="result" type="double" action="isGT">47.00</assert></asserts>
+	  </test>
+      <test id="DoubleIsNotGT">
+		<objs><obj id="myComparable" type="double">47.11</obj></objs>
+		<asserts><assert id="result" type="double" action="isNotGT">4712</assert></asserts>
+	  </test>
+      <test id="DoubleIsLT">
+		<objs><obj id="myComparable" type="double">47.11</obj></objs>
+		<asserts><assert id="result" type="double" action="isLT">47.47</assert></asserts>
+	  </test>
+      <test id="DoubleIsNotLT">
+		<objs><obj id="myComparable" type="double">47.11</obj></objs>
+		<asserts><assert id="result" type="double" action="isNotLT">47.12</assert></asserts>
+	  </test>
+	</group>
+  </cluster>
+</ddtunit>

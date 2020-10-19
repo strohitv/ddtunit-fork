@@ -1,0 +1,356 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+    <cluster id="ProcessMapTypeTest">
+        <!--                                                                  -->
+        <!-- collection type object retrieval                                 -->
+        <!--                                                                  -->
+        <group id="testReadSpecialMap">
+            <test id="readNullHashMap">
+                <objs>
+                    <obj id="myMap" type="java.util.HashMap" hint="map">!NULL!</obj>
+                </objs>
+                <asserts>
+                    <assert id="result" type="hashmap" hint="map" action="isNull" />
+                </asserts>
+            </test>
+            <test id="readEmptyHashMap">
+                <objs>
+                    <obj id="myMap" type="java.util.HashMap" hint="map" />
+                </objs>
+                <asserts>
+                    <assert id="result" type="hashmap" hint="map" action="isNotNull" />
+                </asserts>
+            </test>
+        </group>
+        <group id="testReadMap">
+            <test id="readEmptyHashMap">
+                <objs>
+                    <obj id="key" type="java.lang.String">firstKey</obj>
+                    <obj id="myMap" type="java.util.HashMap" hint="map" />
+                </objs>
+                <asserts>
+                    <assert id="count" type="java.lang.Integer"
+                        action="isEqual">
+                        0
+                    </assert>
+                    <assert id="expected" type="java.lang.String"
+                        action="isNull" />
+                </asserts>
+            </test>
+            <test id="simpleHashMap">
+                <objs>
+                    <obj id="key" type="java.lang.String">firstKey</obj>
+                    <obj id="myMap" type="java.util.HashMap" hint="map">
+                        <item>
+                            <key type="java.lang.String">firstKey</key>
+                            <value type="java.lang.String">firstValue</value>
+                        </item>
+                        <item>
+                            <key type="java.lang.String">secondKey</key>
+                            <value type="java.lang.String">secondValue</value>
+                        </item>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="count" type="java.lang.Integer"
+                        action="isEqual">
+                        2
+                    </assert>
+                    <assert id="expected" type="java.lang.String"
+                        action="isEqual">
+                        firstValue
+                    </assert>
+                </asserts>
+            </test>
+            <test id="simpleHashMapShortcut">
+                <objs>
+                    <obj id="key" type="string">firstKey</obj>
+                    <obj id="myMap" type="hashmap" hint="map">
+                        <item>
+                            <key type="string">firstKey</key>
+                            <value type="string">firstValue</value>
+                        </item>
+                        <item>
+                            <key type="string">secondKey</key>
+                            <value type="string">secondValue</value>
+                        </item>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="count" type="int" action="isEqual">2</assert>
+                    <assert id="expected" type="string" action="isEqual">
+                        firstValue
+                    </assert>
+                </asserts>
+            </test>
+            <test id="simpleHashMapShortcutSingleType">
+                <objs>
+                    <obj id="key" type="string">firstKey</obj>
+                    <obj id="myMap" type="hashmap" hint="map" keytype="string"
+                        valuetype="string">
+                        <item>
+                            <key>firstKey</key>
+                            <value>firstValue</value>
+                        </item>
+                        <item>
+                            <key>secondKey</key>
+                            <value>secondValue</value>
+                        </item>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="count" type="int" action="isEqual">2</assert>
+                    <assert id="expected" type="string" action="isEqual">
+                        firstValue
+                    </assert>
+                </asserts>
+            </test>
+            <test id="voHashMap">
+                <objs>
+                    <obj id="key" type="java.lang.String">firstKey</obj>
+                    <obj id="myMap" type="java.util.HashMap" hint="map">
+                        <item>
+                            <key type="java.lang.String">firstKey</key>
+                            <value type="junitx.ddtunit.resources.SimpleVO">
+                                <stringValue>firstStringValue</stringValue>
+                            </value>
+                        </item>
+                        <item>
+                            <key type="java.lang.String">secondKey</key>
+                            <value type="junitx.ddtunit.resources.SimpleVO">
+                                <stringValue>secondStringValue</stringValue>
+                            </value>
+                        </item>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="count" type="java.lang.Integer"
+                        action="isEqual">
+                        2
+                    </assert>
+                    <assert id="expected"
+                        type="junitx.ddtunit.resources.SimpleVO"
+                        action="isEqual">
+                        <stringValue>firstStringValue</stringValue>
+                    </assert>
+                </asserts>
+            </test>
+            <test id="voHashMapShortcut">
+                <objs>
+                    <obj id="key" type="string">firstKey</obj>
+                    <obj id="myMap" type="hashmap" hint="map"
+                        valuetype="junitx.ddtunit.resources.SimpleVO">
+                        <item>
+                            <key type="string">firstKey</key>
+                            <value>
+                                <stringValue>firstStringValue</stringValue>
+                            </value>
+                        </item>
+                        <item>
+                            <key type="string">secondKey</key>
+                            <value>
+                                <stringValue>secondStringValue</stringValue>
+                            </value>
+                        </item>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="count" type="java.lang.Integer"
+                        action="isEqual">
+                        2
+                    </assert>
+                    <assert id="expected"
+                        type="junitx.ddtunit.resources.SimpleVO"
+                        action="isEqual">
+                        <stringValue>firstStringValue</stringValue>
+                    </assert>
+                </asserts>
+            </test>
+            <test id="simpleHashtableShortcut">
+                <objs>
+                    <obj id="key" type="string">firstKey</obj>
+                    <obj id="myMap" type="hashtable" hint="map">
+                        <item>
+                            <key type="string">firstKey</key>
+                            <value type="string">firstValue</value>
+                        </item>
+                        <item>
+                            <key type="string">secondKey</key>
+                            <value type="string">secondValue</value>
+                        </item>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="count" type="int" action="isEqual">2</assert>
+                    <assert id="expected" type="string" action="isEqual">
+                        firstValue
+                    </assert>
+                </asserts>
+            </test>
+        </group>
+        <!--                                                                  -->
+        <!-- collection type as field in value objects                        -->
+        <!--                                                                  -->
+        <group id="testReadMapAsField">
+            <test id="simpleHashMapField">
+                <objs>
+                    <obj id="complexVO"
+                        type="junitx.ddtunit.resources.ComplexVO">
+                        <map type="java.util.HashMap" hint="map">
+                            <item>
+                                <key type="java.lang.String">firstKey</key>
+                                <value type="java.lang.String">
+                                    firstValue
+                                </value>
+                            </item>
+                            <item>
+                                <key type="java.lang.String">secondKey</key>
+                                <value type="java.lang.String">
+                                    secondValue
+                                </value>
+                            </item>
+                        </map>
+                    </obj>
+                    <obj id="key" type="java.lang.String">firstKey</obj>
+                </objs>
+                <asserts>
+                    <assert id="count" type="java.lang.Integer"
+                        action="isEqual">
+                        2
+                    </assert>
+                    <assert id="expected" type="java.lang.String"
+                        action="isEqual">
+                        firstValue
+                    </assert>
+                </asserts>
+            </test>
+            <test id="simpleHashMapFieldShortcut">
+                <objs>
+                    <obj id="complexVO"
+                        type="junitx.ddtunit.resources.ComplexVO">
+                        <map type="hashmap" hint="map" keytype="string"
+                            valuetype="string">
+                            <item>
+                                <key>firstKey</key>
+                                <value>firstValue</value>
+                            </item>
+                            <item>
+                                <key>secondKey</key>
+                                <value>secondValue</value>
+                            </item>
+                        </map>
+                    </obj>
+                    <obj id="key" type="string">firstKey</obj>
+                </objs>
+                <asserts>
+                    <assert id="count" type="int" action="isEqual">2</assert>
+                    <assert id="expected" type="string" action="isEqual">
+                        firstValue
+                    </assert>
+                </asserts>
+            </test>
+        </group>
+        <!--                                                                  -->
+        <!-- collection type as field in value objects                        -->
+        <!--                                                                  -->
+        <group id="testReadMapAsCollectionMember">
+            <test id="simpleHashMapCollectionMember">
+                <objs>
+                    <obj id="list" type="vector" hint="collection">
+                        <item type="hashmap" hint="map">
+                            <item>
+                                <key type="string">firstKey</key>
+                                <value type="string">firstValue</value>
+                            </item>
+                        </item>
+                        <item type="hashmap" hint="map">
+                            <item>
+                                <key type="string">secondKey</key>
+                                <value type="string">secondValue</value>
+                            </item>
+                        </item>
+                    </obj>
+                    <obj id="listCount" type="java.lang.Integer">2</obj>
+                    <obj id="key" type="java.lang.String">firstKey</obj>
+                </objs>
+                <asserts>
+                    <assert id="count" type="java.lang.Integer"
+                        action="isEqual">
+                        1
+                    </assert>
+                    <assert id="expected" type="java.lang.String"
+                        action="isEqual">
+                        firstValue
+                    </assert>
+                </asserts>
+            </test>
+        </group>
+        <group id="testArrayFromMap">
+            <test id="readArrayFromMapValue">
+                <objs>
+                    <obj id="key" type="string">Second</obj>
+                    <obj id="myMap" type="hashmap" hint="map"
+                        keytype="string">
+                        <item>
+                            <key>First</key>
+                            <value hint="array" type="string">
+                                <item>Hallo</item>
+                                <item>World</item>
+                            </value>
+                        </item>
+                        <item>
+                            <key>Second</key>
+                            <value hint="array" type="string">
+                                <item>Big</item>
+                                <item>Bigger</item>
+                                <item>Biggest</item>
+                            </value>
+                        </item>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="count" type="int" action="isEqual">2</assert>
+                    <assert id="result" type="string" hint="array"
+                        action="isEqual">
+                        <item>Big</item>
+                        <item>Bigger</item>
+                        <item>Biggest</item>
+                    </assert>
+                </asserts>
+            </test>
+            <test id="readArrayFromMapValueShortcut">
+                <objs>
+                    <obj id="key" type="string">Second</obj>
+                    <obj id="myMap" type="hashmap" hint="map" keytype="string"
+                        valuetype="string">
+                        <item>
+                            <key>First</key>
+                            <value hint="array">
+                                <item>Hallo</item>
+                                <item>World</item>
+                            </value>
+                        </item>
+                        <item>
+                            <key>Second</key>
+                            <value hint="array">
+                                <item>Big</item>
+                                <item>Bigger</item>
+                                <item>Biggest</item>
+                            </value>
+                        </item>
+                    </obj>
+                </objs>
+                <asserts>
+                    <assert id="count" type="int" action="isEqual">2</assert>
+                    <assert id="result" type="string" hint="array"
+                        action="isEqual">
+                        <item>Big</item>
+                        <item>Bigger</item>
+                        <item>Biggest</item>
+                    </assert>
+                </asserts>
+            </test>
+        </group>
+    </cluster>
+</ddtunit>

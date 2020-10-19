@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+    <properties>
+        <title>DDTUnit - History</title>
+    </properties>
+    <body>
+        <section name="A short History">
+            <p>
+                The first steps on developing a datacentric testing
+                framework began in summer 2002 after supporting a
+                diploma thesis on Testing in a J2EE environment and its
+                special requirements on basis of JUnit and it's extensions.
+                <br />
+                Until then I had covered good ground in using
+                JUnit
+                in standard application development and in testing my
+                selfwritten service-based framework to support
+                development of J2EE components and standard applications
+                alike - This was done as inhouse project only.
+            </p>
+            <p>
+                Even in this first attempt to make developer life a
+                little easier my major goal was to combine different
+                very good frameworks under the hood of an easy to use
+                framework with a rather simple API. - Why invent logging
+                facilities when there is such an excellent logging
+                framework as LOG4J of the Apache Jakarta project or why
+                try to invent templating mechanisms if you can use a
+                rock solid Velocity from Apache Jakarta project.
+            </p>
+            <p>
+                Why not use an existing framework then?
+                <br />
+                After a research over the web I found two frameworks
+                that apealed to me by the basic ideas and goals they
+                aimed - a data centric approach to unit testing.
+                <br />
+                <ul>
+                    <li>
+                        <a href="http://jxunit.sourceforge.net">
+                            JXUnit on Sourceforge
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://jtestcase.sourceforge.net">
+                            JTestCase on Sourceforge
+                        </a>
+                    </li>
+                </ul>
+            </p>
+            <p>
+                In my opinion the major drawback in JXUnit was the
+                complexity of usage.
+                <br />
+                <ol>
+                    <li>Define a data file - thats fine with me.</li>
+                    <li>
+                        Define a mapping file (in XML) to specify the
+                        mapping between xml and Java.
+                    </li>
+                    <li>
+                        Compile the mapping definitions by using jet
+                        another framework:
+                        <a href="http://quick4.sourceforge.net">
+                            Quick4
+                        </a>
+                        .
+                        <br />
+                        As developers with a rather short schedule my
+                        colleagues didn't want to learn this extra
+                        things. They just wanted to write test data as
+                        simple and understandable as writing
+                        JUnit
+                        TestCases.
+                    </li>
+                </ol>
+            </p>
+            <p>
+                With this in mind I stumbled over JTestCase on
+                Sourceforge.
+                <br />
+                This project used direct data structure description
+                using
+                Java
+                datatypes and a mapping of XML to JUnit class structure
+                by supporting basic object instanciations. The following
+                example is taken from the JTestCase project version
+                2.1.0 on Sourceforge
+                <source><![CDATA[<?xml version ="1.0" encoding = "UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:noNamespaceSchemaLocation="c:/Programme/eclipse/workspace/JTESTCASE/config/jtestcase.xsd">
+    <class name="JTestCaseTest">
+        <method name="testDateType" test-case="first-testcase">
+            <params>
+                <param name="a_JavaUtilDate" type="java.util.Date">01.08.2003</param>
+            </params>
+        </method>
+        <method name="testParamGroups" test-case="second-testcase">
+            <params>
+                <param name="key" type="java.lang.String">key</param>
+                ...
+            </params>
+        </method>
+        ...
+   </class>
+</tests>
+]]></source>
+                Because of the simple structure and the ease of use
+                JTestCase set the foundation for further research and
+                development.
+            </p>
+            <p>
+                The major points JTestCase was missing then were
+                <ul>
+                    <li>
+                        no direct extension from
+                        JUnit
+                        TestCase class. Just a set of helper classes to
+                        be used for data retrieval.
+                    </li>
+                    <li>
+                        A missing mapping for arbitrary 'value object'
+                        like
+                        Java
+                        structures.
+                        <br />
+                        We are using
+                        <b>a lot</b>
+                        of them in actual projects. A good part of these
+                        objects are write protected, that means only
+                        creatable with special constructor or through
+                        Java
+                        reflection.
+                    </li>
+                    <li>
+                        No referencing between objects like used in
+                        complex structures as order objects or other
+                        business structures.
+                    </li>
+                </ul>
+                The lack of this features set the gound for the basic
+                ideas and features of DDTUnit.
+            </p>
+        </section>
+   <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+    </body>
+</document>

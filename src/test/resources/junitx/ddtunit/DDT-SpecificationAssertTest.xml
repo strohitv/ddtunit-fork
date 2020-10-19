@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+ <cluster id="SpecificationAssertTest">
+  <!--                                                                  -->
+  <!-- simple object retrieval                                          -->
+  <!--                                                                  -->
+  <group id="testMethod">
+    <test id="myFirstTestCase">
+	 	<objs>
+		  <obj id="myObj" type="java.lang.String">Hallo World</obj>
+		</objs>
+		<asserts>
+      <exception id="expected" type="junit.framework.AssertionFailedError" action="isSimilar">
+        <![CDATA[Assert(result2):Object should be null on assert (result2)]]>
+      </exception>
+		  <assert id="result" type="java.lang.String" action="isEqual">Hallo Country</assert>
+      <assert id="result2" type="java.lang.String" action="isNull" />
+      <assert id="result3" type="java.lang.String" action="isEqual">Hallo World</assert>
+		</asserts>
+	  </test>
+    <test id="mySecondTestCase">
+   <objs>
+    <obj id="myObj" type="java.lang.String">Hallo Germany</obj>
+  </objs>
+  <asserts>
+    <exception id="expected" type="junit.framework.AssertionFailedError" action="isSimilar">
+      <![CDATA[Assert(result2):Wrong isSame assert (result2) expected same:<First line> was not:<Hallo Germany>]]>
+    </exception>
+    <assert id="result" type="java.lang.String" action="isEqual">Hallo America</assert>
+    <assert id="result2" type="java.lang.String" action="isSame">First line</assert>
+    <assert id="result3" type="java.lang.String" action="isEqual">Goodbye</assert>
+  </asserts>
+   </test>
+    <test id="myThirdTestCase">
+   <objs>
+    <obj id="myObj" type="java.lang.String">Goodbye, Hallo</obj>
+  </objs>
+  <asserts>
+    <exception id="expected" type="junit.framework.AssertionFailedError" action="isSimilar">
+      <![CDATA[Assert(result):Wrong isEqual assert on (multiline) string [position 0] expected:<Hallo> but was:<Goodbye, Hallo>]]>
+    </exception>
+    <assert id="result" type="java.lang.String" action="isEqual">Hallo</assert>
+    <assert id="result2" type="java.lang.String" action="isEqual">Goodbye</assert>
+    <assert id="result3" type="java.lang.String" action="isEqual">Tschuess</assert>
+  </asserts>
+   </test>
+  </group>
+ </cluster>
+</ddtunit>

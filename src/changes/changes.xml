@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+    <properties>
+        <title>DDTUnit - Changes</title>
+    </properties>
+    <body>
+        <release version="ddtunit_0.8.9" date="2011-05-09">
+            <action dev="jg_hamburg" type="add" >Maven 2.2.1 support.</action>
+            <action dev="jg_hamburg" type="fix">Cleanup of JUnitAddons dependencies.</action>
+            <action dev="jg_hamburg" type="delete">Discontinue JDK 1.4 support (You still find traces).</action>
+        </release>
+        <release version="ddtunit_0.8.8" date="2009-08-09">
+            <action dev="jg_hamburg" type="fix" issue="2801308" due-to="Eduardo Solanas Esteban">
+            Support bean hint in nested array objects.</action>
+            <action dev="jg_hamburg" type="fix" issue="2801307" due-to="Eduardo Solanas Esteban">
+            When you choose an object with hint=bean and value=null the framework throws an exception.</action>
+            <action dev="Juergen Sussner" type="add" due-to="Juergen Sussner" issue="2721177">
+            Add JUnit 4 class runner to use JUnit annotations inside of DDTTestCase.</action>
+            <action dev="jg_hamburg" type="fix" issue="1901074" due-to="Denilson Nastacio">
+            Exception in runtime JUnit 4.4</action>
+            <action dev="jg_hamburg" type="add">
+            Support for slf4j (www.slf4j.org)</action>
+        </release>
+        <release version="ddtunit_0.8.7" date="2008-02-21">
+            <action dev="jg_hamburg" type="add" issue="1898149" due-to="Denilson Nastacio">
+            Compatibility of JUnit 4.4 and DDTUnit - Using Eclipse JUnit4 runtime.</action>
+            <action dev="jg_hamburg" type="fix" issue="1894862" due-to="Rafael Luque Leiva">
+            NullPointerException during pare of nested collection object</action>
+            <action dev="jg_hamburg" type="add" issue="1894862">
+            Support of Java 1.4 runtime (see Maven and Installation Requirements section)</action>
+        </release>
+        <release version="ddtunit_0.8.6" date="2007-10-18">
+            <action dev="jg_hamburg" type="fix" issue="1773979" due-to="Juergen Sussner">
+            No recognition of classes impl. only the List/Collection</action>
+            <action dev="jg_hamburg" type="fix" issue="1773974" due-to="Juergen Sussner">
+            NullPointerException when using a collection within a collection</action>
+            <action dev="jg_hamburg" type="fix" issue="1774095" due-to="Juergen Sussner">
+            Reference error in arraylist/collection</action>
+        </release>
+        <release version="ddtunit_0.8.5" date="2007-07-01">
+            <action dev="jg_hamburg" type="add" >
+            Add support for reading central cconfiguration properties from file resource
+            </action>
+            <action dev="jg_hamburg" type="add" due-to="David Duchaine" issue="1732556">
+            Add support on date format and Locale for hint="date"
+            </action>
+            <action dev="jg_hamburg" type="add" >
+            Execute tests in same order as defined in xml resource
+            </action>
+            <action dev="jg_hamburg" type="add" issue="1652740" due-to="Jan Vlegels">
+            Java 5 enum throws error
+            </action>
+            <action dev="jg_hamburg" type="fix" issue="1641086" due-to="Jan Vlegels">
+            Defining primitive array fields
+            </action>
+            <action dev="jg_hamburg" type="fix" issue="1552200" >
+            java.util.Hashtable not identified as java.util.Map if using hint="map"
+            </action>
+        </release>
+        <release version="ddtunit_0.8.4" date="2006-11-01">
+            <action dev="jg_hamburg" type="fix" issue="1582554" due-to="Rafael Luque Leiva">
+            Defining primitive array fields
+            </action>
+            <action dev="jg_hamburg" type="fix" issue="1552200" >
+            CDATA String definition does not work as expected
+            </action>
+        </release>
+        <release version="ddtunit_0.8.3" date="2006-05-01">
+            <action dev="jg_hamburg" type="add" issue="">
+            Add tool tip documentation on Using Eclipse on Editing XML Resources
+            </action>
+            <action dev="jg_hamburg" type="fix" issue="1493034" due-to="Carlos Alves">
+            Error referencing object created by constructor call.
+            </action>
+            <action dev="jg_hamburg" type="fix" issue="1486380" due-to="Dennis Schweitzer">
+            Creating Character Objects results in an exception
+            </action>
+            <action dev="jg_hamburg" type="fix" issue="" due-to="Ted Velkoff">
+            Now processes collections as field type of &lt;obj&gt; correctly.
+            </action>
+        </release>
+        <release version="ddtunit_0.8.2" date="2006-04-01">
+            <action dev="jg_hamburg" type="add" issue="">
+add new assertion actions:
+<ul><li>isInRange / isNotInRange: Used for java.lang.Comparable
+object types. </li>
+  <li>isContainedIn / isNotContainedIn: Used for object containment using equals()
+  to verify this relation.</li>
+</ul>
+            </action>
+            <action dev="jg_hamburg" type="add" issue="" due-to="Ted Velkoff">
+extend FAQ with example on testing a class constructor.
+            </action>
+            <action dev="jg_hamburg" type="fix" issue="" due-to="Ted Velkoff">
+Clarify exception messages on using hint="fields" and hint="bean" if unknown field, 
+field type or setter method are provided in data definition.
+            </action>
+            <action dev="jg_hamburg" type="fix" issue="" due-to="Ted Velkoff">
+On searching for a method by name and parameter set only the methods of the local 
+class were used. Now also inherited methods were searched. This behavior is used
+by hint="bean" and hint="call".
+            </action>
+        </release>
+        <release version="ddtunit_0.8.1" date="2005-12-01">
+            <action dev="jg_hamburg" type="add" issue="">
+add first support for instanciating objects by using static methods.
+         Introducing new hint "call", attributes calltype and method.
+         Setting hint="constructor" to deprecated.
+<code><pre>&lt;obj id="myObj" type="string" calltype="ddtunit.MyFactory" hint="call"
+  method="getInstance"&gt;
+    &lt;item type="string"&gt;parameter1&lt;/item&gt;
+&lt;/obj&gt;</pre></code>
+            </action>
+            <action dev="jg_hamburg" type="add" issue="">
+            	Multiline string assert will ignore line.separator differences 
+            	between actual (normaly programmatic generated) and expected 
+            	string (mostly specified in xml resource).
+            </action>
+            <action dev="jg_hamburg" type="add" issue="">
+                New assert action for expected exceptions.<br/>
+                <code>&lt;exception id="myEx" type="java.lang.RuntimeException" action="isInstanceOf" /&gt;</code>
+                will catch all RuntimeExceptions and subclasses of it.
+            </action>
+            <action dev="jg_hamburg" type="add" issue="">
+                Define clear state for empty object tag. - Empty tag will try to 
+                provide empty object (collection, map or object created by default 
+                constructor).
+            </action>
+        </release>
+        <release version="ddtunit_0.8.0" date="2005-11-01">
+            <action dev="jg_hamburg" type="add" issue="">
+                Refactoring of package processing for easier maintainability and 
+                extenseability of xml processing of new types.
+            </action>
+        </release>
+        <release version="0.7.2" date="-10-012005">
+            <action dev="jg_hamburg" type="add" issue="">
+                Add support for Object arrays like <code>String[]</code>.
+            </action>
+            <action dev="jg_hamburg" type="fix" due-to="mstochmialek"
+                due-to-email="mstochmialek@users.sourceforge.net" issue="">
+                Patches / corrections on configuration, internal use of data type,
+                New convenience Method <code>DDTTestCase.initTestData(String clusterId)</code>
+            </action>
+        </release>
+        <release version="0.7.1" date="2005-09-01">
+            <action dev="jg_hamburg" type="add" issue="">
+                Add support for Collection and Map shortcut notation of single type and
+                mixed types elements.
+                <code>
+                    &lt;obj id=&quot;myCol&quot; type=&quot;vector&quot;
+                    valuetype=&quot;string&quot;&gt;
+                    &lt;item&gt;Hello&lt;/item&gt;
+                    &lt;item&gt;World!&lt;/item&gt;&lt;/obj&gt; or &lt;obj
+                    id=&quot;myCol&quot; type=&quot;vector&quot;
+                    valuetype=&quot;string&quot;&gt;
+                    &lt;item&gt;Hello&lt;/item&gt; &lt;item
+                    type=&quot;int&quot;&gt;4711&lt;/item&gt;&lt;/obj&gt;.
+                </code>
+            </action>
+            <action dev="jg_hamburg" type="add" due-to="mstochmialek"
+                due-to-email="mstochmialek@users.sourceforge.net"
+                issue="1297806">
+                added new type shortcuts to TypeAbbrevator properties.
+            </action>
+            <action dev="jg_hamburg" type="fix" issue="">
+                Defining value objects with primitive field types.
+            </action>
+            <action dev="jg_hamburg" type="fix" issue="">
+                Check for Xerces as validating parser before try to parse
+                resource If it does not exists just proceed without validation.
+            </action>
+            <action dev="jg_hamburg" type="fix" due-to="mstochmialek"
+                due-to-email="mstochmialek@users.sourceforge.net"
+                issue="1297799">
+                log4j properties concerning additivity on appenders
+            </action>
+            <action dev="jg_hamburg" type="fix" due-to="mstochmialek"
+                due-to-email="mstochmialek@users.sourceforge.net"
+                issue="1297790">
+                Number of failures/errors is not reseting on count behavior of
+                DDTRunMonitor
+            </action>
+        </release>
+        <release version="0.7.0" date="2005-08-01">
+            <action dev="jg_hamburg" type="add" issue="">
+                Added support of SoftReferences for repository caching
+            </action>
+            <action dev="jg_hamburg" type="fix">
+                ddtunit.jar missed ddtunit.xsd schema file and wrong access to
+                jar internal test resources
+            </action>
+        </release>
+        <release version="0.6.7" date="2005-04-15">
+            <action dev="jg_hamburg" type="add">
+                Documentation update
+            </action>
+            <action dev="jg_hamburg" type="add">
+                First implementation of object references.
+            </action>
+        </release>
+        <release version="0.6.6" date="2005-04-01">
+            <action dev="jg_hamburg" type="add">
+                Indroduction of 3 level scope for DataRepository. New levels:
+                <ul>
+                    <li>
+                        local, all objects only accessible in one test inside of
+                        a testmethod.
+                    </li>
+                    <li>
+                        global, all objects accessible within a testclass and
+                        from all methods.
+                    </li>
+                    <li>resource, all objects accessible for all classes.</li>
+                </ul>
+                Reference hirachy starts from local to resource, that is if not
+                found locally try it in global scope, then in reource scope.
+                DDTTestCase provides separate access methods for every scope.
+            </action>
+            <action dev="jg_hamburg" type="add">
+                add support for java.util.Date with three formats with special
+                keywords !SYSDATE! and !SYSTIME!.
+            </action>
+            <action dev="jg_hamburg" type="add">
+                extend assert actions with isLT, isNotLT, isGT, isNotGT for
+                classes that implement the interface java.lang.Comparable.
+            </action>
+            <action dev="jg_hamburg" type="add">
+                first implementation of hint="bean" supporting bean like setter
+                method calls to populate object fields.
+            </action>
+        </release>
+        <release version="0.6.5" date="2005-04-01">
+            <action dev="jg_hamburg" type="add">
+                Multiline and &lt;[CDATA[...]]&gt; support for xml tag content.
+            </action>
+            <action dev="jg_hamburg" type="add">
+                Introduction of TypeAbbreviator to provide shortcut notation on
+                most recently used Java datatypes, like java.lang.String ->
+                string. Configurable shortcut factory.
+            </action>
+        </release>
+        <release version="0.6.4" date="2005-04-01">
+            <action dev="jg_hamburg" type="update">
+                Renamed DDTTestCase.initTestData() to initContext() for clarity
+                of usage.
+            </action>
+        </release>
+        <release version="0.6.3" date="2005-04-01">
+            <action dev="jg_hamburg" type="add">
+                Add support for constants and typesafe enumeration classes. See
+                subsection of"Defining Objects".
+            </action>
+            <action dev="jg_hamburg" type="add">
+                Add library JUnit-Addons from
+                http://junit-addons.sourceforge.net as extension on assertion
+                capacities.
+            </action>
+        </release>
+        <release version="0.6.2" date="2005-04-01">
+            <action dev="jg_hamburg" type="add">
+                Separation of test framework and data repository for testdata.
+                First is now a client of later.
+            </action>
+            <action dev="jg_hamburg" type="add">
+                Abstract data definition from implementation. Change
+                class-method-test to the more generic cluster-group-test to
+                specify different levels of testdata cohersion.
+            </action>
+            <action dev="jg_hamburg" type="add">
+                SAX XML schema validator processes xml as default
+            </action>
+            <action dev="jg_hamburg" type="add">
+                included separate execution exceptions: DDTTestDataExceptions on
+                data errors, DDTSetupException on errors of setUp() methods,
+                DDTTearDownException on errors during tearDown() method,
+                DDTExcption or AssertFailedException on error during tstmethod
+                exception.
+            </action>
+        </release>
+        <release version="0.6.1" date="2005-03-01">
+            <action dev="jg_hamburg" type="add">
+                Updated version of constructor support now supports nested call
+                structures
+            </action>
+            <action dev="jg_hamburg" type="add">
+                Reorganization of functional tests into separate package
+            </action>
+        </release>
+        <release version="0.6.0" date="2005-02-01">
+            <action dev="jg_hamburg" type="add">
+                first release of constructor support for object instanciation
+            </action>
+            <action dev="jg_hamburg" type="add">
+                changed default behavio or DDTTestCase.initTestData(String
+                resource, String classId) If resource is provided as the name of
+                the test class - no package - then it is searched in same dir as
+                testclass: DDT-&lt;resource&gt;.xml
+            </action>
+        </release>
+        <release version="0.5.1" date="2005-01-01">
+            <action dev="jg_hamburg" type="add">
+                added support for collection like structures
+            </action>
+            <action dev="jg_hamburg" type="add">
+                corrected and extended documentation
+            </action>
+        </release>
+        <release version="0.5.0" date="2004-12-01">
+            <action dev="jg_hamburg" type="add">
+                The first release containing the basic structure and data
+                support of the framework.
+            </action>
+        </release>
+    </body>
+</document>

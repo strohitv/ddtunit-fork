@@ -1,0 +1,281 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+ <cluster id="ProcessSetTypeTest">
+  <!--                                                                  -->
+  <!-- collection type object retrieval                                 -->
+  <!--                                                                  -->
+  <group id="testReadNullSet">
+   <test id="readNullSet">
+    <objs>
+     <obj id="mySet" type="java.util.HashSet" hint="collection">!NULL!</obj>
+    </objs>
+    <asserts>
+     <assert id="result" type="java.util.HashSet" hint="collection"
+      action="isNull" />
+    </asserts>
+   </test>
+  </group>
+  <group id="testReadSet">
+   <test id="readEmptySet">
+    <objs>
+     <obj id="mySet" type="java.util.HashSet" hint="collection" />
+    </objs>
+    <asserts>
+     <assert id="count" type="java.lang.Integer" action="isEqual">0</assert>
+     <assert id="expected" type="java.lang.String" action="isNull" />
+    </asserts>
+   </test>
+   <test id="myFirstSet">
+    <objs>
+     <obj id="mySet" type="java.util.HashSet" hint="collection">
+      <item type="java.lang.String">firstEntry</item>
+      <item type="java.lang.String">secondEntry</item>
+      <item type="java.lang.String">thirdEntry</item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="java.lang.Integer" action="isEqual">3</assert>
+     <assert id="expected" type="java.lang.String" action="isEqual">
+      secondEntry
+     </assert>
+    </asserts>
+   </test>
+   <test id="myFirstShorthandSet">
+    <objs>
+     <obj id="mySet" type="hashset" hint="collection">
+      <item type="string">firstEntry</item>
+      <item type="string">secondEntry</item>
+      <item type="string">thirdEntry</item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">3</assert>
+     <assert id="expected" type="string" action="isEqual">secondEntry</assert>
+    </asserts>
+   </test>
+   <test id="myFirstShorthandSetSingleType">
+    <objs>
+     <obj id="mySet" type="hashset" hint="collection" valuetype="string">
+      <item>firstEntry</item>
+      <item>secondEntry</item>
+      <item>thirdEntry</item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">3</assert>
+     <assert id="expected" type="string" action="isEqual">secondEntry</assert>
+    </asserts>
+   </test>
+   <test id="myFirstShorthandSetMixedType">
+    <objs>
+     <obj id="mySet" type="hashset" hint="collection" valuetype="string">
+      <item>firstEntry</item>
+      <item type="int">4711</item>
+      <item>thirdEntry</item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">3</assert>
+     <assert id="expected" type="vector" action="isContainedIn"
+      hint="collection">
+      <item type="string">firstEntry</item>
+      <item type="int">4711</item>
+      <item type="string">thirdEntry</item>
+     </assert>
+    </asserts>
+   </test>
+   <test id="mySimpleVOSet">
+    <objs>
+     <obj id="mySet" type="java.util.HashSet" hint="collection">
+      <item type="junitx.ddtunit.resources.SimpleVO">
+       <stringValue>firstEntry</stringValue>
+      </item>
+      <item type="junitx.ddtunit.resources.SimpleVO">
+       <stringValue>secondEntry</stringValue>
+      </item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="java.lang.Integer" action="isEqual">2</assert>
+     <assert id="expected" type="vector"
+      valuetype="junitx.ddtunit.resources.SimpleVO" action="isContainedIn"
+      hint="collection">
+      <item>
+       <stringValue>firstEntry</stringValue>
+      </item>
+      <item>
+       <stringValue>secondEntry</stringValue>
+      </item>
+     </assert>
+    </asserts>
+   </test>
+  </group>
+  <group id="testReadNestedSet">
+   <test id="myFirstVector">
+    <objs>
+     <obj id="mySet" type="java.util.HashSet" hint="collection">
+      <item type="java.util.HashSet" hint="collection">
+       <item type="java.lang.String">1.1</item>
+       <item type="java.lang.String">1.2</item>
+      </item>
+      <item type="java.util.HashSet" hint="collection">
+       <item type="java.lang.String">2.1</item>
+       <item type="java.lang.String">2.2</item>
+      </item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="java.lang.Integer" action="isEqual">2</assert>
+    </asserts>
+   </test>
+   <test id="myFirstShorthandVector">
+    <objs>
+     <obj id="mySet" type="hashset" hint="collection">
+      <item type="arraylist" hint="collection">
+       <item type="string">1.1</item>
+       <item type="string">1.2</item>
+      </item>
+      <item type="arraylist" hint="collection">
+       <item type="string">2.1</item>
+       <item type="string">2.2</item>
+      </item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">2</assert>
+    </asserts>
+   </test>
+   <test id="myFirstShorthandVectorSingleType">
+    <objs>
+     <obj id="mySet" type="hashset" hint="collection" valuetype="arraylist">
+      <item hint="collection">
+       <item type="string">1.1</item>
+       <item type="string">1.2</item>
+      </item>
+      <item hint="collection">
+       <item type="string">2.1</item>
+       <item type="string">2.2</item>
+      </item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">2</assert>
+    </asserts>
+   </test>
+   <test id="myFirstShorthandVectorSingleTypeExtraShort">
+    <objs>
+     <obj id="mySet" type="hashset" hint="collection" valuetype="hashset">
+      <item hint="collection" valuetype="string">
+       <item>1.1</item>
+       <item>1.2</item>
+      </item>
+      <item hint="collection" valuetype="string">
+       <item>2.1</item>
+       <item>2.2</item>
+      </item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">2</assert>
+    </asserts>
+   </test>
+  </group>
+  <group id="testReadNestedMixedType">
+   <test id="myFirstShorthandVectorMultiType">
+    <objs>
+     <obj id="mySet" type="hashset" hint="collection" valuetype="arraylist">
+      <item hint="collection">
+       <item type="string">1.1</item>
+       <item type="string">1.2</item>
+      </item>
+      <item type="int">4711</item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">2</assert>
+     <assert id="secondEntry" type="string" action="isEqual">1.2</assert>
+     <assert id="firstEntry" type="string" action="isEqual">1.1</assert>
+    </asserts>
+   </test>
+   <test id="myFirstShorthandVectorSingleTypeExtraShort">
+    <objs>
+     <obj id="mySet" type="hashset" hint="collection" valuetype="arraylist">
+      <item hint="collection" valuetype="string">
+       <item>1.1</item>
+       <item>1.2</item>
+      </item>
+      <item hint="collection" valuetype="string">
+       <item>2.1</item>
+       <item>2.2</item>
+      </item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">2</assert>
+     <assert id="firstEntry" type="string" action="isEqual">1.1</assert>
+     <assert id="secondEntry" type="string" action="isEqual">1.2</assert>
+     <!-- assert id="secondEntry" type="arraylist" hint="collection"
+      valuetype="string" action="isEqual">
+      <item>2.1</item>
+      <item>2.2</item>
+      </assert-->
+    </asserts>
+   </test>
+  </group>
+  <group id="testArrayFromSet">
+   <test id="readArrayFromSet">
+    <objs>
+     <obj id="mySet" type="hashset" hint="collection">
+      <item hint="array" type="string">
+       <item>Hallo</item>
+       <item>World</item>
+      </item>
+      <item hint="array" type="string">
+       <item>Big</item>
+       <item>Bigger</item>
+       <item>Biggest</item>
+      </item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">2</assert>
+     <assert id="result" type="vector" hint="collection"
+      action="isContainedIn">
+      <item hint="array" type="string">
+       <item>Hallo</item>
+       <item>World</item>
+      </item>
+      <item hint="array" type="string">
+       <item>Big</item>
+       <item>Bigger</item>
+       <item>Biggest</item>
+      </item>
+     </assert>
+    </asserts>
+   </test>
+   <test id="readArrayFromSetShortcut">
+    <objs>
+     <obj id="mySet" type="hashset" hint="collection" valuetype="string">
+      <item hint="array">
+       <item>Hallo</item>
+       <item>World</item>
+      </item>
+      <item hint="array">
+       <item>Big</item>
+       <item>Bigger</item>
+       <item>Biggest</item>
+      </item>
+     </obj>
+    </objs>
+    <asserts>
+     <assert id="count" type="int" action="isEqual">2</assert>
+     <assert id="result" type="string" hint="array" action="isEqual">
+       <item>Hallo</item>
+       <item>World</item>
+     </assert>
+    </asserts>
+   </test>
+  </group>
+ </cluster>
+</ddtunit>

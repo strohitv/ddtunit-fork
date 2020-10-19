@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+	<cluster id="DateCreatorActionTest">
+		<objs>
+			<obj id="attrMap" hint="map" type="hashmap">
+				<item>
+					<key>hint</key>
+					<value>content</value>
+				</item>
+				Ï
+			</obj>
+			<obj id="contentCreator"
+				type="junitx.ddtunit.data.processing.ContentCreatorAction"
+				method="constructor">
+				<item refid="attrMap" />
+			</obj>
+		</objs>
+		<!--                                                                  -->
+		<!-- simple object retrieval                                          -->
+		<!--                                                                  -->
+		<group id="testProcessSuccessor">
+			<test id="date-short-format">
+				<objs>
+					<obj id="myObj" type="date" hint="date"
+						dateformat="short">
+						10.01.2007
+					</obj>
+				</objs>
+				<asserts>
+					<assert id="result" type="date" hint="date"
+						action="isNotEqual">
+						10.01.2007
+					</assert>
+				</asserts>
+			</test>
+		</group>
+	</cluster>
+</ddtunit>

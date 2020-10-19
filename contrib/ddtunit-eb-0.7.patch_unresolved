@@ -1,0 +1,613 @@
+diff -w -N -r -u ddtunit-0.7.0/project.xml ddtunit/project.xml
+--- ddtunit-0.7.0/project.xml	2005-08-30 14:26:38.000000000 +0200
++++ ddtunit/project.xml	2005-09-07 17:42:08.000000000 +0200
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="ISO-8859-1"?>
+-<!-- $Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $ -->
++<!-- $Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $ -->
+ <project>
+ 
+   <pomVersion>3</pomVersion>
+@@ -192,6 +192,11 @@
+       <artifactId>junitperf</artifactId>
+       <version>1.9.1</version>
+     </dependency>
++    <dependency>
++      <groupId>castor</groupId>
++      <artifactId>castor</artifactId>
++      <version>0.9.6</version>
++    </dependency>
+   </dependencies>
+ 
+   <build>
+diff -w -N -r -u ddtunit-0.7.0/src/junitx/ddtunit/data/processing/CastorCreator.java ddtunit/src/junitx/ddtunit/data/processing/CastorCreator.java
+--- ddtunit-0.7.0/src/junitx/ddtunit/data/processing/CastorCreator.java	1970-01-01 01:00:00.000000000 +0100
++++ ddtunit/src/junitx/ddtunit/data/processing/CastorCreator.java	2005-09-07 17:42:08.000000000 +0200
+@@ -0,0 +1,76 @@
++//$Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $
++/********************************************************************************
++ * DDTUnit, a Datadriven Approach to Unit- and Moduletesting
++ * Copyright (c) 2004, Joerg and Kai Gellien
++ * All rights reserved.
++ *
++ * The Software is provided under the terms of the Common Public License 1.0
++ * as provided with the distribution of DDTUnit in the file cpl-v10.html.
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ *
++ *     + Redistributions of source code must retain the above copyright
++ *       notice, this list of conditions and the following disclaimer.
++ *
++ *     + Redistributions in binary form must reproduce the above
++ *       copyright notice, this list of conditions and the following
++ *       disclaimer in the documentation and/or other materials provided
++ *       with the distribution.
++ *
++ *     + Neither the name of the authors or DDTUnit, nor the
++ *       names of its contributors may be used to endorse or promote
++ *       products derived from this software without specific prior
++ *       written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR
++ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
++ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
++ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
++ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
++ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
++ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ ********************************************************************************/
++package junitx.ddtunit.data.processing;
++
++import java.io.StringReader;
++
++import junitx.ddtunit.data.DDTTestDataException;
++
++import org.exolab.castor.xml.MarshalException;
++import org.exolab.castor.xml.Unmarshaller;
++import org.exolab.castor.xml.ValidationException;
++
++/**
++ * TODO type description
++ *
++ * @author michal.stochmialek
++ * @version CVS $Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $
++ */
++public class CastorCreator {
++    private CastorCreator() {
++    }
++
++    public static Object create(String clazzName, String content) {
++		try {
++	    	Class clazz = Class.forName(clazzName);
++	        return Unmarshaller.unmarshal(clazz, new StringReader(content));
++		} catch (ClassNotFoundException e) {
++			throw new DDTTestDataException(
++					"(castor reading) Class not found: " + clazzName
++					+ " (" + e.getMessage()+ ")", e);
++		} catch (MarshalException e) {
++			throw new DDTTestDataException(
++					"(castor reading) Unmarshaling error: " + clazzName 
++					+ " (" + e.getMessage()+ ")", e);
++		} catch (ValidationException e) {
++			throw new DDTTestDataException(
++					"(castor reading) Validation error: " + clazzName
++					+ " (" + e.getMessage()+ ")", e);
++		}
++    }
++}
+diff -w -N -r -u ddtunit-0.7.0/src/junitx/ddtunit/data/processing/ContentCreatorAction.java ddtunit/src/junitx/ddtunit/data/processing/ContentCreatorAction.java
+--- ddtunit-0.7.0/src/junitx/ddtunit/data/processing/ContentCreatorAction.java	2005-07-20 07:47:42.000000000 +0200
++++ ddtunit/src/junitx/ddtunit/data/processing/ContentCreatorAction.java	2005-09-07 17:42:08.000000000 +0200
+@@ -1,4 +1,4 @@
+-//$Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $
++//$Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $
+ /********************************************************************************
+  * DDTUnit, a Datadriven Approach to Unit- and Moduletesting
+  * Copyright (c) 2004, Joerg and Kai Gellien
+@@ -37,6 +37,10 @@
+  ********************************************************************************/
+ package junitx.ddtunit.data.processing;
+ 
++import java.io.BufferedReader;
++import java.io.IOException;
++import java.io.InputStream;
++import java.io.InputStreamReader;
+ import java.lang.reflect.Constructor;
+ import java.lang.reflect.Field;
+ import java.lang.reflect.Modifier;
+@@ -94,6 +98,7 @@
+         StringBuffer content = (StringBuffer) this.attrMap
+             .get(ParserConstants.XML_ATTR_CONTENT);
+ 
++
+         // check if rootAction is ContentCreatorAction as well - then concat
+         // content
+         IAction actionBase = null;
+@@ -118,11 +123,15 @@
+                         "Could not specify object type of content");
+             }
+             Object obj = null;
+-            if (content != null) {
++            boolean fileProcessing = this.attrMap.get(ParserConstants.XML_ATTR_FILE) != null;
++
++            if (content != null || fileProcessing) {
+                 boolean cdataProcessing = "true".equals((String) this.attrMap
+                     .get(ParserConstants.XML_ATTR_PICDATA));
+                 String processedContent;
+-                if (cdataProcessing) {
++                if (fileProcessing) {
++                	processedContent = readContentFromFile();
++            	} else if (cdataProcessing) {
+                     processedContent = content.toString();
+                 } else {
+                     processedContent = content.toString().trim();
+@@ -153,6 +162,10 @@
+                     }
+                 } else if (HintTypes.DATE.equals(rootAction.getHint())) {
+                     obj = DateCreator.create(objectType, processedContent);
++                } else if (HintTypes.STREAM.equals(rootAction.getHint())) {
++                	obj = StreamCreator.create(objectType, processedContent, getCharset());
++                } else if (HintTypes.CASTOR.equals(rootAction.getHint())) {
++                    obj = CastorCreator.create(objectType, processedContent);
+                 } else {
+                     try {
+                         Constructor constr = (Constructor) ClassAnalyser
+@@ -188,6 +201,48 @@
+         return actionBase;
+     }
+ 
++    private String readContentFromFile() {
++    	StringBuffer content = new StringBuffer();
++
++    	String filename = (String)this.attrMap.get(ParserConstants.XML_ATTR_FILE);
++    	String mainXmlFile = (String)this.attrMap.get("resourceName");
++    	String charset = getCharset();
++
++		String fullFilename;
++		if (filename.startsWith("/"))
++			fullFilename = filename;
++		else {
++			String path = mainXmlFile.substring(0, mainXmlFile.lastIndexOf('/'));
++			fullFilename = path + "/" + filename;
++		}
++    	
++    	try {
++    		InputStream stream = this.getClass().getResourceAsStream(fullFilename);
++    		if (stream == null)
++    			throw new DDTTestDataException("Error reading file (not found): " + fullFilename);
++
++	    	BufferedReader reader =  new BufferedReader(new InputStreamReader(stream, charset));
++	    	
++	    	char[] chars = new char[200];
++	    	int len;
++	    	while(( len = reader.read(chars, 0, 200)) != -1){
++	    		content.append(chars, 0, len);
++	    	}
++	    	return content.toString();
++    	} catch (IOException e){
++    		throw new DDTTestDataException(
++    				"Error reading file: " + filename + " using charset " + charset);
++    		
++    	}
++    }
++
++	private String getCharset() {
++		String charset = (String)this.attrMap.get(ParserConstants.XML_ATTR_CHARSET);
++    	if (charset == null)
++    		charset = "UTF-8";
++		return charset;
++	}
++    
+     /*
+      * (non-Javadoc)
+      * 
+diff -w -N -r -u ddtunit-0.7.0/src/junitx/ddtunit/data/processing/Engine.java ddtunit/src/junitx/ddtunit/data/processing/Engine.java
+--- ddtunit-0.7.0/src/junitx/ddtunit/data/processing/Engine.java	2005-07-22 15:37:54.000000000 +0200
++++ ddtunit/src/junitx/ddtunit/data/processing/Engine.java	2005-09-07 17:42:08.000000000 +0200
+@@ -1,4 +1,4 @@
+-//$Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $
++//$Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $
+ /********************************************************************************
+  * DDTUnit, a Datadriven Approach to Unit- and Moduletesting
+  * Copyright (c) 2004, Joerg and Kai Gellien
+@@ -97,15 +97,18 @@
+ 
+     private ReferenceProcessor refProcessor;
+ 
++    private String resourceName;
++    
+     /**
+      * Instanciate processing engin to fill provided clusterDataSet
+      * 
+      * @param clusterDataSet to be filled during engine processing
+      */
+-    public Engine(IDataSet clusterDataSet) {
++    public Engine(IDataSet clusterDataSet, String resourceName) {
+         this.cdataProcessing = false;
+         this.clusterDataSet = clusterDataSet;
+         this.factory = new ActionFactory();
++        this.resourceName = resourceName;
+     }
+ 
+     /**
+@@ -126,6 +129,7 @@
+             this.processResource = true;
+             this.actionStack = new ActionStack();
+             push(attrMap, ActionState.OBJECT_CREATION);
++            pushFileContent(attrMap);
+         } else if (ParserConstants.XML_ELEM_CLUSTER.equals(qName)
+                 && this.clusterId.equals(attrMap
+                     .get(ParserConstants.XML_ATTR_ID))) {
+@@ -148,6 +152,7 @@
+                     && (level == LEVEL_CLUSTER_GLOBAL_OBJ || level == LEVEL_TEST_OBJ)) {
+                 this.actionStack = new ActionStack();
+                 push(attrMap, ActionState.OBJECT_CREATION);
++                pushFileContent(attrMap);
+             } else if (ParserConstants.XML_ELEM_EXCEPTION.equals(qName)
+                     && level == LEVEL_TEST_OBJ) {
+                 this.actionStack = new ActionStack();
+@@ -156,6 +161,7 @@
+                     && level == LEVEL_TEST_OBJ) {
+                 this.actionStack = new ActionStack();
+                 push(attrMap, ActionState.ASSERT_CREATION);
++                pushFileContent(attrMap);
+             } else if (ParserConstants.XML_ELEM_TEST.equals(qName)
+                     && level == LEVEL_TEST) {
+                 // initialize temporary methoddataset only once
+@@ -378,6 +384,22 @@
+         }
+     }
+ 
++    private void pushFileContent(Map elementAttrMap){
++    	String filename = (String)elementAttrMap.get(ParserConstants.XML_ATTR_FILE);
++    	if (filename != null){
++	        Map attrMap = new HashMap();
++	        attrMap.put(ParserConstants.XML_ATTR_ID, ParserConstants.XML_ATTR_FILE);
++	        attrMap.put(ParserConstants.XML_ATTR_FILE, filename);
++
++	        attrMap.put("resourceName", this.resourceName);
++	        
++	        String charset = (String)elementAttrMap.get(ParserConstants.XML_ATTR_CHARSET);
++	        attrMap.put(ParserConstants.XML_ATTR_CHARSET, charset);
++
++	        push(attrMap, ActionState.CONTENT_CREATION);
++    	}
++    }
++    
+     public String getClusterId() {
+         return clusterId;
+     }
+diff -w -N -r -u ddtunit-0.7.0/src/junitx/ddtunit/data/processing/HintTypes.java ddtunit/src/junitx/ddtunit/data/processing/HintTypes.java
+--- ddtunit-0.7.0/src/junitx/ddtunit/data/processing/HintTypes.java	2005-05-24 16:04:00.000000000 +0200
++++ ddtunit/src/junitx/ddtunit/data/processing/HintTypes.java	2005-09-07 17:42:08.000000000 +0200
+@@ -1,4 +1,4 @@
+-//$Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $
++//$Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $
+ /********************************************************************************
+  * DDTUnit, a Datadriven Approach to Unit- and Moduletesting
+  * Copyright (c) 2004, Joerg and Kai Gellien
+@@ -91,6 +91,10 @@
+      */
+     public static final HintTypes BEAN = new HintTypes("bean");
+ 
++    public static final HintTypes CASTOR = new HintTypes("castor");
++    public static final HintTypes STREAM = new HintTypes("stream");
++
++
+     private String hint;
+ 
+     private HintTypes(String hint) {
+diff -w -N -r -u ddtunit-0.7.0/src/junitx/ddtunit/data/processing/ParserConstants.java ddtunit/src/junitx/ddtunit/data/processing/ParserConstants.java
+--- ddtunit-0.7.0/src/junitx/ddtunit/data/processing/ParserConstants.java	2005-07-22 15:37:54.000000000 +0200
++++ ddtunit/src/junitx/ddtunit/data/processing/ParserConstants.java	2005-09-07 17:42:08.000000000 +0200
+@@ -1,4 +1,4 @@
+-//$Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $
++//$Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $
+ /********************************************************************************
+  * DDTUnit, a Datadriven Approach to Unit- and Moduletesting
+  * Copyright (c) 2004, Joerg and Kai Gellien
+@@ -69,6 +69,9 @@
+ 
+     public static final String XML_ATTR_CONTENT = "content";
+ 
++    public static final String XML_ATTR_FILE = "file";
++    public static final String XML_ATTR_CHARSET = "charset";
++
+     public static final String XML_CONTENT_NULL = "!NULL!";
+ 
+     public static final String XML_ATTR_HINT = "hint";
+diff -w -N -r -u ddtunit-0.7.0/src/junitx/ddtunit/data/processing/StreamCreator.java ddtunit/src/junitx/ddtunit/data/processing/StreamCreator.java
+--- ddtunit-0.7.0/src/junitx/ddtunit/data/processing/StreamCreator.java	1970-01-01 01:00:00.000000000 +0100
++++ ddtunit/src/junitx/ddtunit/data/processing/StreamCreator.java	2005-09-07 17:42:08.000000000 +0200
+@@ -0,0 +1,63 @@
++//$Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $
++/********************************************************************************
++ * DDTUnit, a Datadriven Approach to Unit- and Moduletesting
++ * Copyright (c) 2004, Joerg and Kai Gellien
++ * All rights reserved.
++ *
++ * The Software is provided under the terms of the Common Public License 1.0
++ * as provided with the distribution of DDTUnit in the file cpl-v10.html.
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ *
++ *     + Redistributions of source code must retain the above copyright
++ *       notice, this list of conditions and the following disclaimer.
++ *
++ *     + Redistributions in binary form must reproduce the above
++ *       copyright notice, this list of conditions and the following
++ *       disclaimer in the documentation and/or other materials provided
++ *       with the distribution.
++ *
++ *     + Neither the name of the authors or DDTUnit, nor the
++ *       names of its contributors may be used to endorse or promote
++ *       products derived from this software without specific prior
++ *       written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR
++ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
++ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
++ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
++ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
++ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
++ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ ********************************************************************************/
++package junitx.ddtunit.data.processing;
++
++import java.io.ByteArrayInputStream;
++import java.io.UnsupportedEncodingException;
++
++import junitx.ddtunit.data.DDTTestDataException;
++
++/**
++ * TODO type description
++ *
++ * @author michal.stochmialek
++ * @version CVS $Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $
++ */
++public class StreamCreator {
++    private StreamCreator() {
++    }
++
++    public static Object create(String clazzName, String content, String charset) {
++		try {
++        	return new ByteArrayInputStream(content.getBytes(charset));
++		} catch (UnsupportedEncodingException e) {
++			throw new DDTTestDataException(
++					"Unsupported charset: " + charset, e);
++		}
++    }
++}
+diff -w -N -r -u ddtunit-0.7.0/test/junitx/ddtunit/data/processing/EngineTest.java ddtunit/test/junitx/ddtunit/data/processing/EngineTest.java
+--- ddtunit-0.7.0/test/junitx/ddtunit/data/processing/EngineTest.java	2005-07-22 15:37:56.000000000 +0200
++++ ddtunit/test/junitx/ddtunit/data/processing/EngineTest.java	2005-09-07 17:42:08.000000000 +0200
+@@ -1,4 +1,4 @@
+-//$Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $
++//$Id: ddtunit-eb-0.7.patch_unresolved 190 2005-09-27 22:31:10Z jg_hamburg $
+ /********************************************************************************
+  * DDTUnit, a Datadriven Approach to Unit- and Moduletesting
+  * Copyright (c) 2004, Joerg and Kai Gellien
+@@ -57,7 +57,7 @@
+     public void setUp() {
+         this.classId = "junitx.ddtunit.parser.processing.EngineTest";
+         this.clusterDataSet = new TestClusterDataSet(classId, null);
+-        this.engine = new Engine(this.clusterDataSet);
++        this.engine = new Engine(this.clusterDataSet, "/test.xml");
+     }
+ 
+     public void testObjectProcessing() {
+diff -w -N -r -u ddtunit-0.7.0/test/junitx/ddtunit/functest/DDT-ProcessObjectReferenceTest.xml ddtunit/test/junitx/ddtunit/functest/DDT-ProcessObjectReferenceTest.xml
+--- ddtunit-0.7.0/test/junitx/ddtunit/functest/DDT-ProcessObjectReferenceTest.xml	2005-07-22 15:37:58.000000000 +0200
++++ ddtunit/test/junitx/ddtunit/functest/DDT-ProcessObjectReferenceTest.xml	2005-09-20 13:21:14.000000000 +0200
+@@ -1,2 +1,53 @@
+ <?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+-	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <resources>
+    <obj id="resourceBase" type="string">Resource Base</obj>
+  </resources>
+
+  <cluster id="ProcessObjectReferenceTest">
+    <objs>
+      <obj id="globalBase" type="string">Global Base</obj>
+    </objs>
+  <!--                                                                  -->
+  <!-- process simple object references                                 -->
+  <!--                                                                  -->
+    <group id="testOneObjectReference">
+      <test id="simpleLocalObjectReference">
+        <objs>
+          <obj id="localBase" type="string">Local Base</obj>
+          <obj id="local" type="string" refid="localBase" />
+        </objs>
+        <asserts>
+          <assert id="checkGlobal" type="string" action="isEqual">Global Base</assert>
+          <assert id="result" type="string" action="isEqual">Local Base</assert>
+        </asserts>
+      </test>
+      <test id="simpleLocalToGlobalObjectReference">
+        <objs>
+          <obj id="local" type="string" refid="globalBase" />
+        </objs>
+        <asserts>
+          <assert id="checkGlobal" type="string" action="isEqual">Global Base</assert>
+          <assert id="result" type="string" action="isEqual">Global Base</assert>
+        </asserts>
+      </test>
+      <test id="simpleLocalToResourceObjectReference">
+        <objs>
+          <obj id="local" type="string" refid="resourceBase" />
+        </objs>
+        <asserts>
+          <assert id="checkGlobal" type="string" action="isEqual">Global Base</assert>
+          <assert id="result" type="string" action="isEqual">Resource Base</assert>
+        </asserts>
+      </test>
+	</group>
+  <!--                                                                  -->
+  <!-- check transitivity of object references                          -->
+  <!--                                                                  -->
+    <group id="testReferenceTransitivity">
+      <test id="referenceOrderReverseToObjectDefinition">
+        <objs>
+          <obj id="localBase" type="string">Local Base</obj>
+          <obj id="localSecond" type="string" refid="localBase" />
+          <obj id="localThird" type="string" refid="localSecond" />
+        </objs>
+        <asserts>
+          <assert id="checkBase" type="string" action="isEqual">Local Base</assert>
+          <assert id="checkSecond" type="string" action="isEqual">Local Base</assert>
+          <assert id="checkThird" type="string" action="isEqual">Local Base</assert>
+        </asserts>
+      </test>
+      <test id="referenceOrderIdenticalToObjectDefinition">
+        <objs>
+          <obj id="localThird" type="string" refid="localSecond" />
+          <obj id="localSecond" type="string" refid="localBase" />
+          <obj id="localBase" type="string">Local Base</obj>
+        </objs>
+        <asserts>
+          <assert id="checkBase" type="string" action="isEqual">Local Base</assert>
+          <assert id="checkSecond" type="string" action="isEqual">Local Base</assert>
+          <assert id="checkThird" type="string" action="isEqual">Local Base</assert>
+        </asserts>
+      </test>
+    </group>
+  </cluster>
+</ddtunit>
+\ Brak znaku nowej linii na końcu pliku
++	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <resources>
+    <obj id="resourceBase" type="string">Resource Base</obj>
+  </resources>
+
+  <cluster id="ProcessObjectReferenceTest">
+    <objs>
+      <obj id="globalBase" type="string">Global Base</obj>
+    </objs>
+  <!--                                                                  -->
+  <!-- process simple object references                                 -->
+  <!--                                                                  -->
+    <group id="testOneObjectReference">
+      <test id="simpleLocalObjectReference">
+        <objs>
+          <obj id="localBase" type="string">Local Base</obj>
+          <obj id="local" type="string" refid="localBase" />
+        </objs>
+        <asserts>
+          <assert id="checkGlobal" type="string" action="isEqual">Global Base</assert>
+          <assert id="result" type="string" action="isEqual">Local Base</assert>
+        </asserts>
+      </test>
+      <test id="simpleLocalToGlobalObjectReference">
+        <objs>
+          <obj id="local" type="string" refid="globalBase" />
+        </objs>
+        <asserts>
+          <assert id="checkGlobal" type="string" action="isEqual">Global Base</assert>
+          <assert id="result" type="string" action="isEqual">Global Base</assert>
+        </asserts>
+      </test>
+      <test id="simpleLocalToGlobalObjectReference-nt">
++        <objs>
++          <obj id="local" refid="globalBase" />
++        </objs>
++        <asserts>
++          <assert id="checkGlobal" type="string" action="isEqual">Global Base</assert>
++          <assert id="result" type="string" action="isEqual">Global Base</assert>
++        </asserts>
++      </test>
++      <test id="simpleLocalToResourceObjectReference">
+        <objs>
+          <obj id="local" type="string" refid="resourceBase" />
+        </objs>
+        <asserts>
+          <assert id="checkGlobal" type="string" action="isEqual">Global Base</assert>
+          <assert id="result" type="string" action="isEqual">Resource Base</assert>
+        </asserts>
+      </test>
+      <test id="assertReference">
++        <objs>
++          <obj id="local" type="string">Local Base</obj>
++        </objs>
++        <asserts>
++          <assert id="checkGlobal" type="string" refid="globalBase" action="isEqual"/>
++          <assert id="result" type="string" refid="local" action="isEqual"/>
++        </asserts>
++      </test>
++      <test id="assertReference-no-type">
++        <objs>
++          <obj id="local" type="string">Local Base</obj>
++        </objs>
++        <asserts>
++          <assert id="checkGlobal" refid="globalBase" action="isEqual"/>
++          <assert id="result" refid="local" action="isEqual"/>
++        </asserts>
++      </test>
++	</group>
+  <!--                                                                  -->
+  <!-- check transitivity of object references                          -->
+  <!--                                                                  -->
+    <group id="testReferenceTransitivity">
+      <test id="referenceOrderReverseToObjectDefinition">
+        <objs>
+          <obj id="localBase" type="string">Local Base</obj>
+          <obj id="localSecond" type="string" refid="localBase" />
+          <obj id="localThird" type="string" refid="localSecond" />
+        </objs>
+        <asserts>
+          <assert id="checkBase" type="string" action="isEqual">Local Base</assert>
+          <assert id="checkSecond" type="string" action="isEqual">Local Base</assert>
+          <assert id="checkThird" type="string" action="isEqual">Local Base</assert>
+        </asserts>
+      </test>
+      <test id="referenceOrderIdenticalToObjectDefinition">
+        <objs>
+          <obj id="localThird" type="string" refid="localSecond" />
+          <obj id="localSecond" type="string" refid="localBase" />
+          <obj id="localBase" type="string">Local Base</obj>
+        </objs>
+        <asserts>
+          <assert id="checkBase" type="string" action="isEqual">Local Base</assert>
+          <assert id="checkSecond" type="string" action="isEqual">Local Base</assert>
+          <assert id="checkThird" type="string" action="isEqual">Local Base</assert>
+        </asserts>
+      </test>
++      <test id="referenceOrderReverseToObjectDefinition-nt">
++        <objs>
++          <obj id="localBase" type="string">Local Base</obj>
++          <obj id="localSecond" refid="localBase" />
++          <obj id="localThird" refid="localSecond" />
++        </objs>
++        <asserts>
++          <assert id="checkBase" type="string" action="isEqual">Local Base</assert>
++          <assert id="checkSecond" type="string" action="isEqual">Local Base</assert>
++          <assert id="checkThird" type="string" action="isEqual">Local Base</assert>
++        </asserts>
++      </test>
++      <test id="referenceOrderIdenticalToObjectDefinition-nt">
++        <objs>
++          <obj id="localThird" refid="localSecond" />
++          <obj id="localSecond" refid="localBase" />
++          <obj id="localBase" type="string">Local Base</obj>
++        </objs>
++        <asserts>
++          <assert id="checkBase" type="string" action="isEqual">Local Base</assert>
++          <assert id="checkSecond" type="string" action="isEqual">Local Base</assert>
++          <assert id="checkThird" type="string" action="isEqual">Local Base</assert>
++        </asserts>
++      </test>      
+    </group>
+  </cluster>
+</ddtunit>
+\ Brak znaku nowej linii na końcu pliku

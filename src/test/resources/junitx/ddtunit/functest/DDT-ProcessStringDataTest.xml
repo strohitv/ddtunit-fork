@@ -1,0 +1,162 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <cluster id="ProcessStringDataTest">
+  <!--                                                                  -->
+  <!-- java.lang.String                                                 -->
+  <!--                                                                  -->
+    <group id="testStringType">
+      <test id="assertEmptyTagIsNotNull">
+		<objs>
+  		  <obj id="myString" type="string"/>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isNotNull"/>
+		</asserts>
+	  </test>
+      <test id="assertEmptyTagEqualsEmpty">
+		<objs>
+  		  <obj id="myString" type="string"/>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual">!EMPTY!</assert>
+		</asserts>
+	  </test>
+      <test id="assertBlankTagEqualsBlank">
+		<objs>
+  		  <obj id="myString" type="string"><![CDATA[ ]]></obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual">!BLANK!</assert>
+		</asserts>
+	  </test>
+	  <test id="assertStringIsEqual">
+  		<objs>
+		  <obj id="myString" type="java.lang.String">Hallo World</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual">Hallo World</assert>
+		</asserts>
+	  </test>
+	  <test id="assertStringIsEqualWithTypeShortcut">
+		<objs>
+		  <obj id="myString" type="string">Hallo World</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual">Hallo World</assert>
+		</asserts>
+	  </test>
+	  <test id="assertStringIsEqualIgnoreWhitespace">
+		<objs>
+		  <obj id="myString" type="java.lang.String">Hallo World</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String"
+              action="isEqual">Hallo World</assert>
+		</asserts>
+	  </test>
+	  <test id="assertNullStringIsNull">
+		<objs>
+		  <obj id="myString" type="java.lang.String">!NULL!</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String"
+              action="isNull"/>
+		</asserts>
+	  </test>
+	  <test id="differentActualAndExpectedAssertTypes">
+		<objs>
+		  <obj id="myString" type="java.lang.String">Hallo World</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="junitx.ddtunit.resources.SimpleVO"
+              action="isEqual">!NULL!</assert>
+		  <exception id="expected" type="junit.framework.AssertionFailedError"
+              action="isSimilar">Class type differs</exception>
+		</asserts>
+	  </test>
+	  <test id="differentCDATAStrings">
+		<objs>
+		  <obj id="myString" type="java.lang.String"><![CDATA[  CData type  ]]></obj>
+		</objs>
+ 		<asserts>
+		  <assert id="result" type="java.lang.String" action="isNotEqual">CData type</assert>
+		</asserts>
+ 	  </test>
+	  <test id="multilineWithEmptyInnerLineCDATAStrings">
+		<objs>
+		  <obj id="myString" type="java.lang.String"><![CDATA[First line
+
+Third line]]></obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual">First line
+
+Third line</assert>
+		</asserts>
+	  </test>
+	  <test id="multilineWithEmptyOuterLineCDATAStrings">
+		<objs>
+		  <obj id="myString" type="java.lang.String"><![CDATA[
+First line is empty, this is second
+Third line
+
+]]></obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual"><![CDATA[
+First line is empty, this is second
+Third line
+
+]]></assert>
+		</asserts>
+	  </test>
+	  <test id="multilineWithEmptyInnerLinesCDATAStrings">
+		<objs>
+		  <obj id="myString" type="java.lang.String">
+First line
+
+
+
+
+Sixs line
+		  </obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual"><![CDATA[First line
+
+
+
+
+Sixs line]]></assert>
+		</asserts>
+	  </test>
+	  <test id="stringAbbreviatorOnObject">
+		<objs>
+		  <obj id="myString" type="string">Hallo World</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="java.lang.String" action="isEqual">Hallo World</assert>
+		</asserts>
+	  </test>
+	  <test id="stringAbbreviatorOnAssert">
+		<objs>
+		  <obj id="myString" type="java.lang.String">Hallo World</obj>
+		</objs>
+		<asserts>
+		  <assert id="result" type="string" action="isEqual">Hallo World</assert>
+		</asserts>
+	  </test>
+   <test id="charType">
+    <objs>
+     <obj id="myString" type="java.lang.Character">c</obj>
+    </objs>
+    <asserts>
+     <assert id="result" type="char" action="isEqual" hint="constructor">
+       <item type="char">c</item>
+     </assert>
+    </asserts>
+   </test>
+  </group>
+  </cluster>
+</ddtunit>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+<properties>
+  <title>DDTUnit - Object References</title></properties>
+<body>
+<section name="Object References">
+<a name="reference-datatypes" />
+<source>&lt;objs&gt;&lt;obj id="myId" type="my.class.Type" refid="myRefClass"&lt;/obj&gt;&lt;objs&gt;</source>
+<p>This implementation is just a first draft and will be subject to change in the 
+future.<br/>
+Any ideas, feature requests and error reports are welcome on this subject!
+</p>
+<subsection name="Why using References anyway?">
+<p>One question I was ask during a short presentation of the framework <br/>
+<quote>Why use references anyway? - Is'nt it just to complicated and error prone
+ to use ?</quote>
+ I think there are always two sides of a medal. On one hand you have the possibility
+ to do a lot of shorthand writing through the use of referencing. And on the other
+ hand you have to know what you are dealing with in terms of implementation 
+ details and their influence on the execution model and the lifespan of object 
+ instances.
+</p>
+<subsection name="Upside of the Medal">
+<p>So lets start with the obvious benefit of extracting common object definitions
+to the global <code>cluster/objs</code> section and reference these objects 
+throughout different tests.<br/>
+The idea for this example was provided by Ted Velkoff who provided to me a lot of 
+valuable input and discussion on the use of DDTUnit.<br/>
+Lets say we are using a complex data structure to manage calendar date/time 
+functionality by with range considerations. E.g.
+<source>public class CompositeDateTime{
+  private CompositeDate date;
+  private CompositeTime time;
+// a lot of special processing methods on date and time
+...}</source>
+The first field splits up into a number of fields as well:
+<source>public class CompositeDate{
+  public CompositeDate(){}
+  
+  private int day;
+  private int month;
+  private int year;
+// a lot of specific methods on date processsing
+...}
+</source>
+So if I have to specify such a nested structure in an DDTUnit xml resource
+it could become quite tiring to do so without using references. Especially if
+you have to use specific date/time objects again and again because these where
+the ones you identified during equivalence class analysis of your test data.
+</p>
+<p>The idea now is to specify a set of objects in the <code>resources/objs</code> 
+or <code>cluster/objs</code> section of the DDTUnit xml resource and reference
+these.<br/>
+If you change your mind on the specified objects later, you only have to change 
+these globally defined objects but not the whole xml resource.<br/>
+To get back to the example:
+<source><![CDATA[...
+  <cluster id="RangeCompositeDateTimeDDTUnitTest">
+    <objs>
+      <obj id="date20060401" type="com.velkoff.articles.ddtunit.example.CompositeDate">
+       <year>2005</year>
+       <month>4</month>
+       <day>1</day>
+      </obj>
+...
+   <test id="testUpperLower">
+    <objs>
+     <obj refid="upper" type="com.velkoff.articles.ddtunit.example.CompositeDateTime">
+      <date refid="date20060401" type="com.velkoff.articles.ddtunit.example.CompositeDate" />
+      <time reftype="" com.velkoff.articles.ddtunit.example.CompositeTime" />
+       <hours type="int">15</hours>
+       <minutes type="int">3</minutes>
+       <seconds type="int">27</seconds>
+       <millis type="int">348</millis>
+      </time>
+     </obj>
+...]]></source>
+</p>
+</subsection>
+<subsection name="Downside of the Medal">
+<p>The other side of the medel contains details about the lifespan of object 
+instances.<br/>
+Because DDTUnit implements an object repository that can contain objects that
+have longer lifespans than a single <code>test</code> it is important to check
+the use of objects that are used as <code>global</code> or even <code>resource</code>.
+</p>
+<p>If you are sure these objects will not be modified during test execution there
+will be no problem at all. But if you are not sure about this of sometimes willingly
+provide objects that should be modified during a number of test executions - like
+in the standard case of a functional test - you have to double check if your 
+expectations on the provided object hold true any more.
+</p>
+</subsection>
+</subsection>
+</section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+</body>
+</document>

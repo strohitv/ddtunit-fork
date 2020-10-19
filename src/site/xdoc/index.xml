@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+  <properties>
+    <title>DDTUnit - A Data Driven Approach to Unit testing</title>
+  </properties>
+  <body>
+	<section name="DDTUnit - A Data Driven Approach to Unit Testing">
+<p>DDTUnit - A Data Driven Approach to Unit Testing<br/>
+  For setting up module/component tests during development cycle we found
+  it extremely useful and productive to take a data centric approach to 
+  cover multiple testcases on coded testmethods.<br/>
+  The basic idea of DDTUnit is to provide a XML description (XML Schema based)
+  of testdata and combine it with the simplicity of JUnit. All program flow is
+  coded in plain old Java. A wide range of object types can be expressed through
+  the definition in xml resource (not just the simple String constructor based 
+  objects.
+  </p>
+  <p><b>Working on Subversion repository</b><br/>
+  <b>Use of local Maven2 Repo under <a href="http://ddtunit.sourceforge.net/m2-repo">http://ddtunit.sourceforge.net/m2-repo</a></b><br/>
+  <ul>
+    <li><img src="images/new.gif" alt="New"/>Add: <a href="junitx-addons.html">Stripped junit-addons jar version 1.4</a> to 
+      the minimum of used classes (no modifications were made) to reduce external dependencies to old libraries.</li>
+    <li><img src="images/new.gif" alt="New"/>Add: Reference <a href="references.html">page to external sources</a>.</li>
+    <li><img src="images/new.gif" alt="New"/>Fix: Support bean hint in nested array objects.</li>
+    <li><img src="images/new.gif" alt="New"/>Fix: object with hint=bean and value=null throws an exception.</li>
+    <li><img src="images/new.gif" alt="New"/>Add: <a href="JUnit4Support.html">Support JUnit4</a> Runtime Annotations</li>
+    <li><img src="images/new.gif" alt="New"/>Add: <a href="http://www.slf4j.org">slf4j support</a></li>
+    <li><img src="images/new.gif" alt="New"/>Add: Support for Eclipse JUnit4 Runtime</li>
+    <li><img src="images/new.gif" alt="New"/>Add: Support for Java 1.4 Runtime using 
+    <a href="http://retrotranslator.sourceforge.net">Retrotranslator</a>
+    (see <a href="maven.html">Maven</a> and 
+            <a href="installationRequirements.html">Installation Requirements</a>).</li>
+  </ul></p>
+  <p>More detailed information in section <a href="changes-report.html">DDTUnit - Changes</a>
+  </p>
+  <p>Request for Comment:
+  <ul>
+    <li><a href="http://sourceforge.net/tracker/?group_id=98719">Ask for new features and usage, report bugs</a></li>
+    <li><a href="mailto:jg_hamburg@users.sourceforge.net">Ask the Developer</a></li>
+  </ul>
+  </p>
+  </section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+  </body>
+</document>

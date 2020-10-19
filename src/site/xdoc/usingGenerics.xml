@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+ <properties>
+  <title>Defining Objects</title>
+ </properties>
+ <body>
+  <section name="Using Generic Data Types">
+   <p>The use of Generics as defined in Java 5 specification never occured to 
+   me before receiving an error report by Ted Velkoff with an example that used
+   Generics to specify a test class on on a range datatype.<br/>
+   Astonishing to me it was no big deal to use the code. Actually there is only
+   one thing to keep in mind when specifying Generics data types in xml resource.
+   </p>
+   <p>Because Generics are implemented in Java by using erasure (Reference to 
+   an article by Bruce Eckel) it is neccessary to specify the type of the object in use.
+   The standard mechanism that uses reflection to identify field types does not 
+   function here (always returns java.lang.Object).
+   </p>
+   <p>Now here is the example
+   <source></source>
+   </p>
+  </section>
+  <footer>
+   <a href="http://sourceforge.net/projects/ddtunit">
+     <img src="http://sourceforge.net/sflogo.php?group_id=182299" border="0" alt="sf logo" />
+   </a>
+  </footer>
+ </body>
+</document>

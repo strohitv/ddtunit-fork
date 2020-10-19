@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<ddtunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ddtunit.sourceforge.net/ddtunit.xsd">
+  <cluster id="DDTJUnit4ClassRunnerTest">
+    <!--                                                                  -->
+    <!-- simple object retrieval                                          -->
+    <!--                                                                  -->
+    <group id="retrieveObjectData">
+      <test id="myFirstTestCase">
+        <objs>
+          <obj id="myObj" type="java.lang.String">My first String</obj>
+        </objs>
+      </test>
+      <test id="mySecondTestCase">
+        <objs>
+          <obj id="myObj" type="java.lang.String">My second String</obj>
+        </objs>
+      </test>
+    </group>
+    <!--                                                                  -->
+    <!-- simple assert processing                                         -->
+    <!--                                                                  -->
+    <group id="testRetrieveAssertData">
+      <test id="myFirstTestCase">
+        <objs>
+          <obj id="myObj" type="java.lang.String">My first String</obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="java.lang.String" action="isEqual">My first String</assert>
+        </asserts>
+      </test>
+      <test id="mySecondTestCase">
+        <objs>
+          <obj id="myObj" type="java.lang.String">My second String</obj>
+        </objs>
+        <asserts>
+          <assert id="result" type="java.lang.String" action="isNotEqual">
+            My other String</assert>
+        </asserts>
+      </test>
+    </group>
+  </cluster>
+</ddtunit>
